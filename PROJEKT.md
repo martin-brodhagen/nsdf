@@ -2,54 +2,17 @@
 ## No-Shitshow-Diskussionsforum 
 
 - soll keine shitshow sein
-- soll sich von gängigen Diskussionsplattformen (twitter, facebook, reddit) unterscheiden
-	- Teilnehmer sind pseudonymisiert
-	- man kann nicht folgen oder blocken / ignorieren
-	- man kann seine Beiträge nicht löschen oder editieren 
-		- also sollte man nichts schreiben, was man vllt bereut
-		- denken, tippen, Enter drücken
-	- Bubble-Bildung soll so vorgebeugt werden
+- soll sich von gängigen Diskussionsplattformen (twitter, facebook, reddit) unterscheiden:
+	->Teilnehmer sind pseudonymisiert
+	-> man kann nicht folgen oder blocken / ignorieren
+	-> man kann seine Beiträge nicht löschen oder editieren 
+		(denken, tippen, Enter drücken)
+	-> Bubble-Bildung soll so vorgebeugt werden
 
-Themen werden von Mods erstellt und moderiert. Jeder Teilnehmer kann anfangs im SB und UB eines Themas kommentieren. Wird im SB unsachlich diskutiert, wird der Teilnehmer in den UB des Themas verbannt.
+Themen werden von Moderatoren (Mods) erstellt und moderiert. Jeder User kann anfangs im sachlichen Bereich (SB) und unsachlichen Bereich (UB) eines Themas kommentieren. Wird im SB unsachlich diskutiert, wird der Teilnehmer in den UB des Themas verbannt.
 
 Wenn hinreichend viel diskutiert wurde, wird das Thema in verschiedene Facetten (Sub Threads) unterteilt, um es übersichtlicher zu gestalten. Dort können verschiedene Aspekte des Themas vertieft werden. Jede Facette bekommt ein TLDR, sodass man einen noch besseren Überblick über den Stand der Diskussionen bekommt.
 
----
-
-## Rollen
-
-##### Jeder:
-- kann alle Themen, Facetten, Diskussionen und TLDRs sehen, lesen und durchsuchen
-- kein einloggen, keine Cookies, kein Tracking
-
-##### Mod:
-- muss eingeloggt sein
-- kann Themen erstellen
-- kann Unsachlichkeits-Meldungen erstellen und/oder bearbeiten
-	- ablehnen -> Meldung wird gelöscht
-	- bestätigen -> Verfasser des unsachlichen Beitrages wird im relevanten Thema auf den UB beschränkt -> Meldung wird an den Beitrag geknüpft und kann eingesehen werden
-- kann Facetten zu einem Thema erstellen
-- kann TLDR zu einer Facette verfassen und/oder bearbeiten
-- kann Diskussionen einer oder mehreren Facetten zuordnenn
-
-##### User:
-- muss eingeloggt sein
-- kann eine Übersicht anzeigen lassen, die NUR seine EIGENEN Beiträge zeigt
-	- bei "UB" Beiträgen ist die Begründung dann leicht einsehbar
-- kann zu einem Thema eine Diskussion mit Anfangsargumentation erstellen
-- kann einstellen, wer auf Antworten antworten kann 
-	- nur User selbst
-	- alle
-- kann zu einer Diskussion eine Antwort verfassen
-- kann zu Antworten  auf seine EIGENE Antwort weitere Antworten verfassen
-	- TBD ob die Einschränkung sinnvoll ist
-- kann alle aktuellen Themen, sowie deren Facetten und TLDRs sehen
-- kann Unsachlichkeits-Meldungen erstellen
-	- mit Button "als unsachlich melden"
-	- Textbereich markieren, der unsachlich ist
-	- (optional) Begründung schreiben
-	- bestätigen
-- kann Präferenz festlegen, ob unsachliche Beiträge (rot hinterlegt) angezeigt werden sollen
 
 ---
 ## Themen
@@ -87,3 +50,42 @@ Ebenso wird die Zugehörigkeit einer Diskussion/Antwort zm SB/UB durch einen Tag
 
 User sind grundsätzlich für die Öffentlichkeit pseudonymisiert. Für jedes Thema bekommt ein User ein neues Pseudonym (zb. "grüner Biber", "brauner Dachs"). Dies soll verhindern, dass man einen User durch das Forum "folgen" oder auch "verfolgen" kann. Dies soll gewährleisten, dass der Fokus der Diskussionen auf den Argumenten liegt und nicht auf den Personen. Namen, Geschlecht (aus dem Namen ableitbar) und Titel können sich falsch negativ oder falsch positiv auf die Wahrnehmung des Argumentes auswirken und sind somit hinderlich. Pseudonyme dienen dazu, dass man während einer Diskussion die Teilnehmer auseinanderhalten kann, lassen aber idealerweise keinen Schluss auf die Identität der Teilnehmer zu. 
 
+
+---
+
+## Rollen
+
+##### Jeder:
+- kann alle Themen, Facetten, Diskussionen und TLDRs sehen, lesen und durchsuchen
+- kein einloggen, keine Cookies, kein Tracking
+
+##### User:
+- muss eingeloggt sein
+- kann eine Übersicht anzeigen lassen, die NUR seine EIGENEN Beiträge zeigt:
+	-> bei "UB" Beiträgen ist die Begründung dann leicht einsehbar
+- kann zu einem Thema eine Diskussion mit Anfangsargumentation erstellen
+- kann einstellen, wer auf Antworten antworten kann :
+	1. nur User selbst
+	2. alle
+- kann zu einer Diskussion eine Antwort verfassen
+- kann zu Antworten auf seine EIGENE Anfangsargumentation weitere Antworten verfassen
+		(TBD ob die Einschränkung sinnvoll ist)
+- kann alle aktuellen Themen, sowie deren Facetten und TLDRs sehen
+- kann Unsachlichkeits-Meldungen erstellen:
+	1. mit Button "als unsachlich melden"
+	2. Textbereich markieren, der unsachlich ist
+	3. (optional) Begründung schreiben
+	4. bestätigen
+- kann Präferenz festlegen, ob unsachliche Beiträge (rot hinterlegt) angezeigt werden sollen
+
+##### Mod:
+- muss eingeloggt sein
+- kann Themen erstellen
+- kann Unsachlichkeits-Meldungen erstellen und/oder entscheiden:
+	1. ablehnen -> Meldung wird gelöscht
+	2. bestätigen -> Verfasser des unsachlichen Beitrages wird im relevanten Thema auf den UB beschränkt -> Meldung wird an den Beitrag geknüpft und kann eingesehen werden
+- kann Facetten zu einem Thema erstellen
+- kann TLDR zu einer Facette verfassen und/oder bearbeiten
+- kann Diskussionen einer oder mehreren Facetten zuordnen
+
+---
