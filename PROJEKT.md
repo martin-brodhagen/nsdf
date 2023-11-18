@@ -15,6 +15,10 @@ Wenn hinreichend viel diskutiert wurde, wird das Thema in verschiedene Facetten 
 
 
 ---
+
+![[diagramm.png]]
+
+---
 ## Themen
 
 Themen sind, wie der Name schon sagt, einfach nur die groben Themen, die für Diskussionen vorgegeben werden. Dies können zB Gesetzes-Entwürfe sein, jüngste internationale Entwicklungen, politische oder wirtschaftliche Themen aller Art. Ein Thema wird durch eine Beschreibung beschrieben, die ggf. relevante Materialien (zB Gesetzes-Entwürfe, Fotos oder Videos) enthalten kann oder darauf verlinkt.
