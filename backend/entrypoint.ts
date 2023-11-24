@@ -9,9 +9,10 @@ import {provideRedirect} from "uix/html/entrypoint-providers.tsx"
 export default {
 
 	// show backend (hybrid) rendered page on /backend
-	'/backend': import("../common/page.tsx"), 
+
+	// '/start': import("../common/index.tsx"),
 	
 	// redirect / to /backend
-	'/': provideRedirect('/backend')
+	// '/': provideRedirect('/start')
 
 }
