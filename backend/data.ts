@@ -1,5 +1,3 @@
-import { Datex } from "datex-core-legacy/datex.ts";
-import { UIX } from "uix";
 import { Discussion, Thread, Topic, Post } from "./classes.ts";
 
 /**
@@ -10,10 +8,6 @@ let discussion_id = 0
 
 export const new_reply_value = $$("comment")
 export const reply_author = $$("author")
-
-export const denoVersion = Deno.version.deno;
-export const datexVersion = Datex.Runtime.VERSION;
-export const uixVersion = UIX.version;
 
 export const test_topic = new Topic()
 test_topic._id = 0
@@ -35,7 +29,7 @@ test_thread.posts.push(test_post)
 test_thread.posts.push(test_post2)
 
 
-export const test_discussion = await lazyEternal ?? $$(new Discussion())
+export const test_discussion = eternalVar("test_discussion") ?? $$(new Discussion())
 test_discussion._id = discussion_id++
 test_discussion.author = "Martin"
 test_discussion.title = "Test-Title"
