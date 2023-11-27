@@ -1,0 +1,50 @@
+.post {
+
+	background-color: #fff;
+	color: black;
+	border-radius: .5rem;
+	margin: 1rem 0rem;
+	list-style: none;
+
+	&:hover .postHead .optionsWrapper .optionsBtn {
+		visibility: visible;
+	}
+
+	.postHead {
+		position: relative;
+		top: 0;
+		left: 0;
+		width: 100%;
+		padding: 1rem;
+
+		.optionsWrapper {
+			position: absolute;
+			top: 0;
+			right: 0;
+			margin: .5rem;
+
+			.optionsBtn {
+				visibility: hidden;
+			}
+		
+			.postOptionsModal {
+				z-index: 100;
+				display: none;
+				position: absolute;
+				top: 100%;
+				right: 0;
+				background-color: lightgray;
+
+				> a {
+					display: flex;
+					flex-direction: column;
+					padding: .2rem .75rem;
+				}
+			}
+		}
+	}
+
+	.postBody {
+		padding: 1rem;
+	}
+}
