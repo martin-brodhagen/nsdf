@@ -17,11 +17,13 @@ export const test_post = new Post()
 test_post._id = 0
 test_post.author = "martin"
 test_post.content = "this is a post"
+test_post.time = new Date()
 
 export const test_post2 = new Post()
 test_post2._id = 1
 test_post2.author = "martin"
 test_post2.content = "this is the second post"
+test_post2.time = new Date()
 
 export const test_thread = new Thread()
 test_thread._id = 0
@@ -50,11 +52,14 @@ export function add_new_discussion() {
     all_discussions.push(discussion)
 }
 
+let id = 0;
+
 export function add_new_reply(author: string, content: string) {
     const reply = new Post()
     reply.author = author
-    reply._id = 20
+    reply._id = id++;
     reply.content = content
+    reply.time = new Date()
     test_discussion.threads[0].posts.push(reply)
 }
 

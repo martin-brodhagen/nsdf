@@ -29,6 +29,7 @@ export @sync class Post {
     @property isUB = false
     @property author = ""
     @property content = ""
+    @property time!: Date
 }
 
 export @sync class User {
