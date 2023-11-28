@@ -21,23 +21,23 @@ let optionsButtonClicked = false;
 
 function clickOutsideHandler(event: Event, id: number) {
     const modal = document.getElementById('postOptionsModal_' + id);
-    
-    if(modal != null && !modal.contains(event.target as Node)) {
+
+    if (modal != null && !modal.contains(event.target as Node)) {
         close_modal(id);
         optionsButtonClicked = false;
     }
 }
 
 export function open_modal(id: number) {
-    if(!optionsButtonClicked) {
+    if (!optionsButtonClicked) {
         optionsButtonClicked = true;
         const btn = document.getElementById('optionsBtn_' + id);
         const modal = document.getElementById('postOptionsModal_' + id);
-    
-        if(btn != null) {
+
+        if (btn != null) {
             btn.style.visibility = 'visible';
         }
-        if(modal != null) {
+        if (modal != null) {
             modal.style.display = 'block';
             setTimeout(() => {
                 window.addEventListener('click', (event) => clickOutsideHandler(event, id), { once: true });
@@ -49,11 +49,11 @@ export function open_modal(id: number) {
 export function close_modal(id: number) {
     const btn = document.getElementById('optionsBtn_' + id);
     const modal = document.getElementById('postOptionsModal_' + id);
-    
-    if(btn != null) {
+
+    if (btn != null) {
         btn.style.visibility = '';
     }
-    if(modal != null) {
+    if (modal != null) {
         modal.style.display = 'none';
     }
 }
@@ -89,4 +89,4 @@ interface Props {
     </li>
 )
 
-export class Post extends Component<Props> { }
+export class PostComponent extends Component<Props> { }
