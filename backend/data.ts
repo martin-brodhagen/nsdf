@@ -4,65 +4,55 @@ import { Discussion, Thread, Topic, Post } from "./classes.ts";
  * Version information on the backend
  */
 
+export const all_topics: string[] = ["Letzte Generation", "Platzdeckchen-Häkel-Club"]
+
 let discussion_id = 0
 
 export const new_reply_value = $$("comment")
 export const reply_author = $$("author")
 
-export const test_topic = new Topic()
-test_topic._id = 0
-test_topic.name = "Allgemeines"
-
-export const test_post = new Post()
-test_post._id = 0
-test_post.author = "martin"
-test_post.content = "this is a post"
-test_post.time = new Date()
-
-export const test_post2 = new Post()
-test_post2._id = 1
-test_post2.author = "martin"
-test_post2.content = "this is the second post"
-test_post2.time = new Date()
-
-export const test_thread = new Thread()
-test_thread._id = 0
-test_thread.posts.push(test_post)
-test_thread.posts.push(test_post2)
-
-
-export const test_discussion = eternalVar("test_discussion") ?? $$(new Discussion())
-test_discussion._id = discussion_id++
-test_discussion.author = "Martin"
-test_discussion.title = "Test-Title"
-test_discussion.intro_argument = "ahoy mateys, how about some general stuff"
-test_discussion.facettes.push("allgemeines allgemeinwissen")
-test_discussion.topics.push(test_topic)
-test_discussion.threads.push(test_thread)
-
-
-export const all_discussions: Discussion[] = []
-all_discussions.push(test_discussion)
+export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
 
 export function add_new_discussion() {
     const discussion = new Discussion()
-    discussion.author = "Martin"
+    discussion.author = "martin"
     discussion._id = discussion_id++
-    discussion.intro_argument = "test intro argument"
+    discussion.title = "awesome title"
+    discussion.intro_argument = "I am, therefore I am right"
     all_discussions.push(discussion)
+    console.log("discussion added")
 }
 
 let id = 0;
 
-export function add_new_reply(author: string, content: string) {
+export function add_new_reply(posts: Post[]) {
     const reply = new Post()
-    reply.author = author
-    reply._id = id++;
-    reply.content = content
+    reply.author = reply_author
+    reply._id = id++
+    reply.content = new_reply_value
     reply.time = new Date()
-    test_discussion.threads[0].posts.push(reply)
+    posts.push(reply)
+    console.log("Reply posted...")
 }
 
-export function remove_replies() {
-    test_discussion.threads[0].posts.pop()
+export function start_new_thread(threads: Thread[]) {
+    const thread = new Thread()
+    thread._id = id++
+    const first = new Post()
+    first._id = 0
+    first.author = "mad max"
+    first.isUB = false
+    first.content = "this is the start of a new thread. beautiful..."
+    first.time = new Date()
+    thread.posts.push(first)
+    threads.push(thread)
+    console.log("new thread created...")
+}
+
+export function remove_a_thread(threads: Thread[]) {
+    threads.pop()
+}
+
+export function remove_reply(posts: Post[]) {
+    posts.pop()
 }
