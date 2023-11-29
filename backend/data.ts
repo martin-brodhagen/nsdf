@@ -1,4 +1,4 @@
-import { Discussion, Thread, Topic, Post } from "./classes.ts";
+import { Discussion, Thread, Post } from "backend/classes.ts";
 
 /**
  * Version information on the backend
