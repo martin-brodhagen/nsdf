@@ -1,6 +1,6 @@
-import { add_new_discussion, all_discussions } from "../backend/data.ts";
-import { DiscussionComponent } from "./DiscussionComponent.tsx";
-import { Discussion } from "../backend/classes.ts";
+import { add_new_discussion, all_discussions } from "backend/data.ts";
+import { DiscussionComponent } from "common/DiscussionComponent.tsx";
+import { Discussion } from "backend/classes.ts";
 
 
 export default
