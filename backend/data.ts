@@ -8,41 +8,38 @@ export const all_topics: string[] = ["Letzte Generation", "Platzdeckchen-Häkel-
 
 let discussion_id = 0
 
-export const new_reply_value = $$("comment")
-export const reply_author = $$("author")
-
 export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
 
-export function add_new_discussion() {
+export function add_new_discussion(title: string, author: string, intro_arg: string) {
     const discussion = new Discussion()
-    discussion.author = "martin"
+    discussion.author = author
     discussion._id = discussion_id++
-    discussion.title = "awesome title"
-    discussion.intro_argument = "I am, therefore I am right"
+    discussion.title = title
+    discussion.intro_argument = intro_arg
     all_discussions.push(discussion)
-    console.log("discussion added")
+    console.log("discussion added" + discussion.title + " from " + title)
 }
 
 let id = 0;
 
-export function add_new_reply(posts: Post[]) {
+export function add_new_reply(posts: Post[], text: string, author: string) {
     const reply = new Post()
-    reply.author = reply_author
+    reply.author = author
     reply._id = id++
-    reply.content = new_reply_value
+    reply.content = text
     reply.time = new Date()
     posts.push(reply)
     console.log("Reply posted...")
 }
 
-export function start_new_thread(threads: Thread[]) {
+export function start_new_thread(threads: Thread[], author: string, text: string) {
     const thread = new Thread()
     thread._id = id++
     const first = new Post()
     first._id = 0
-    first.author = "mad max"
+    first.author = author
     first.isUB = false
-    first.content = "this is the start of a new thread. beautiful..."
+    first.content = text
     first.time = new Date()
     thread.posts.push(first)
     threads.push(thread)
