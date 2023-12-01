@@ -2,21 +2,21 @@
  * Global style definitions
  */
 
-.hello-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-
-    section {
-        padding: 20px;
-        margin: 10px;
-        background: var(--bg-content);
-        border-radius: 10px;
-    }
+#add-discussion-modal,
+#add-thread-modal {
+    background-color: white;
+    transform: translate(-50%, -50%);
+    transition: opacity .3s;
+    pointer-events: none;
+    text-align: center;
+    position: fixed;
+    opacity: 0;
+    left: 50%;
+    top: 50%;
 }
 
-.topic h2 {
-    background-color: aquamarine;
-    color: #555;
+#add-discussion-modal.visible,
+#add-thread-modal.visible {
+    opacity: 1;
+    pointer-events: initial;
 }

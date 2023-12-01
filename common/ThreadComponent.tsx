@@ -10,17 +10,20 @@ interface Props {
 
 @template<Props>((props) => {
     const reply_text = $$("")
-    const author = $$("")
+    const author = $$("Mark Replier")
 
     return <div>
         {props.$.posts.$.map((post: Post) => <PostComponent {...post} />)}
 
         <div>
             <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
-            <input type="text" id="reply-author" placeholder="author" value={author} />
-            <button onclick={() => add_new_reply(props.$.posts, reply_text, author)}>reply</button>
+            <button onclick={() => {
+                add_new_reply(props.$.posts, reply_text.val, author.val)
+                reply_text.val = ""
+            }}>reply</button>
             <button onclick={() => remove_reply(props.$.posts)}>delete last reply</button>
         </div>
+
 
     </div>
 })
