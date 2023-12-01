@@ -7,6 +7,7 @@ const author = $$("Anonymous")
 const intro_arg = $$("")
 
 const modal_visible = $$(false)
+const search_term = $$("")
 
 export default
     <main class="start-page">
@@ -21,6 +22,8 @@ export default
             modal_visible.val = !modal_visible.val
         }}>New Discussion</button>
         <button onclick={() => all_discussions.pop()}>Delete Discussion</button>
+        <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+        <button>los!</button>
 
         <div class="discussions">
             {all_discussions.$.map((discussion: Discussion) => <DiscussionComponent {...discussion} />)}

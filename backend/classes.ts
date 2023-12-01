@@ -16,6 +16,7 @@ export @sync class Discussion {
 
 export @sync class Thread {
     @property _id = -1
+    @property title = ""
     @property posts: Post[] = []
 }
 
