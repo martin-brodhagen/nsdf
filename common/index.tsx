@@ -1,6 +1,8 @@
 import { add_new_discussion, all_discussions } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
-import { Discussion } from "backend/classes.ts";
+import { Discussion } from "common/classes.ts";
+import { Datex } from "unyt_core/datex.ts";
+
 
 const title = $$("")
 const author = $$("Anonymous")
@@ -8,6 +10,10 @@ const intro_arg = $$("")
 
 const modal_visible = $$(false)
 const search_term = $$("")
+
+const filtered_discussions: Discussion[] = always(() => {
+    return all_discussions.filter((discussion: Discussion) => discussion.title.includes(search_term))
+})
 
 export default
     <main class="start-page">
@@ -23,10 +29,9 @@ export default
         }}>New Discussion</button>
         <button onclick={() => all_discussions.pop()}>Delete Discussion</button>
         <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
-        <button>los!</button>
 
         <div class="discussions">
-            {all_discussions.$.map((discussion: Discussion) => <DiscussionComponent {...discussion} />)}
+            {filtered_discussions.$.map((discussion: Discussion) => <DiscussionComponent {...discussion} />)}
         </div>
 
 

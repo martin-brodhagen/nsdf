@@ -1,6 +1,6 @@
 import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
-import { Post } from "backend/classes.ts";
+import { Post } from "common/classes.ts";
 import { add_new_reply, remove_reply } from "backend/data.ts";
 
 interface Props {
