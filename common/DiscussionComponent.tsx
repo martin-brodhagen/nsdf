@@ -1,5 +1,5 @@
 import { Component } from "uix/components/Component.ts";
-import { Thread } from "backend/classes.ts";
+import { Thread } from "common/classes.ts";
 import { ThreadComponent } from "common/ThreadComponent.tsx";
 import { start_new_thread, remove_a_thread } from "backend/data.ts";
 
