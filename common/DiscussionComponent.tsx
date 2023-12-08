@@ -35,7 +35,7 @@ interface Props {
             <p>{props.intro_argument}</p>
         </div>
 
-        <div class="thread-container">
+        <div class="all-threads-container">
             {props.$.threads.$.map((thread: Thread) => <ThreadComponent {...thread} />)}
         </div>
 

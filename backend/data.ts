@@ -20,7 +20,7 @@ export function add_new_discussion(title: string, author: string, intro_arg: str
         discussion.isUB = true
     }
     all_discussions.push(discussion)
-    console.log("discussion added" + discussion.title + " from " + title)
+    console.log("discussion added...")
 }
 
 let id = 0;

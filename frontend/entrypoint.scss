@@ -23,6 +23,20 @@
     pointer-events: initial;
 }
 
+#post-container,
+#first-post-container {
+    display: none;
+    transition: opacity .3s;
+
+    pointer-events: none;
+}
+
+#post-container.visible,
+#first-post-container.visible {
+    display: block;
+    pointer-events: initial;
+}
+
 .start-page {
     a:link, a:visited {
         text-decoration: none;
