@@ -9,43 +9,71 @@ const author = $$("Anonymous")
 const intro_arg = $$("")
 
 const modal_visible = $$(false)
+const avoid_UB = $$(false)
 const search_term = $$("")
 
-const filtered_discussions: Discussion[] = always(() => {
-    return all_discussions.filter((discussion: Discussion) => discussion.title.includes(search_term))
-})
+const makeUB = $$(false)
+
+function filterfunc(discussion: Discussion){
+    const threads = discussion.threads
+
+    return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase()) 
+    || discussion.intro_argument.toLowerCase().includes(search_term.val.toLowerCase()) 
+    || threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
+}
+
+
+
+const filtered_discussions: Datex.Ref<Discussion[]> = always(() => {
+    return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)})
+
 
 export default
     <main class="start-page">
-        <header>
-            <div>
+        <header id="headerelem">
+            <div id="logo">
                 <h1>NSDF - Viel Spaß hier!</h1>
             </div>
+           
+            
         </header>
 
-
-        <button onclick={() => {
+        <div id="actions">
+            <button onclick={() => {
             modal_visible.val = !modal_visible.val
-        }}>New Discussion</button>
-        <button onclick={() => all_discussions.pop()}>Delete Discussion</button>
-        <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+            }}>New Discussion</button>
+            <button onclick={() => all_discussions.pop()}>Delete Discussion</button>
+            
+            <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+            
+            <input type="checkbox" id="showUB" onclick={() => {avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val)}}/>
+            <label for="showUB">Hide UB</label>
+                
+        </div>
 
         <div class="discussions">
             {filtered_discussions.$.map((discussion: Discussion) => <DiscussionComponent {...discussion} />)}
         </div>
 
-
+        
         <div id="add-discussion-modal" class={{ visible: modal_visible }}>
             <fieldset>
                 <legend>New Discussion</legend>
                 <input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
                 <input type="text" placeholder={"Intro Argument"} id="intro-arg" value={intro_arg} />
+                <input type="checkbox" id="UBcheck" value={makeUB}/>
+                <label for="UBcheck">Make UB (devtool)</label>
             </fieldset>
             <button onclick={() => {
-                add_new_discussion(title.val, author.val, intro_arg.val)
+                add_new_discussion(title.val, author.val, intro_arg.val, makeUB.val)
                 modal_visible.val = !modal_visible.val
                 title.val = ""
                 intro_arg.val = ""
             }}>Make Discussion Public</button>
         </div>
+
+        <footer id="footer">
+            <a href="">Impressum</a>
+            <a href="">DSGVO</a>
+        </footer>
     </main >

@@ -10,12 +10,15 @@ let discussion_id = 0
 
 export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
 
-export function add_new_discussion(title: string, author: string, intro_arg: string) {
+export function add_new_discussion(title: string, author: string, intro_arg: string, makeUB: boolean) {
     const discussion = new Discussion()
     discussion.author = author
     discussion._id = discussion_id++
     discussion.title = title
     discussion.intro_argument = intro_arg
+    if(makeUB == true){
+        discussion.isUB = true
+    }
     all_discussions.push(discussion)
     console.log("discussion added" + discussion.title + " from " + title)
 }
@@ -53,3 +56,4 @@ export function remove_a_thread(threads: Thread[]) {
 export function remove_reply(posts: Post[]) {
     posts.pop()
 }
+

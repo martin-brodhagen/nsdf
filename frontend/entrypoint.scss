@@ -13,6 +13,8 @@
     opacity: 0;
     left: 50%;
     top: 50%;
+
+    
 }
 
 #add-discussion-modal.visible,
@@ -20,3 +22,27 @@
     opacity: 1;
     pointer-events: initial;
 }
+
+.start-page {
+    a:link, a:visited {
+        text-decoration: none;
+    }
+
+    #logo {
+        text-align: center;
+    }
+
+    #footer {
+        a:link {
+            
+            padding-right: 10px;
+        }
+    }
+
+    button, input {
+        margin-right: 5px;
+    }
+
+
+}
+

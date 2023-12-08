@@ -22,8 +22,9 @@ interface Props {
 
     const thread_modal_visible = $$(false)
 
-    return <div class="discussion-container">
-        <h5>{props.title} - by {props.author}</h5>
+    return <div id="discussion-container">
+        
+        <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {props.author}</h5>
 
         <div class="new-thread-container">
             <button onclick={() => thread_modal_visible.val = !thread_modal_visible.val}>+ Thread</button>
@@ -50,6 +51,7 @@ interface Props {
                 thread_starter_text.val = ""
             }}>Start this Thread</button>
         </div>
+        
     </div>
 })
 
