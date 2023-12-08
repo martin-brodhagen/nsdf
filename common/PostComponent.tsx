@@ -76,10 +76,8 @@ interface Props {
             <div class="optionsWrapper">
                 <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
                 <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
-                    <a href="">Option 1</a>
-                    <a href="">Option 2</a>
-                    <a href="">Option 3</a>
-                    <a href="">Option 4</a>
+                    <a href="">Regelverstoß melden</a>
+                    <a href="">Als UB melden</a>
                 </div>
             </div>
         </div>

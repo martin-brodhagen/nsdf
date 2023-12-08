@@ -1,3 +1,5 @@
 deno.lock
 .datex-cache
 deno.json
+.vscode
+.devcontainer
