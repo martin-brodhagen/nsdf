@@ -2,7 +2,6 @@
  * Our very own data classes
  */
 
-
 export @sync class Discussion {
     @property _id = -1
     @property isUB = false
@@ -28,7 +27,24 @@ export @sync class Post {
     @property time!: Date
 }
 
-export @sync class User {
+export enum Role {
+    None = "None",
+    User = "User",
+    Mod = "Mod",
+    Guest = "Guest",
+    Admin = "Admin"
+}
+
+export @sync class displayed_name_assignment {
+    @property discussion_id = -1
+    @property displayed_name = "not yet assigned"
+}
+
+export @sync class Member {
+    @property _id = -1
+    @property displayed_names = new Array<displayed_name_assignment>
     @property name!: string
     @property age!: number
+    @property role = Role.None
 }
+
