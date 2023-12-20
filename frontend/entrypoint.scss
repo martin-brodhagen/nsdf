@@ -23,16 +23,16 @@
     pointer-events: initial;
 }
 
-#post-container,
-#first-post-container {
+#post-wrapper,
+#thread-action {
     display: none;
     transition: opacity .3s;
 
     pointer-events: none;
 }
 
-#post-container.visible,
-#first-post-container.visible {
+#post-wrapper.visible,
+#thread-action.visible {
     display: block;
     pointer-events: initial;
 }
