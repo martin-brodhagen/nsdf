@@ -1,4 +1,5 @@
 import { Component } from "uix/components/Component.ts";
+import { delete_reply, edit_reply } from "backend/data.ts";
 
 // formats date into string
 export function display_date(time: Date) {
@@ -61,30 +62,44 @@ export function close_modal(id: number) {
 
 interface Props {
     _id: number,
+    discussion_id: number,
+    thread_id: number,
     isUB: boolean,
     author: string,
     content: string,
-    time: Date
+    time: Date,
+    deleted: boolean
 }
 
-@template<Props>((props) =>
-    <li class="post">
-        <div class="postHead">
-            <b>{props.author}</b>
-            <br />
-            <i class="date">{display_date(props.time)}</i>
-            <div class="optionsWrapper">
-                <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
-                <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
-                    <a href="">Regelverstoß melden</a>
-                    <a href="">Als UB melden</a>
+@template<Props>((props) => {
+
+    if (props.deleted) {
+        return <li class="post">
+            <i>deleted...</i>
+        </li>
+    } else {
+        return <li class="post" >
+            <div class="postHead">
+                <b>{props.author} : Post ID {props._id}</b>
+                <br />
+                <i class="date">{display_date(props.time)}</i>
+                <div class="optionsWrapper">
+                    <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
+                    <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
+                        <a href="">Regelverstoß melden</a>
+                        <a href="">Als UB melden</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="postBody">
-            {props.content}
-        </div>
-    </li>
+            <div class="postBody">
+                {props.content}
+            </div>
+
+            <button onclick={() => edit_reply(props, "I scream for Ice Cream")}>edit</button>
+            <button onclick={() => delete_reply(props)}>delete</button>
+        </li >
+    }
+}
 )
 
 export class PostComponent extends Component<Props> { }

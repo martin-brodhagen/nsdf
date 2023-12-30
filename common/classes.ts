@@ -11,20 +11,26 @@ export @sync class Discussion {
     @property facettes: string[] = []
     @property tags: string[] = []
     @property threads: Thread[] = []
+    @property deleted = false
 }
 
 export @sync class Thread {
     @property _id = -1
+    @property discussion_id = -1
     @property title = ""
     @property posts: Post[] = []
+    @property deleted = false
 }
 
 export @sync class Post {
     @property _id = -1
+    @property discussion_id = -1
+    @property thread_id = -1
     @property isUB = false
     @property author = ""
     @property content = ""
     @property time!: Date
+    @property deleted = false
 }
 
 export enum Role {
