@@ -23,7 +23,7 @@ interface Props {
     const thread_modal_visible = $$(false)
 
     return <div id="discussion-container">
-        
+
         <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {props.author}</h5>
 
         <div class="new-thread-container">
@@ -46,12 +46,12 @@ interface Props {
                 <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
             </fieldset>
             <button onclick={() => {
-                start_new_thread(props.$.threads, author.val, thread_starter_text.val)
+                start_new_thread(props, author.val, thread_starter_text.val)
                 thread_modal_visible.val = !thread_modal_visible.val
                 thread_starter_text.val = ""
             }}>Start this Thread</button>
         </div>
-        
+
     </div>
 })
 
