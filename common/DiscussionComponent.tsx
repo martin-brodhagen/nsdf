@@ -5,14 +5,15 @@ import { start_new_thread, delete_discussion } from "backend/data.ts";
 
 
 interface Props {
-    _id: number,
-    isUB: boolean,
-    author: string,
-    title: string,
-    intro_argument: string,
-    facettes: string[],
-    threads: Thread[],
-    tags: string[],
+    _id: number
+    isUB: boolean
+    author: string
+    title: string
+    intro_argument: string
+    facettes: string[]
+    threads: Thread[]
+    tags: string[]
+    opened: boolean
     deleted: boolean
 }
 
@@ -23,9 +24,18 @@ interface Props {
 
     const thread_modal_visible = $$(false)
 
+<<<<<<< common/DiscussionComponent.tsx
+    return <div id="discussion-container" class={{ visible: props.opened }}>
+        <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {props.author}</h5>
+
+        <div class="new-thread-container">
+            <button onclick={() => thread_modal_visible.val = !thread_modal_visible.val}>+ Thread</button>
+            <button onclick={() => remove_a_thread(props.$.threads)}>- Thread</button>
+=======
     if (props.deleted) {
         return <div id="discussion-container">
             <i>Discussion deleted...</i>
+>>>>>>> common/DiscussionComponent.tsx
         </div>
     } else {
         return <div id="discussion-container">
@@ -59,7 +69,12 @@ interface Props {
             </div>
 
         </div>
+<<<<<<< common/DiscussionComponent.tsx
+
+    </div>
+=======
     }
+>>>>>>> common/DiscussionComponent.tsx
 })
 
 export class DiscussionComponent extends Component<Props> { }

@@ -9,9 +9,6 @@ interface Props {
     deleted: boolean
 }
 
-//Issue 1:
-// thread action is shouldnt be visible when thread is not shown
-
 @template<Props>((props) => {
 
     const reply_text = $$("")

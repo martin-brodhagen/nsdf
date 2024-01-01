@@ -3,7 +3,22 @@
 	border-radius: 1em;
 	padding: 1em;
 	margin: 1em;
-	list-style: none;
+	cursor: pointer;
+
+	.new-thread-container,
+	.all-threads-container {
+		display: none;
+	}
+
+	&.visible {
+		cursor: default;
+
+		.new-thread-container,
+		.all-threads-container {
+			display: block;
+		}
+	}
+
 }
 
 .isUB {
@@ -11,5 +26,5 @@
 }
 
 .new-thread-container {
-	float: inline-end
+	float: inline-end;
 }
