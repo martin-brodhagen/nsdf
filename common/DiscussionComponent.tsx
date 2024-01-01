@@ -17,10 +17,10 @@ interface Props {
     deleted: boolean
 }
 
-@template<Props>((props) => {
+@template<Props>(async (props) => {
 
     const thread_starter_text = $$("")
-    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "martin")
+    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "martin")
 
     const thread_modal_visible = $$(false)
 

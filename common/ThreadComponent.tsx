@@ -13,10 +13,10 @@ interface Props {
 //Issue 1:
 // thread action is shouldnt be visible when thread is not shown
 
-@template<Props>((props) => {
+@template<Props>(async (props) => {
 
     const reply_text = $$("")
-    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
+    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
     const showThread = $$(false)
 
     const toggle_button_text = always(() => {
@@ -43,7 +43,7 @@ interface Props {
             <div id="thread-action" class={{ visible: showThread }}>
                 <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
                 <button onclick={() => {
-                    add_new_reply(props, reply_text.val, author)
+                    add_new_reply(props, reply_text.val, author.val)
                     reply_text.val = ""
                 }}>reply</button>
             </div>
