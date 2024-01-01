@@ -13,7 +13,9 @@ const search_term = $$("")
 
 const makeUB = $$(false)
 
-function filterfunc(discussion: Discussion) {
+const openedDiscussion = $$(-1)
+
+function filterfunc(discussion: Discussion){
     const threads = discussion.threads
 
     return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase())
@@ -26,7 +28,6 @@ function filterfunc(discussion: Discussion) {
 const filtered_discussions: Datex.Ref<Discussion[]> = always(() => {
     return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 })
-
 
 export default
     <main class="start-page">
@@ -51,7 +52,7 @@ export default
         </div>
 
         <div class="discussions">
-            {always(() => filtered_discussions.map((discussion: Discussion) => <DiscussionComponent {...discussion} />))}
+            { always(() => filtered_discussions.map((discussion: Discussion,index: number) => <DiscussionComponent {...discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />)) }
         </div>
 
 
