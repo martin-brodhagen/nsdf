@@ -13,18 +13,19 @@ const search_term = $$("")
 
 const makeUB = $$(false)
 
-function filterfunc(discussion: Discussion){
+function filterfunc(discussion: Discussion) {
     const threads = discussion.threads
 
-    return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase()) 
-    || discussion.intro_argument.toLowerCase().includes(search_term.val.toLowerCase()) 
-    || threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
+    return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase())
+        || discussion.intro_argument.toLowerCase().includes(search_term.val.toLowerCase())
+        || threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
 }
 
 
 
 const filtered_discussions: Datex.Ref<Discussion[]> = always(() => {
-    return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)})
+    return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
+})
 
 
 export default
@@ -33,34 +34,33 @@ export default
             <div id="logo">
                 <h1>NSDF - Viel Spaß hier!</h1>
             </div>
-           
-            
+
+
         </header>
 
         <div id="actions">
             <button onclick={() => {
-            modal_visible.val = !modal_visible.val
+                modal_visible.val = !modal_visible.val
             }}>New Discussion</button>
-            <button onclick={() => all_discussions.pop()}>Delete Discussion</button>
-            
+
             <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
-            
-            <input type="checkbox" id="showUB" onclick={() => {avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val)}}/>
+
+            <input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
             <label for="showUB">Hide UB</label>
-                
+
         </div>
 
         <div class="discussions">
-            {filtered_discussions.$.map((discussion: Discussion) => <DiscussionComponent {...discussion} />)}
+            {always(() => filtered_discussions.map((discussion: Discussion) => <DiscussionComponent {...discussion} />))}
         </div>
 
-        
+
         <div id="add-discussion-modal" class={{ visible: modal_visible }}>
             <fieldset>
                 <legend>New Discussion</legend>
                 <input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
                 <input type="text" placeholder={"Intro Argument"} id="intro-arg" value={intro_arg} />
-                <input type="checkbox" id="UBcheck" value={makeUB}/>
+                <input type="checkbox" id="UBcheck" value={makeUB} />
                 <label for="UBcheck">Make UB (devtool)</label>
             </fieldset>
             <button onclick={() => {

@@ -73,9 +73,12 @@ interface Props {
 
 @template<Props>((props) => {
 
+    const edit_modal_visible = $$(false)
+    const edit = $$("")
+
     if (props.deleted) {
         return <li class="post">
-            <i>deleted...</i>
+            <i>Post deleted...</i>
         </li>
     } else {
         return <li class="post" >
@@ -95,8 +98,21 @@ interface Props {
                 {props.content}
             </div>
 
-            <button onclick={() => edit_reply(props, "I scream for Ice Cream")}>edit</button>
+            <button onclick={() => edit_modal_visible.val = !edit_modal_visible.val}>edit</button>
             <button onclick={() => delete_reply(props)}>delete</button>
+
+            <div id="edit-modal" class={{ visible: edit_modal_visible }}>
+                <fieldset>
+                    <legend>edit mode</legend>
+                    <p>{props.content}</p>
+                    <input type="text" placeholder={"edit here"} id="edit-textbox" value={edit} />
+                </fieldset>
+                <button onclick={() => {
+                    edit_reply(props, edit.val)
+                    edit_modal_visible.val = !edit_modal_visible.val
+                    edit.val = ""
+                }}>send edit</button>
+            </div>
         </li >
     }
 }
