@@ -1,10 +1,12 @@
 import { add_new_discussion, all_discussions } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
 import { Discussion } from "common/classes.ts";
+import { Datex } from "unyt_core/datex.ts";
 
+import { AuthIcon } from "auth";
 
 const title = $$("")
-const author = $$("Anonymous")
+const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
 const intro_arg = $$("")
 
 const modal_visible = $$(false)
@@ -23,7 +25,7 @@ function filterfunc(discussion: Discussion) {
 
 
 
-const filtered_discussions: Datex.Ref<Discussion[]> = always(() => {
+const filtered_discussions: Discussion[] = always(() => {
     return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 })
 
@@ -32,10 +34,12 @@ export default
     <main class="start-page">
         <header id="headerelem">
             <div id="logo">
+                <AuthIcon style="float: right;" />
+                <b style="float: right;" >{author}</b>
                 <h1>NSDF - Viel Spaß hier!</h1>
+                <hr></hr>
+
             </div>
-
-
         </header>
 
         <div id="actions">

@@ -2,6 +2,7 @@ import { Component } from "uix/components/Component.ts";
 import { Thread } from "common/classes.ts";
 import { ThreadComponent } from "common/ThreadComponent.tsx";
 import { start_new_thread, delete_discussion } from "backend/data.ts";
+import { Datex } from "unyt_core/datex.ts";
 
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
 @template<Props>((props) => {
 
     const thread_starter_text = $$("")
-    const author = $$("Responder")
+    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
 
     const thread_modal_visible = $$(false)
 
@@ -52,7 +53,7 @@ interface Props {
                     <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
                 </fieldset>
                 <button onclick={() => {
-                    start_new_thread(props, author.val, thread_starter_text.val)
+                    start_new_thread(props, author ?? "Gast", thread_starter_text.val)
                     thread_modal_visible.val = !thread_modal_visible.val
                     thread_starter_text.val = ""
                 }}>Start this Thread</button>

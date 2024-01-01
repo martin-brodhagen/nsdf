@@ -2,6 +2,7 @@ import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
 import { Post } from "common/classes.ts";
 import { add_new_reply, delete_thread } from "backend/data.ts";
+import { Datex } from "unyt_core/datex.ts";
 
 interface Props {
     _id: number,
@@ -15,7 +16,7 @@ interface Props {
 @template<Props>((props) => {
 
     const reply_text = $$("")
-    const author = $$("Mark Replier")
+    const author = Datex.Runtime.endpoint.main.getAlias() ?? "Gast"
     const showThread = $$(false)
 
     const toggle_button_text = always(() => {
@@ -42,7 +43,7 @@ interface Props {
             <div id="thread-action" class={{ visible: showThread }}>
                 <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
                 <button onclick={() => {
-                    add_new_reply(props, reply_text.val, author.val)
+                    add_new_reply(props, reply_text.val, author)
                     reply_text.val = ""
                 }}>reply</button>
             </div>
