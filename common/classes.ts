@@ -12,6 +12,7 @@ export @sync class Discussion {
     @property facettes: string[] = []
     @property tags: string[] = []
     @property threads: Thread[] = []
+    @property minimized = false
     @property deleted = false
 }
 
@@ -20,6 +21,7 @@ export @sync class Thread {
     @property discussion_id = -1
     @property title = ""
     @property posts: Post[] = []
+    @property minimized = false
     @property deleted = false
 }
 
@@ -31,6 +33,7 @@ export @sync class Post {
     @property author = ""
     @property content = ""
     @property time!: Date
+    @property minimized = false
     @property deleted = false
 }
 
