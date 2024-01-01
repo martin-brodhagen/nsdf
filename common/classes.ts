@@ -8,6 +8,7 @@ export @sync class Discussion {
     @property author = ""
     @property title = ""
     @property intro_argument = ""
+    @property tldr = ""
     @property facettes: string[] = []
     @property tags: string[] = []
     @property threads: Thread[] = []
