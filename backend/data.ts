@@ -26,6 +26,11 @@ export function add_new_discussion(title: string, author: string, intro_arg: str
     console.log("discussion added...")
 }
 
+export function delete_discussion(discussion: Discussion) {
+    all_discussions[discussion._id].deleted = true
+    console.log("deleted Discussion " + discussion._id)
+}
+
 // ------------------- Threads -------------------
 export function start_new_thread(discussion: Discussion, author: string, text: string) {
 
@@ -50,8 +55,9 @@ export function start_new_thread(discussion: Discussion, author: string, text: s
     console.log("new thread created...")
 }
 
-export function remove_a_thread(threads: Thread[]) {
-    threads.pop()
+export function delete_thread(thread: Thread) {
+    all_threads[thread._id].deleted = true   
+    console.log("deleted Thread " + thread._id)
 }
 
 // ------------------- Replies -------------------
@@ -73,7 +79,7 @@ export function add_new_reply(thread: Thread, text: string, author: string) {
 export function delete_reply(post: Post) {    
     
     all_posts[post._id].deleted = true
-    console.log("post deleted... forever!! (not) Post_ID: " + post._id)
+    console.log("deleted Post " + post._id)
 }
 
 export function edit_reply(post: Post, new_text: string) {

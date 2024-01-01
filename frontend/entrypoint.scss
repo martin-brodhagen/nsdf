@@ -3,7 +3,8 @@
  */
 
 #add-discussion-modal,
-#add-thread-modal {
+#add-thread-modal,
+#edit-modal {
     background-color: white;
     transform: translate(-50%, -50%);
     transition: opacity .3s;
@@ -11,15 +12,16 @@
     text-align: center;
     position: fixed;
     opacity: 0;
+    z-index: -1;
     left: 50%;
     top: 50%;
-
-    
 }
 
 #add-discussion-modal.visible,
-#add-thread-modal.visible {
+#add-thread-modal.visible,
+#edit-modal.visible {
     opacity: 1;
+    z-index: 999;
     pointer-events: initial;
 }
 
@@ -38,7 +40,9 @@
 }
 
 .start-page {
-    a:link, a:visited {
+
+    a:link,
+    a:visited {
         text-decoration: none;
     }
 
@@ -46,17 +50,21 @@
         text-align: center;
     }
 
+    #actions {
+        padding-left: 2rem;
+    }
+
     #footer {
         a:link {
-            
+
             padding-right: 10px;
         }
     }
 
-    button, input {
+    button,
+    input {
         margin-right: 5px;
     }
 
 
 }
-
