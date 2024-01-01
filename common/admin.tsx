@@ -8,6 +8,7 @@ import { AuthIcon } from "auth";
 
 const avoid_UB = $$(false)
 const search_term = $$("")
+const user = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
 
 function filterfunc(discussion: Discussion) {
     const threads = discussion.threads
@@ -25,14 +26,13 @@ export default
     <main class="start-page">
         <header id="headerelem">
             <div id="logo">
+                <AuthIcon style="float: left;" />
+                <b style="float: left;" >{user}</b>
                 <h1>NSDF - Admin Modus</h1>
             </div>
         </header>
 
         <div id="actions">
-            <button onclick={() => {
-            }}>New Discussion</button>
-
             <input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
 
             <input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />

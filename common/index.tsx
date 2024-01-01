@@ -23,12 +23,9 @@ function filterfunc(discussion: Discussion) {
         || threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
 }
 
-
-
 const filtered_discussions: Discussion[] = always(() => {
     return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 })
-
 
 export default
     <main class="start-page">
@@ -57,7 +54,6 @@ export default
         <div class="discussions">
             {always(() => filtered_discussions.map((discussion: Discussion) => <DiscussionComponent {...discussion} />))}
         </div>
-
 
         <div id="add-discussion-modal" class={{ visible: modal_visible }}>
             <fieldset>

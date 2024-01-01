@@ -11,6 +11,7 @@ interface Props {
     author: string,
     title: string,
     intro_argument: string,
+    tldr: string,
     facettes: string[],
     threads: Thread[],
     tags: string[],
@@ -28,39 +29,39 @@ interface Props {
         return <div id="discussion-container">
             <i>Discussion deleted...</i>
         </div>
-    } else {
-        return <div id="discussion-container">
-
-            <button onclick={() => delete_discussion(props)}>delete Discussion {props._id}</button>
-            <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {props.author}</h5>
-
-            <div class="new-thread-container">
-                <button onclick={() => thread_modal_visible.val = !thread_modal_visible.val}>+ Thread</button>
-            </div>
-
-            <div class="intro-argument">
-                <p>{props.intro_argument}</p>
-            </div>
-
-            <div class="all-threads-container">
-                {always(() => props.threads.map((thread: Thread) => <ThreadComponent {...thread} />))}
-            </div>
-
-            <div id="add-thread-modal" class={{ visible: thread_modal_visible }}>
-                <fieldset>
-                    <legend>New Thread</legend>
-                    <p>{props.intro_argument}</p>
-                    <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
-                </fieldset>
-                <button onclick={() => {
-                    start_new_thread(props, author, thread_starter_text.val)
-                    thread_modal_visible.val = !thread_modal_visible.val
-                    thread_starter_text.val = ""
-                }}>Start this Thread</button>
-            </div>
-
-        </div>
     }
+
+    return <div id="discussion-container">
+        <button onclick={() => delete_discussion(props)}>delete Discussion: {props._id}</button>
+        <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {props.author}</h5>
+
+        <div class="new-thread-container">
+            <button onclick={() => thread_modal_visible.val = !thread_modal_visible.val}>+ Thread</button>
+        </div>
+
+        <div class="intro-argument">
+            <p>{props.intro_argument}</p>
+        </div>
+
+        <div class="all-threads-container">
+            {always(() => props.threads.map((thread: Thread) => <ThreadComponent {...thread} />))}
+        </div>
+
+        <div id="add-thread-modal" class={{ visible: thread_modal_visible }}>
+            <fieldset>
+                <legend>New Thread</legend>
+                <p>{props.intro_argument}</p>
+                <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
+            </fieldset>
+            <button onclick={() => {
+                start_new_thread(props, author, thread_starter_text.val)
+                thread_modal_visible.val = !thread_modal_visible.val
+                thread_starter_text.val = ""
+            }}>Start this Thread</button>
+        </div>
+
+    </div>
+
 })
 
 export class DiscussionComponent extends Component<Props> { }

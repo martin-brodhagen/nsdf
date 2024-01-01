@@ -8,11 +8,10 @@ export @sync class Discussion {
     @property author = ""
     @property title = ""
     @property intro_argument = ""
-    @property tldr = ""
+    @property tldr = "This is not the TLDR you're looking for..."
     @property facettes: string[] = []
     @property tags: string[] = []
     @property threads: Thread[] = []
-    @property minimized = false
     @property deleted = false
 }
 
@@ -21,7 +20,6 @@ export @sync class Thread {
     @property discussion_id = -1
     @property title = ""
     @property posts: Post[] = []
-    @property minimized = false
     @property deleted = false
 }
 
@@ -33,7 +31,6 @@ export @sync class Post {
     @property author = ""
     @property content = ""
     @property time!: Date
-    @property minimized = false
     @property deleted = false
 }
 

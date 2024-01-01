@@ -31,6 +31,9 @@ export function delete_discussion(discussion: Discussion) {
     console.log("deleted Discussion " + discussion._id)
 }
 
+export function expand_this_discussion(discussion: Discussion) {
+}
+
 // ------------------- Threads -------------------
 export function start_new_thread(discussion: Discussion, author: string, text: string) {
 
