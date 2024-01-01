@@ -17,7 +17,7 @@ function filterfunc(discussion: Discussion) {
         || threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
 }
 
-const filtered_discussions: Datex.Ref<Discussion[]> = always(() => {
+const filtered_discussions: Discussion[] = always(() => {
     return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 })
 
