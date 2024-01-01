@@ -1,5 +1,6 @@
 import { Component } from "uix/components/Component.ts";
 import { delete_reply, edit_reply } from "backend/data.ts";
+import { Datex } from "unyt_core/datex.ts";
 
 // formats date into string
 export function display_date(time: Date) {
@@ -74,7 +75,7 @@ interface Props {
 @template<Props>((props) => {
 
     const edit_modal_visible = $$(false)
-    const edit = $$("")
+    const edit = $$(props.$.content)
 
     if (props.deleted) {
         return <li class="post">
@@ -104,13 +105,11 @@ interface Props {
             <div id="edit-modal" class={{ visible: edit_modal_visible }}>
                 <fieldset>
                     <legend>edit mode</legend>
-                    <p>{props.content}</p>
                     <input type="text" placeholder={"edit here"} id="edit-textbox" value={edit} />
                 </fieldset>
                 <button onclick={() => {
                     edit_reply(props, edit.val)
                     edit_modal_visible.val = !edit_modal_visible.val
-                    edit.val = ""
                 }}>send edit</button>
             </div>
         </li >

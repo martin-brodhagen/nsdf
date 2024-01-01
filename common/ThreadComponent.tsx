@@ -16,7 +16,7 @@ interface Props {
 @template<Props>((props) => {
 
     const reply_text = $$("")
-    const author = Datex.Runtime.endpoint.main.getAlias() ?? "Gast"
+    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
     const showThread = $$(false)
 
     const toggle_button_text = always(() => {

@@ -20,7 +20,7 @@ interface Props {
 @template<Props>((props) => {
 
     const thread_starter_text = $$("")
-    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+    const author = $$(Datex.Runtime.endpoint.main.getAlias() ?? "martin")
 
     const thread_modal_visible = $$(false)
 
@@ -53,7 +53,7 @@ interface Props {
                     <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
                 </fieldset>
                 <button onclick={() => {
-                    start_new_thread(props, author ?? "Gast", thread_starter_text.val)
+                    start_new_thread(props, author, thread_starter_text.val)
                     thread_modal_visible.val = !thread_modal_visible.val
                     thread_starter_text.val = ""
                 }}>Start this Thread</button>
