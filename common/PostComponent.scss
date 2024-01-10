@@ -48,3 +48,11 @@
 		padding: 1rem;
 	}
 }
+
+#edit-button, 
+#edit-modal {
+	display: none;
+	&.visible{
+		display: block;
+	}
+}

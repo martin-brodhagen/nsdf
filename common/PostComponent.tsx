@@ -60,6 +60,10 @@ export function close_modal(id: number) {
     }
 }
 
+export function editable(prop_time:Date){
+    const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
+    return (prop_time >= tenMinutesAgo)
+}
 
 interface Props {
     _id: number,
@@ -69,11 +73,17 @@ interface Props {
     author: string,
     content: string,
     time: Date,
-    deleted: boolean
+    deleted: boolean,
+    edited: boolean
 }
 
 @template<Props>((props) => {
-
+    const toggle_edit = always(() => {
+        return editable(props.time as Date) 
+    })
+    const prop_time = always(() => {
+        return props.$.edited.val ? display_date(props.time as Date) +" (edited)" : display_date(props.time as Date)
+    })
     const edit_modal_visible = $$(false)
     const edit = $$(props.$.content)
 
@@ -86,7 +96,7 @@ interface Props {
             <div class="postHead">
                 <b>{props.author} : Post ID {props._id}</b>
                 <br />
-                <i class="date">{display_date(props.time)}</i>
+                <i class="date">{prop_time}</i>
                 <div class="optionsWrapper">
                     <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
                     <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
@@ -98,8 +108,7 @@ interface Props {
             <div class="postBody">
                 {props.content}
             </div>
-
-            <button onclick={() => edit_modal_visible.val = !edit_modal_visible.val}>edit</button>
+            <button id="edit-button" class={{visible: toggle_edit}} onclick={() => {edit_modal_visible.val = !edit_modal_visible.val}}>edit</button>
             <button onclick={() => delete_reply(props)}>delete</button>
 
             <div id="edit-modal" class={{ visible: edit_modal_visible }}>

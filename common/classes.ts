@@ -32,6 +32,7 @@ export @sync class Post {
     @property content = ""
     @property time!: Date
     @property deleted = false
+    @property edited = false
 }
 
 export enum Role {
