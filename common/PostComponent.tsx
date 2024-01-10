@@ -60,11 +60,18 @@ export function close_modal(id: number) {
     }
 }
 
-export function editable(prop_time:Date){
+export function editable(prop_time:Date,prop_author:string, username:string) {
     const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
-    return (prop_time >= tenMinutesAgo)
+    return (prop_time >= tenMinutesAgo) && check_user(prop_author,username)
 }
 
+function check_user(author: string,current_user: string) {
+    if (author==current_user) {
+        return true
+    } else {
+        return false
+    }
+}
 interface Props {
     _id: number,
     discussion_id: number,
@@ -79,7 +86,7 @@ interface Props {
 
 @template<Props>((props) => {
     const toggle_edit = always(() => {
-        return editable(props.time as Date) 
+        return editable(props.time as Date, props.author,props.author) 
     })
     const prop_time = always(() => {
         return props.$.edited.val ? display_date(props.time as Date) +" (edited)" : display_date(props.time as Date)
