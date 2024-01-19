@@ -1,6 +1,7 @@
 import { Component } from "uix/components/Component.ts";
-import { delete_reply, edit_reply } from "backend/data.ts";
+import { delete_reply, edit_reply, get_username, get_user_role } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
+import { Role } from "common/classes.ts";
 
 // formats date into string
 export function display_date(time: Date) {
@@ -60,6 +61,8 @@ export function close_modal(id: number) {
     }
 }
 
+const viewer = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+const user_role = await get_user_role(viewer.val)
 
 interface Props {
     _id: number,
@@ -77,6 +80,52 @@ interface Props {
     const edit_modal_visible = $$(false)
     const edit = $$(props.$.content)
 
+    function user_interaction() {
+        if (user_role == Role.Admin || user_role == Role.User) {
+            return <div>
+                {edit_button()}
+                {delete_button()}
+            </div>
+        }
+    }
+
+    const options_modal = () => {
+        if (user_role == Role.User || user_role == Role.Admin) {
+            return <div class="optionsWrapper">
+                <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
+                <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
+                    <a href="">Regelverstoß melden</a>
+                    <a href="">Als UB melden</a>
+                </div>
+            </div>
+        }
+    }
+
+    const edit_button = () => {
+        if (props.author == viewer.val) {
+            return <div>
+                <button onclick={() => edit_modal_visible.val = !edit_modal_visible.val}>edit</button>
+
+                <div id="edit-modal" class={{ visible: edit_modal_visible }}>
+                    <fieldset>
+                        <legend>edit mode</legend>
+                        <input type="text" placeholder={"edit here"} id="edit-textbox" value={edit} />
+                    </fieldset>
+                    <button onclick={() => {
+                        edit_reply(props, edit.val)
+                        edit_modal_visible.val = !edit_modal_visible.val
+                    }}>send edit</button>
+                </div>
+            </div>
+        }
+    }
+
+    const delete_button = () => {
+        if (user_role == Role.Mod) {
+            return <button onclick={() => delete_reply(props)}>delete</button>
+        }
+    }
+
     if (props.deleted) {
         return <li class="post">
             <i>Post deleted...</i>
@@ -84,34 +133,17 @@ interface Props {
     } else {
         return <li class="post" >
             <div class="postHead">
-                <b>{props.author} : Post ID {props._id}</b>
+                <b>{get_username(props.author)} : Post ID {props._id}</b>
                 <br />
                 <i class="date">{display_date(props.time)}</i>
-                <div class="optionsWrapper">
-                    <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
-                    <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
-                        <a href="">Regelverstoß melden</a>
-                        <a href="">Als UB melden</a>
-                    </div>
-                </div>
+                {options_modal()}
             </div>
             <div class="postBody">
                 {props.content}
             </div>
 
-            <button onclick={() => edit_modal_visible.val = !edit_modal_visible.val}>edit</button>
-            <button onclick={() => delete_reply(props)}>delete</button>
+            {user_interaction()}
 
-            <div id="edit-modal" class={{ visible: edit_modal_visible }}>
-                <fieldset>
-                    <legend>edit mode</legend>
-                    <input type="text" placeholder={"edit here"} id="edit-textbox" value={edit} />
-                </fieldset>
-                <button onclick={() => {
-                    edit_reply(props, edit.val)
-                    edit_modal_visible.val = !edit_modal_visible.val
-                }}>send edit</button>
-            </div>
         </li >
     }
 }
