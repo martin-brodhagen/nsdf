@@ -86,10 +86,9 @@ export function delete_reply(post: Post) {
 }
 
 export function edit_reply(post: Post, new_text: string) {
-
     all_posts[post._id].content = new_text
     all_posts[post._id].edited = true
-    console.log("edit successful")
+    console.log("edited post " + post._id)
 }
 
 // ------------------- members -------------------

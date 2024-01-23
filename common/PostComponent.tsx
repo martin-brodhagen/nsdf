@@ -62,16 +62,10 @@ export function close_modal(id: number) {
 
 export function editable(prop_time:Date,prop_author:string, username:string) {
     const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
-    return (prop_time >= tenMinutesAgo) && check_user(prop_author,username)
+    console.log(prop_author,username)
+    return (prop_time >= tenMinutesAgo) && (prop_author.val==username.val)
 }
 
-function check_user(author: string,current_user: string) {
-    if (author==current_user) {
-        return true
-    } else {
-        return false
-    }
-}
 interface Props {
     _id: number,
     discussion_id: number,
@@ -84,16 +78,18 @@ interface Props {
     edited: boolean
 }
 
-@template<Props>((props) => {
+@template<Props>(async(props) => {
+    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
+    console.log(author.val)
     const toggle_edit = always(() => {
-        return editable(props.time as Date, props.author,props.author) 
+        return editable(props.time as Date, props.$.author,author) 
     })
     const prop_time = always(() => {
         return props.$.edited.val ? display_date(props.time as Date) +" (edited)" : display_date(props.time as Date)
     })
     const edit_modal_visible = $$(false)
     const edit = $$(props.$.content)
-
+    
     if (props.deleted) {
         return <li class="post">
             <i>Post deleted...</i>
@@ -101,7 +97,7 @@ interface Props {
     } else {
         return <li class="post" >
             <div class="postHead">
-                <b>{props.author} : Post ID {props._id}</b>
+                <b>{props.$.author} : Post ID {props._id}</b>
                 <br />
                 <i class="date">{prop_time}</i>
                 <div class="optionsWrapper">
@@ -113,7 +109,7 @@ interface Props {
                 </div>
             </div>
             <div class="postBody">
-                {props.content}
+                {props.$.content}
             </div>
             <button id="edit-button" class={{visible: toggle_edit}} onclick={() => {edit_modal_visible.val = !edit_modal_visible.val}}>edit</button>
             <button onclick={() => delete_reply(props)}>delete</button>
