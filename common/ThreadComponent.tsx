@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
-import { Post } from "common/classes.ts";
-import { add_new_reply, delete_thread } from "backend/data.ts";
+import { Post, Role } from "common/classes.ts";
+import { add_new_reply, delete_thread, get_user_role } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 interface Props {
@@ -16,12 +16,20 @@ interface Props {
 @template<Props>(async (props) => {
 
     const reply_text = $$("")
-    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
+    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+    const user_role = await get_user_role(author.val)
+
     const showThread = $$(false)
 
     const toggle_button_text = always(() => {
         return showThread.val ? "-" : "+"
     })
+
+    const delete_button = () => {
+        if (user_role == Role.Mod || user_role == Role.Admin) {
+            return <button onclick={() => delete_thread(props)}>delete Thread {props._id}</button>
+        }
+    }
 
     if (props.deleted) {
         return <li class="thread-container">
@@ -29,11 +37,25 @@ interface Props {
         </li>
     }
 
+    if (author.val == "Gast") {
+        return <li class="thread-container">
+            <button onclick={() => {
+                showThread.val = !showThread.val
+            }}>{toggle_button_text}</button>
+            <div class="post-container">
+                {always(() => <PostComponent {...props.posts[0]} />)}
+                <div id="post-wrapper" class={{ visible: showThread }}>
+                    {always(() => props.posts.slice(1).map((post: Post) => <PostComponent {...post} />))}
+                </div>
+            </div>
+        </li>
+    }
+
     return <li class="thread-container">
         <button onclick={() => {
             showThread.val = !showThread.val
         }}>{toggle_button_text}</button>
-        <button onclick={() => delete_thread(props)}>delete Thread {props._id}</button>
+        {delete_button()}
         <div class="post-container">
             {always(() => <PostComponent {...props.posts[0]} />)}
             <div id="post-wrapper" class={{ visible: showThread }}>
