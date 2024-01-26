@@ -12,6 +12,7 @@ export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<U
 
 const all_threads = await lazyEternalVar("all_threads") ?? $$(new Array<Thread>)
 const all_posts = await lazyEternalVar("all_posts") ?? $$(new Array<Post>)
+const possible_ub_posts = await lazyEternalVar("possible_ub_posts") ?? $$(new Set<Post>)
 
 
 // ------------------- Discussions -------------------
@@ -86,6 +87,13 @@ export function edit_reply(post: Post, new_text: string) {
     all_posts[post._id].content = new_text
     all_posts[post._id].edited = true
     console.log("edited post " + post._id)
+}
+
+// ------------------- ub -------------------
+
+export function add_to_possible_ub(post: Post) {
+    possible_ub_posts.push(post)
+    console.log("added to possible ub list" + post._id)
 }
 
 // ------------------- users -------------------

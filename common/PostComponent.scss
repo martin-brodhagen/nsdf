@@ -6,7 +6,7 @@
 	margin: 1rem 0rem;
 	list-style: none;
 
-	&:hover .postHead .optionsWrapper .optionsBtn {
+	&:hover .postHead .reportBtn {
 		visibility: visible;
 	}
 
@@ -17,30 +17,13 @@
 		width: 100%;
 		padding: 1rem;
 
-		.optionsWrapper {
+		.reportBtn {
 			position: absolute;
 			top: 0;
 			right: 0;
 			margin: .5rem;
+			visibility: hidden;
 
-			.optionsBtn {
-				visibility: hidden;
-			}
-		
-			.postOptionsModal {
-				z-index: 100;
-				display: none;
-				position: absolute;
-				top: 100%;
-				right: 0;
-				background-color: lightgray;
-
-				> a {
-					display: flex;
-					flex-direction: column;
-					padding: .2rem .75rem;
-				}
-			}
 		}
 	}
 

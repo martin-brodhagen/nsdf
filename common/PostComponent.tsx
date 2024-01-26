@@ -1,5 +1,5 @@
 import { Component } from "uix/components/Component.ts";
-import { delete_reply, edit_reply, get_username, get_user_role } from "backend/data.ts";
+import { delete_reply, edit_reply, get_username, get_user_role, add_to_possible_ub } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 import { Role } from "common/classes.ts";
 
@@ -17,47 +17,6 @@ export function display_date(time: Date) {
         return minutes > 1 ? `${minutes} minutes ago` : '1 minute ago';
     } else {
         return 'just now';
-    }
-}
-
-let optionsButtonClicked = false;
-
-function clickOutsideHandler(event: Event, id: number) {
-    const modal = document.getElementById('postOptionsModal_' + id);
-
-    if (modal != null && !modal.contains(event.target as Node)) {
-        close_modal(id);
-        optionsButtonClicked = false;
-    }
-}
-
-export function open_modal(id: number) {
-    if (!optionsButtonClicked) {
-        optionsButtonClicked = true;
-        const btn = document.getElementById('optionsBtn_' + id);
-        const modal = document.getElementById('postOptionsModal_' + id);
-
-        if (btn != null) {
-            btn.style.visibility = 'visible';
-        }
-        if (modal != null) {
-            modal.style.display = 'block';
-            setTimeout(() => {
-                window.addEventListener('click', (event) => clickOutsideHandler(event, id), { once: true });
-            }, 1);
-        }
-    }
-}
-
-export function close_modal(id: number) {
-    const btn = document.getElementById('optionsBtn_' + id);
-    const modal = document.getElementById('postOptionsModal_' + id);
-
-    if (btn != null) {
-        btn.style.visibility = '';
-    }
-    if (modal != null) {
-        modal.style.display = 'none';
     }
 }
 
@@ -102,15 +61,11 @@ interface Props {
         }
     }
 
-    const options_modal = () => {
-        if (user_role == Role.User || user_role == Role.Admin) {
-            return <div class="optionsWrapper">
-                <button class="optionsBtn" id={`optionsBtn_${props._id}`} onclick={() => open_modal(props._id)}>...</button>
-                <div class="postOptionsModal" id={`postOptionsModal_${props._id}`}>
-                    <a href="">Regelverstoß melden</a>
-                    <a href="">Als UB melden</a>
-                </div>
-            </div>
+    const report_button = () => {
+        if (user_role != Role.None && user_role != Role.Guest) {
+            return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
+                Report as UB
+            </button>
         }
     }
 
@@ -151,7 +106,7 @@ interface Props {
                 <b>{get_username(props.author)} : Post ID {props._id}</b>
                 <br />
                 <i class="date">{prop_time}</i>
-                {options_modal()}
+                {report_button()}
             </div>
             <div class="postBody">
                 {props.$.content}
