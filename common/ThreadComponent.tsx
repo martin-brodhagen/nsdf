@@ -10,9 +10,6 @@ interface Props {
     deleted: boolean
 }
 
-//Issue 1:
-// thread action is shouldnt be visible when thread is not shown
-
 @template<Props>(async (props) => {
 
     const reply_text = $$("")
@@ -21,8 +18,18 @@ interface Props {
 
     const showThread = $$(false)
 
+    const isMoreThanOne = always(() => {
+        if(user_role == Role.Mod || user_role == Role.Admin) {
+            return props.posts.length > 1
+        } else return props.posts.filter(post => !post.deleted).length > 1
+    })
+
+    const showThreadAction = always(() => {
+        return (showThread.val || !isMoreThanOne.val)
+    })
+
     const toggle_button_text = always(() => {
-        return showThread.val ? "-" : "+"
+        return showThread.val ? "Read less" : "Read more"
     })
 
     const delete_button = () => {
@@ -31,30 +38,27 @@ interface Props {
         }
     }
 
+
+    const thread_action = () => {
+        if (user_role == Role.User || user_role == Role.Admin)
+            return <div id="thread-action" class={{ visible: showThreadAction }}>
+                <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
+                <button onclick={() => {
+                    add_new_reply(props, reply_text.val, author.val)
+                    reply_text.val = ""
+                    showThread.val = true
+                    isMoreThanOne.val = true
+                }}>reply</button>
+            </div>
+    }
+
     if (props.deleted) {
         return <li class="thread-container">
             <i>Thread deleted...</i>
         </li>
     }
 
-    if (author.val == "Gast") {
-        return <li class="thread-container">
-            <button onclick={() => {
-                showThread.val = !showThread.val
-            }}>{toggle_button_text}</button>
-            <div class="post-container">
-                {always(() => <PostComponent {...props.posts[0]} />)}
-                <div id="post-wrapper" class={{ visible: showThread }}>
-                    {always(() => props.posts.slice(1).map((post: Post) => <PostComponent {...post} />))}
-                </div>
-            </div>
-        </li>
-    }
-
     return <li class="thread-container">
-        <button onclick={() => {
-            showThread.val = !showThread.val
-        }}>{toggle_button_text}</button>
         {delete_button()}
         <div class="post-container">
             {always(() => <PostComponent {...props.posts[0]} />)}
@@ -62,13 +66,11 @@ interface Props {
                 {always(() => props.posts.slice(1).map((post: Post) => <PostComponent {...post} />))}
             </div>
         </div>
-        <div id="thread-action" class={{ visible: showThread }}>
-            <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
-            <button onclick={() => {
-                add_new_reply(props, reply_text.val, author.val)
-                reply_text.val = ""
-            }}>reply</button>
-        </div>
+        {thread_action()}
+        <button id="showThreadBtn" class={{ visible: isMoreThanOne }}
+            onclick={() => {
+                showThread.val = !showThread.val
+        }}>{toggle_button_text}</button>
     </li>
 
 })
