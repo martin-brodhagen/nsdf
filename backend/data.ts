@@ -92,7 +92,7 @@ export function edit_reply(post: Post, new_text: string) {
 // ------------------- ub -------------------
 
 export function add_to_possible_ub(post: Post) {
-    possible_ub_posts.push(post)
+    possible_ub_posts.add(post)
     console.log("added to possible ub list" + post._id)
 }
 
