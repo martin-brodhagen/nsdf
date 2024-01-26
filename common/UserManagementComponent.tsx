@@ -16,7 +16,7 @@ interface Props {
 			<option value="2">Admin</option>
 			<option value="3">Guest</option>
 			<option value="4">Mod</option>
-		</select>  <button onclick={() => set_user_role(user.datex_alias, user.role)}>Update Role</button>
+		</select>
 	</fieldset>
 
 
