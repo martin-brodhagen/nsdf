@@ -1,25 +1,17 @@
 import { Component } from "uix/components/Component.ts";
-import { Role, Thread } from "common/classes.ts";
+import { Role, Discussion } from "common/classes.ts";
 import { ThreadComponent } from "common/ThreadComponent.tsx";
 import { start_new_thread, delete_discussion, get_username, get_user_role } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 
 interface Props {
-    _id: number
-    isUB: boolean
-    author: string
-    title: string
-    intro_argument: string
-    facettes: string[]
-    threads: Thread[]
-    tags: string[]
+    discussion: Discussion
     opened: boolean
-    deleted: boolean
 }
 
 
-@template<Props>(async (props) => {
+@template<Props>(async (props, { discussion }) => {
 
     const thread_starter_text = $$("")
     const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
@@ -37,11 +29,11 @@ interface Props {
                 <div id="add-thread-modal" class={{ visible: thread_modal_visible }}>
                     <fieldset>
                         <legend>New Thread</legend>
-                        <p>{props.intro_argument}</p>
+                        <p>{discussion.intro_argument}</p>
                         <input type="text" placeholder={"Thread Starter"} id="thread-starter" value={thread_starter_text} />
                     </fieldset>
                     <button onclick={() => {
-                        start_new_thread(props, author.val, thread_starter_text.val)
+                        start_new_thread(discussion, author.val, thread_starter_text.val)
                         thread_modal_visible.val = !thread_modal_visible.val
                         thread_starter_text.val = ""
                     }}>Start this Thread</button>
@@ -52,27 +44,27 @@ interface Props {
 
     const mod_buttons = () => {
         if (user_role == Role.Mod || user_role == Role.Admin) {
-            return <button onclick={() => delete_discussion(props)}>delete Discussion {props._id}</button>
+            return <button onclick={() => delete_discussion(discussion)}>delete Discussion {discussion._id}</button>
         }
     }
 
-    if (props.deleted) {
+    if (discussion.deleted) {
         return <div></div>
     }
 
     return <div id="discussion-container" class={{ visible: props.opened }}>
         {mod_buttons()}
 
-        <h5 class={{ isUB: props.$.isUB }}>{props.title} - by {get_username(props.author)}</h5>
+        <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {get_username(discussion.author)}</h5>
 
         {user_interaction()}
 
         <div class="intro-argument">
-            <p>{props.intro_argument}</p>
+            <p>{discussion.intro_argument}</p>
         </div>
 
         <div class="all-threads-container">
-            {always(() => props.threads.map((thread: Thread) => <ThreadComponent {...thread} />))}
+            {always(() => discussion.threads.map((thread: Thread) => <ThreadComponent {...thread} />))}
         </div>
 
 

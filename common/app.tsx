@@ -1,6 +1,7 @@
 import { Component } from "uix/components/Component.ts";
-import { add_new_discussion, all_discussions, get_username, get_user_role } from "backend/data.ts";
+import { add_new_discussion, all_discussions, get_username, get_user_role, add_new_user, all_members } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
+import { UserManagementComponent } from "common/UserManagementComponent.tsx"
 import { Discussion, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
@@ -11,7 +12,10 @@ import { AuthIcon } from "auth";
 	const title = $$("")
 	const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
 	const user_role = await get_user_role(author.val)
+	const user_name = await get_username(author.val)
 	const intro_arg = $$("")
+
+	const new_user_name = $$("")
 
 	const modal_visible = $$(false)
 	const avoid_UB = $$(false)
@@ -30,7 +34,8 @@ import { AuthIcon } from "auth";
 	}
 
 	const filtered_discussions: Discussion[] = always(() => {
-		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
+		const discussions_array = Array.from(all_discussions)
+		return avoid_UB.val ? (discussions_array.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : discussions_array.filter(filterfunc)
 	})
 
 	const user_interaction = () => {
@@ -45,7 +50,7 @@ import { AuthIcon } from "auth";
 						<legend>New Discussion</legend>
 						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
 						<input type="text" placeholder={"Intro Argument"} id="intro-arg" value={intro_arg} />
-						<input type="checkbox" id="UBcheck" value={makeUB} />
+						<input type="checkbox" id="UBcheck" value={makeUB.val} />
 						<label for="UBcheck">Make UB (devtool)</label>
 					</fieldset>
 					<button onclick={() => {
@@ -69,16 +74,37 @@ import { AuthIcon } from "auth";
 		}
 	}
 
+	const user_registration = () => {
+		if (user_name == "Neuer User") {
+
+			return <fieldset>
+				<legend>User Registration</legend>
+				<p>Welcome to our Forum! Your are now logged in via Unyt Auth. Enter your Name to participate.</p>
+				<input type="text" placeholder="Your name" value={new_user_name} />
+				<button onclick={() => {
+					add_new_user(new_user_name.val)
+				}}>Register</button>
+			</fieldset>
+		}
+	}
+
+	const user_management = () => {
+		return all_members.map(user => <UserManagementComponent user={user} />)
+	}
+
 	return <div>
 		<header id="headerelem">
 			<div id="logo">
 				<AuthIcon style="float: right;" />
-				<b style="float: right;" >{get_username(author.val)}</b>
+				<b style="float: right;" >{user_name}</b>
 				{header()}
+				{user_registration()}
 				<hr></hr>
 
 			</div>
 		</header>
+
+		{user_management()}
 
 		<div id="actions">
 			{user_interaction()}
@@ -89,7 +115,7 @@ import { AuthIcon } from "auth";
 		</div>
 
 		<div class="discussions">
-			{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent {...discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
+			{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
 		</div>
 
 		<footer id="footer">

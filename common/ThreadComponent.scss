@@ -4,4 +4,10 @@
 	padding: 1em;
 	margin: 1em;
 	list-style: none;
+	#showThreadBtn {
+		display: none;
+		&.visible {
+			display: block;
+		}
+	}
 }

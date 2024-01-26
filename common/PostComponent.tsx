@@ -134,15 +134,17 @@ interface Props {
     }
 
     const delete_button = () => {
-        if (user_role == Role.Mod) {
+        if (user_role == Role.Mod || user_role == Role.Admin) {
             return <button onclick={() => delete_reply(props)}>delete</button>
         }
     }
 
     if (props.deleted) {
-        return <li class="post">
+        if(user_role == Role.Mod || user_role == Role.Admin) {
+            return <li class="post">
             <i>Post deleted...</i>
         </li>
+        }
     } else {
         return <li class="post" >
             <div class="postHead">

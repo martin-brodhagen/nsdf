@@ -7,7 +7,7 @@ const post_id = await lazyEternalVar("post_id") ?? $$(0)
 const member_id = await lazyEternalVar("member_id") ?? $$(0)
 
 export const all_topics: string[] = ["Letzte Generation", "Platzdeckchen-Häkel-Club"]
-export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
+export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Set<Discussion>)
 export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<User>)
 
 const all_threads = await lazyEternalVar("all_threads") ?? $$(new Array<Thread>)
@@ -22,12 +22,12 @@ export function add_new_discussion(title: string, author: string, intro_arg: str
     discussion.title = title
     discussion.intro_argument = intro_arg
     discussion.isUB = makeUB
-    all_discussions.push(discussion)
+    all_discussions.add(discussion)
     console.log("discussion added... by " + discussion.author)
 }
 
 export function delete_discussion(discussion: Discussion) {
-    all_discussions[discussion._id].deleted = true
+    discussion.deleted = true
     console.log("deleted Discussion " + discussion._id)
 }
 
@@ -96,14 +96,7 @@ gast.datex_alias = "Gast"
 gast.name = "Gast"
 gast.role = Role.Guest
 
-const martin = $$(new User())
-martin._id = 0
-martin.datex_alias = "@@8477F3B70E000000004055A6DC033D44.localhost_40701"
-martin.name = "MARTIN!!!"
-martin.role = Role.Admin
-
 all_members[0] = gast
-all_members[1] = martin
 
 const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange"]
 const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab"]
@@ -115,29 +108,41 @@ function random_name() {
     return color + " " + animal
 }
 
-export function add_new_user(datex_alias: string, role: Role) {
+export async function add_new_user(username: string) {
+
+    const endpoint = datex.meta.sender.main;
+    const datex_alias = await endpoint.getAlias()
     const member = new User()
     member._id = member_id.val++
     member.displayed_names = new Array<string>
-    member.datex_alias = datex_alias
-    member.role = role
-
+    member.endpoint = endpoint
+    member.datex_alias = datex_alias!
+    member.name = username
+    member.role = Role.User
+    
     all_members.push(member)
+    console.log("Endpoint: " + endpoint + " - alias: " + datex_alias + "  " + username + " registered")
 }
 
 export function assign_display_name(member_id: number, discussion_id: number) {
     let name = random_name()
 
-    while (name in all_discussions[discussion_id].pseudonyms) {
+    const discussions_array = Array.from(all_discussions)
+
+    while (name in discussions_array[discussion_id].pseudonyms) {
         name = random_name()
     }
     all_members[member_id].displayed_names[discussion_id] = name    
 }
 
 export function get_username(alias: string) {
-    return all_members.find((member: User) => member.datex_alias == alias)?.name ?? gast.name
+    return all_members.find((member: User) => member.datex_alias == alias)?.name ?? "Neuer User"
 }
 
 export function get_user_role(alias: string) {
     return all_members.find((member: User) => member.datex_alias == alias)?.role ?? Role.Guest   
+}
+
+export function set_user_role(alias: string, role: Role) {
+    all_members.find((member: User) => member.datex_alias == alias)!.role = role
 }
