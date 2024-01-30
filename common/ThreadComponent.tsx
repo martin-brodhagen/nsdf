@@ -1,6 +1,6 @@
 import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
-import { Post, Role } from "common/classes.ts";
+import { Post, PostStatus, Role } from "common/classes.ts";
 import { add_new_reply, delete_thread, get_user_role } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
@@ -21,7 +21,7 @@ interface Props {
     const isMoreThanOne = always(() => {
         if (user_role == Role.Mod || user_role == Role.Admin) {
             return props.posts.length > 1
-        } else return props.posts.filter(post => !post.deleted).length > 1
+        } else return props.posts.filter(post => post.status != PostStatus.Deleted).length > 1
     })
 
     const showThreadAction = always(() => {
