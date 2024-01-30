@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
 import { Post, Role } from "common/classes.ts";
-import { add_new_reply, delete_thread, get_user_role} from "backend/data.ts";
+import { add_new_reply, delete_thread, get_user_role } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
     const showThread = $$(false)
 
     const isMoreThanOne = always(() => {
-        if(user_role == Role.Mod || user_role == Role.Admin) {
+        if (user_role == Role.Mod || user_role == Role.Admin) {
             return props.posts.length > 1
         } else return props.posts.filter(post => !post.deleted).length > 1
     })
@@ -40,16 +40,16 @@ interface Props {
 
     function handleKeyPress(event) {
         if (event.key === 'Enter') {
-          do_reply();
+            do_reply();
         }
-      }
-      
+    }
 
-    function do_reply(){
-        add_new_reply(props, reply_text.val, author.val)
-                    reply_text.val = ""
-                    showThread.val = true
-                    isMoreThanOne.val = true
+
+    function do_reply() {
+        add_new_reply(props, reply_text.val, author)
+        reply_text.val = ""
+        showThread.val = true
+        isMoreThanOne.val = true
     }
 
 
@@ -81,7 +81,7 @@ interface Props {
         <button id="showThreadBtn" class={{ visible: isMoreThanOne }}
             onclick={() => {
                 showThread.val = !showThread.val
-        }}>{toggle_button_text}</button>
+            }}>{toggle_button_text}</button>
     </li>
 
 })
