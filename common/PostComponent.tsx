@@ -26,8 +26,6 @@ export function editable(prop_time: Date, prop_author: string, username: string)
     console.log(prop_author, username)
     return (prop_time >= tenMinutesAgo) && (prop_author.val == username.val)
 }
-const viewer = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-const user_role = await get_user_role(viewer.val)
 
 interface Props {
     _id: number,
@@ -42,8 +40,10 @@ interface Props {
 }
 
 @template<Props>(async (props) => {
-    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Martin")
-    console.log(author.val)
+
+    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+    const user_role = await get_user_role(author.val)
+
     const toggle_edit = always(() => {
         return editable(props.time as Date, props.$.author, author)
     })
@@ -54,7 +54,7 @@ interface Props {
     const edit = $$(props.$.content)
 
     function user_interaction() {
-        if (user_role == Role.Admin || user_role == Role.User) {
+        if (user_role == Role.User || user_role == Role.Admin) {
             return <div>
                 {edit_button()}
                 {delete_button()}
@@ -62,18 +62,18 @@ interface Props {
         }
     }
 
-  function do_edit() {
-    edit_reply(props, edit.val)
-    edit_modal_visible.val = !edit_modal_visible.val
-  }
-  function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      do_edit();
+    function do_edit() {
+        edit_reply(props, edit.val)
+        edit_modal_visible.val = !edit_modal_visible.val
     }
-  }
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            do_edit();
+        }
+    }
 
     const report_button = () => {
-        if (user_role != Role.None && user_role != Role.Guest) {
+        if (user_role == Role.User) {
             return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
                 Report as UB
             </button>
@@ -81,14 +81,14 @@ interface Props {
     }
 
     const edit_button = () => {
-        if (props.author == viewer.val) {
+        if (props.author == author.val) {
             return <div>
                 <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => { edit_modal_visible.val = !edit_modal_visible.val }}>edit</button>
 
                 <div id="edit-modal" class={{ visible: edit_modal_visible }}>
                     <fieldset>
                         <legend>edit mode</legend>
-                        <input type="text" placeholder={"edit here"} id="edit-textbox" on
+                        <input type="text" placeholder={"edit here"} id="edit-textbox"
                             onkeypress={handleKeyPress} value={edit} />
                     </fieldset>
                     <button onclick={() => {
@@ -106,28 +106,28 @@ interface Props {
     }
 
     if (props.deleted) {
-        if(user_role == Role.Mod || user_role == Role.Admin) {
+        if (user_role == Role.Mod || user_role == Role.Admin) {
             return <li class="post">
-            <i>Post deleted...</i>
-        </li>
+                <i>Post deleted...</i>
+            </li>
         }
-    } else {
-        return <li class="post" >
-            <div class="postHead">
-                <b>{get_username(props.author)} : Post ID {props._id}</b>
-                <br />
-                <i class="date">{prop_time}</i>
-                {report_button()}              
-            </div>
-            <div class="postBody">
-                {props.$.content}
-            </div>
-
-
-            {user_interaction()}
-
-        </li >
     }
+
+    return <li class="post" >
+        <div class="postHead">
+            <b>{get_username(props.author)} : Post ID {props._id}</b>
+            <br />
+            <i class="date">{prop_time}</i>
+            {report_button()}
+        </div>
+        <div class="postBody">
+            {props.$.content}
+        </div>
+
+        {user_interaction()}
+
+    </li >
+
 }
 )
 

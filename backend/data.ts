@@ -74,7 +74,7 @@ export function add_new_reply(thread: Thread, text: string, author: string) {
     thread.posts.push(reply)
     all_posts.push(reply)
 
-    console.log("Reply posted...")
+    console.log(reply.author + " postet a new reply...")
 }
 
 export function delete_reply(post: Post) {    
