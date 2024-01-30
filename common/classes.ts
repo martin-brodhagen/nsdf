@@ -27,16 +27,22 @@ export @sync class Thread {
     @property deleted = false
 }
 
+export enum PostStatus {
+    NotSet,
+    UB,
+    Verified,
+    Deleted
+}
+
 export @sync class Post {
     @property _id = -1
     @property discussion_id = -1
     @property thread_id = -1
-    @property isUB = false
     @property author = ""
     @property content = ""
     @property time!: Date
-    @property deleted = false
     @property edited = false
+    @property status = PostStatus.NotSet
 }
 
 export enum Role {

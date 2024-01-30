@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { delete_reply, edit_reply, get_username, get_user_role, add_to_possible_ub } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
-import { Role } from "common/classes.ts";
+import { PostStatus, Role } from "common/classes.ts";
 
 // formats date into string
 export function display_date(time: Date) {
@@ -31,12 +31,11 @@ interface Props {
     _id: number,
     discussion_id: number,
     thread_id: number,
-    isUB: boolean,
     author: string,
     content: string,
     time: Date,
-    deleted: boolean,
-    edited: boolean
+    edited: boolean,
+    status: PostStatus
 }
 
 @template<Props>(async (props) => {
@@ -105,7 +104,7 @@ interface Props {
         }
     }
 
-    if (props.deleted) {
+    if (props.status == PostStatus.Deleted) {
         if (user_role == Role.Mod || user_role == Role.Admin) {
             return <li class="post">
                 <i>Post deleted...</i>

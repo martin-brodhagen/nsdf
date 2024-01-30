@@ -1,4 +1,5 @@
-import { Discussion, User, Thread, Post, Role, } from "common/classes.ts";
+import { Discussion, User, Thread, Post, Role, PostStatus, } from "common/classes.ts";
+import { PostComponent } from "common/PostComponent.tsx";
 
 
 const discussion_id = await lazyEternalVar("discussion_id") ?? $$(0)
@@ -12,7 +13,7 @@ export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<U
 
 const all_threads = await lazyEternalVar("all_threads") ?? $$(new Array<Thread>)
 const all_posts = await lazyEternalVar("all_posts") ?? $$(new Array<Post>)
-const possible_ub_posts = await lazyEternalVar("possible_ub_posts") ?? $$(new Set<Post>)
+export const possible_ub_posts = await lazyEternalVar("possible_ub_posts") ?? $$(new Set<Post>)
 
 
 // ------------------- Discussions -------------------
@@ -79,7 +80,7 @@ export function add_new_reply(thread: Thread, text: string, author: string) {
 
 export function delete_reply(post: Post) {    
     
-    all_posts[post._id].deleted = true
+    all_posts[post._id].status = PostStatus.Deleted
     console.log("deleted Post " + post._id)
 }
 
@@ -92,8 +93,10 @@ export function edit_reply(post: Post, new_text: string) {
 // ------------------- ub -------------------
 
 export function add_to_possible_ub(post: Post) {
-    possible_ub_posts.add(post)
-    console.log("added to possible ub list" + post._id)
+    if(post.status == PostStatus.NotSet) {
+        possible_ub_posts.add(post)
+        console.log("added to possible ub list" + post._id)
+    }
 }
 
 // ------------------- users -------------------
