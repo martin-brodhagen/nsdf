@@ -57,9 +57,7 @@ interface Props {
         if (user_role == Role.User || user_role == Role.Admin)
             return <div id="thread-action" class={{ visible: showThreadAction }}>
                 <input type="text" id="new-reply" placeholder="reply" onkeypress={handleKeyPress} value={reply_text} />
-                <button onclick={() => {
-                    do_reply()
-                }}>reply</button>
+                <button onclick={do_reply}>reply</button>
             </div>
     }
 

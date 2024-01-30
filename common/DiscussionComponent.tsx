@@ -19,16 +19,16 @@ interface Props {
 
     const thread_modal_visible = $$(false)
 
-    function start_thread(){
+    function start_thread() {
         start_new_thread(discussion, author.val, thread_starter_text.val)
         thread_modal_visible.val = !thread_modal_visible.val
         thread_starter_text.val = ""
     }
     function handleKeyPress(event) {
         if (event.key === 'Enter') {
-          start_thread();	
+            start_thread();
         }
-      }
+    }
 
     const user_interaction = () => {
         if (user_role == Role.Admin || user_role == Role.User) {
@@ -43,11 +43,7 @@ interface Props {
                         <p>{discussion.intro_argument}</p>
                         <input type="text" placeholder={"Thread Starter"} id="thread-starter" onkeypress={handleKeyPress} value={thread_starter_text} />
                     </fieldset>
-                    <button onclick={() => {
-                        start_new_thread(discussion, author.val, thread_starter_text.val)
-                        thread_modal_visible.val = !thread_modal_visible.val
-                        thread_starter_text.val = ""
-                    }}>Start this Thread</button>
+                    <button onclick={start_thread}>Start this Thread</button>
                 </div>
             </div>
         }
@@ -65,7 +61,7 @@ interface Props {
 
     return <div id="discussion-container" class={{ visible: props.opened }}>
         {mod_buttons()}
-        
+
         <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {get_username(discussion.author)}</h5>
 
         {user_interaction()}

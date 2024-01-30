@@ -38,7 +38,7 @@ import { AuthIcon } from "auth";
 		return avoid_UB.val ? (discussions_array.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : discussions_array.filter(filterfunc)
 	})
 
-	function add_discussion(){
+	function add_discussion() {
 		add_new_discussion(title.val, author.val, intro_arg.val, makeUB.val)
 		modal_visible.val = !modal_visible.val
 		title.val = ""
@@ -46,11 +46,11 @@ import { AuthIcon } from "auth";
 	}
 
 	function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-          add_discussion();
-        }
-      }
-	
+		if (event.key === 'Enter') {
+			add_discussion();
+		}
+	}
+
 	const user_interaction = () => {
 		if (user_role == Role.Admin || user_role == Role.User) {
 			return <div>
@@ -66,12 +66,7 @@ import { AuthIcon } from "auth";
 						<input type="checkbox" id="UBcheck" value={makeUB.val} />
 						<label for="UBcheck">Make UB (devtool)</label>
 					</fieldset>
-					<button onclick={() => {
-						add_new_discussion(title.val, author.val, intro_arg.val, makeUB.val)
-						modal_visible.val = !modal_visible.val
-						title.val = ""
-						intro_arg.val = ""
-					}}>Make Discussion Public</button>
+					<button onclick={add_discussion}> Make Discussion Public</button>
 				</div>
 			</div>
 		}

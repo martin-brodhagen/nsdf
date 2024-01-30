@@ -90,9 +90,7 @@ interface Props {
                         <input type="text" placeholder={"edit here"} id="edit-textbox"
                             onkeypress={handleKeyPress} value={edit} />
                     </fieldset>
-                    <button onclick={() => {
-                        do_edit()
-                    }}>send edit</button>
+                    <button onclick={do_edit}>send edit</button>
                 </div>
             </div>
         }
