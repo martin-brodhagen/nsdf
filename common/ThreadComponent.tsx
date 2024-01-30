@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { PostComponent } from "common/PostComponent.tsx";
 import { Post, Role } from "common/classes.ts";
-import { add_new_reply, delete_thread, get_user_role } from "backend/data.ts";
+import { add_new_reply, delete_thread, get_user_role} from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 interface Props {
@@ -38,16 +38,27 @@ interface Props {
         }
     }
 
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+          do_reply();
+        }
+      }
+      
+
+    function do_reply(){
+        add_new_reply(props, reply_text.val, author.val)
+                    reply_text.val = ""
+                    showThread.val = true
+                    isMoreThanOne.val = true
+    }
+
 
     const thread_action = () => {
         if (user_role == Role.User || user_role == Role.Admin)
             return <div id="thread-action" class={{ visible: showThreadAction }}>
-                <input type="text" id="new-reply" placeholder="reply" value={reply_text} />
+                <input type="text" id="new-reply" placeholder="reply" onkeypress={handleKeyPress} value={reply_text} />
                 <button onclick={() => {
-                    add_new_reply(props, reply_text.val, author.val)
-                    reply_text.val = ""
-                    showThread.val = true
-                    isMoreThanOne.val = true
+                    do_reply()
                 }}>reply</button>
             </div>
     }

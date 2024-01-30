@@ -20,6 +20,7 @@ export function display_date(time: Date) {
     }
 }
 
+// checks if user can edit
 export function editable(prop_time: Date, prop_author: string, username: string) {
     const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
     console.log(prop_author, username)
@@ -61,6 +62,16 @@ interface Props {
         }
     }
 
+  function do_edit() {
+    edit_reply(props, edit.val)
+    edit_modal_visible.val = !edit_modal_visible.val
+  }
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      do_edit();
+    }
+  }
+
     const report_button = () => {
         if (user_role != Role.None && user_role != Role.Guest) {
             return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
@@ -77,11 +88,11 @@ interface Props {
                 <div id="edit-modal" class={{ visible: edit_modal_visible }}>
                     <fieldset>
                         <legend>edit mode</legend>
-                        <input type="text" placeholder={"edit here"} id="edit-textbox" value={edit} />
+                        <input type="text" placeholder={"edit here"} id="edit-textbox" on
+                            onkeypress={handleKeyPress} value={edit} />
                     </fieldset>
                     <button onclick={() => {
-                        edit_reply(props, edit.val)
-                        edit_modal_visible.val = !edit_modal_visible.val
+                        do_edit()
                     }}>send edit</button>
                 </div>
             </div>
@@ -106,7 +117,7 @@ interface Props {
                 <b>{get_username(props.author)} : Post ID {props._id}</b>
                 <br />
                 <i class="date">{prop_time}</i>
-                {report_button()}
+                {report_button()}              
             </div>
             <div class="postBody">
                 {props.$.content}
