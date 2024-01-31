@@ -104,15 +104,15 @@ import { allowNone } from "uix/app/args.ts";
 
 	const role_related_tab_title = () => {
 		if(user_role == Role.User) {
-			return <div class="tab_title">
+			return <div class="tab_title" onclick={() => switchTab(1)}>
 				My posts
 			</div>
 		} else if(user_role == Role.Mod) {
-			return <div class="tab_title">
+			return <div class="tab_title" onclick={() => switchTab(1)}>
 				Reported posts
 			</div>
 		} else if(user_role == Role.Admin) {
-			return <div class="tab_title">
+			return <div class="tab_title" onclick={() => switchTab(1)}>
 				User management
 			</div>
 		}
@@ -120,7 +120,7 @@ import { allowNone } from "uix/app/args.ts";
 
 	const role_related_tab = () => {
 		if(user_role == Role.User) {
-			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
+			return <div id="role_related_tab" class="tab">
 				These are my posts (Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -131,7 +131,7 @@ import { allowNone } from "uix/app/args.ts";
 				</ul>
 			</div>
 		} else if(user_role == Role.Mod) {
-			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
+			return <div id="role_related_tab" class="tab">
 				These are all reported posts(Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -142,17 +142,16 @@ import { allowNone } from "uix/app/args.ts";
 				</ul>
 			</div>
 		} else if(user_role == Role.Admin) {
-			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
+			return <div id="role_related_tab" class="tab">
 				{user_management()}
 			</div>
 		}
 	}
 
 	function switchTab(index: number) {
-		console.log(index);
-		const tab_titles = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
+		const tab_title = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
 		const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
-		tab_titles.forEach(tab_title => tab_title.classList.toggle("active"));
+		tab_title.forEach(tab_title => tab_title.classList.toggle("active"));
 		if(tabs.length == 2) {
 			if(index == 0) {
 				tabs[0].style.display = "block";
@@ -175,7 +174,7 @@ import { allowNone } from "uix/app/args.ts";
 
 			</div>
 			<div class="tabs">
-				<div class="active" onclick={() => switchTab(0)}>
+				<div class="tab_title active" onclick={() => switchTab(0)}>
 					Discussions
 				</div>
 				{role_related_tab_title()}
