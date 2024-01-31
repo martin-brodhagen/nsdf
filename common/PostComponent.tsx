@@ -54,9 +54,10 @@ interface Props {
 
     function user_interaction() {
         if (user_role == Role.User || user_role == Role.Admin) {
-            return <div>
+            return <div class="interaction-buttons">
                 {edit_button()}
                 {delete_button()}
+                {report_button()}
             </div>
         }
     }
@@ -108,22 +109,21 @@ interface Props {
                 <i>Post deleted...</i>
             </li>
         }
+    } else {
+        return <li class="post" >
+
+            <div class="postBody">
+                {props.$.content}
+                {user_interaction()}
+            </div>
+            <div class="postHead">
+                <b>{get_username(props.author)} - </b>
+                <i class="date">{prop_time}</i>
+            </div>
+
+
+        </li >
     }
-
-    return <li class="post" >
-        <div class="postHead">
-            <b>{get_username(props.author)} : Post ID {props._id}</b>
-            <br />
-            <i class="date">{prop_time}</i>
-            {report_button()}
-        </div>
-        <div class="postBody">
-            {props.$.content}
-        </div>
-
-        {user_interaction()}
-
-    </li >
 
 }
 )

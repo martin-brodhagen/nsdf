@@ -2,6 +2,137 @@
  * Global style definitions
  */
 
+
+body,
+html {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #1E293B;
+    color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: white
+}
+
+header {
+    padding: 1em;
+    background-color: #111827;
+}
+
+.search-bar input {
+    border: none;
+    padding: 0.5em;
+    border-radius: 0.25em;
+}
+
+button {
+    background-color: #F59E0B;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 0.25em;
+    cursor: pointer;
+}
+
+
+
+main {}
+
+aside {
+    width: 20%;
+    padding: 1em;
+}
+
+section.tags,
+section.newest-posts {
+    margin-bottom: 1em;
+}
+
+.feed {
+    width: 100%;
+    padding: 1em;
+}
+
+
+#discussion-container {
+    background-color: #2D3748;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #E2E8F0;
+    width: 100%;
+}
+
+.thread-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.thread-info {
+    font-size: 0.875rem;
+    color: #A0AEC0;
+    margin-bottom: 1rem;
+}
+
+.thread-info span {
+    margin-right: 0.75rem;
+}
+
+.intro-argument {
+    font-size: 1rem;
+}
+
+.toggle-nav {
+    display: flex;
+    align-items: center;
+    background-color: #374151;
+    padding: 0.5rem;
+}
+
+.toggle-button {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-button#regular.active,
+.toggle-button#ballpit:not(.active) {
+    background-color: #F59E0B;
+    /* Active state */
+    color: black;
+}
+
+.toggle-button#ballpit.active,
+.toggle-button#regular:not(.active) {
+    background-color: transparent;
+    /* Inactive state */
+    color: white;
+}
+
+.create-discussion {
+    background-color: #F59E0B;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-layout {
+    display: flex;
+}
+
+// MODALS
+
 #add-discussion-modal,
 #add-thread-modal,
 #edit-modal {
@@ -48,10 +179,6 @@
 
     #logo {
         text-align: center;
-    }
-
-    #actions {
-        padding-left: 2rem;
     }
 
     #footer {
