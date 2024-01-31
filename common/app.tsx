@@ -6,6 +6,8 @@ import { Discussion, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
+import { querySelectorAll } from "uix/uix-dom/dom/shadow_dom_selector.ts";
+import { allowNone } from "uix/app/args.ts";
 
 
 @template(async () => {
@@ -100,6 +102,76 @@ import { AuthIcon } from "auth";
 		return all_members.map(user => <UserManagementComponent user={user} />)
 	}
 
+	const role_related_tab_title = () => {
+		if(user_role == Role.User) {
+			return <div class="tab_title" onclick={() => switchTab(1)}>
+				My posts
+			</div>
+		} else if(user_role == Role.Mod) {
+			return <div class="tab_title" onclick={() => switchTab(1)}>
+				Reported posts
+			</div>
+		} else if(user_role == Role.Admin) {
+			return <div class="tab_title" onclick={() => switchTab(1)}>
+				User management
+			</div>
+		}
+	}
+
+	const role_related_tab = () => {
+		if(user_role == Role.User) {
+			return <div id="role_related_tab" class="tab">
+				These are my posts (Placeholder):
+				<ul>
+					<li>Post 1</li>
+					<li>Post 2</li>
+					<li>Post 3</li>
+					<li>Post 4</li>
+					<li>Post 5</li>
+				</ul>
+			</div>
+		} else if(user_role == Role.Mod) {
+			return <div id="role_related_tab" class="tab">
+				These are all reported posts(Placeholder):
+				<ul>
+					<li>Post 1</li>
+					<li>Post 2</li>
+					<li>Post 3</li>
+					<li>Post 4</li>
+					<li>Post 5</li>
+				</ul>
+			</div>
+		} else if(user_role == Role.Admin) {
+			return <div id="role_related_tab" class="tab">
+				{user_management()}
+			</div>
+		}
+	}
+
+	function switchTab(index: number) {
+		const tab_title = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
+		const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
+		tab_title.forEach(tab_title => tab_title.classList.toggle("active"));
+		if(tabs.length == 2) {
+			if(index == 0) {
+				tabs[0].style.display = "block";
+				tabs[1].style.display = "none";
+			} else {
+				tabs[1].style.display = "block";
+				tabs[0].style.display = "none";
+			}
+		}
+	}
+
+	const tab_selector = () => {
+		if (user_role === Role.User || user_role === Role.Mod || user_role === Role.Admin) {
+			return <div class="tabs">
+				<div class="tab_title active" onclick={() => switchTab(0)}>
+					Discussions
+				</div>
+				{role_related_tab_title()}
+			</div>
+		}	
 	const ub_toggle = () => {
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
@@ -118,20 +190,26 @@ import { AuthIcon } from "auth";
 				{user_registration()}
 				<hr></hr>
 			</div>
-
-
+			{tab_selector()}
 		</header>
 
 		{user_management()}
 
-		<div id="actions">
-			{user_interaction()}
-			<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+		<div id="discussions_tab" class="tab">
+			<div id="actions">
+				{user_interaction()}
+				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+
+				<input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
+				<label for="showUB">Hide UB</label>
+			</div>
+
+			<div class="discussions">
+				{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
+			</div>
 		</div>
 
-		<div class="discussions">
-			{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
-		</div>
+		{role_related_tab()}
 
 		<footer id="footer">
 			<a href="">Impressum</a>
