@@ -161,7 +161,18 @@ import { allowNone } from "uix/app/args.ts";
 				tabs[0].style.display = "none";
 			}
 		}
-	}	
+	}
+
+	const tab_selector = () => {
+		if (user_role === Role.User || user_role === Role.Mod || user_role === Role.Admin) {
+			return <div class="tabs">
+				<div class="tab_title active" onclick={() => switchTab(0)}>
+					Discussions
+				</div>
+				{role_related_tab_title()}
+			</div>
+		}		
+	}
 
 	return <div>
 		<header id="headerelem">
@@ -173,12 +184,7 @@ import { allowNone } from "uix/app/args.ts";
 				<hr></hr>
 
 			</div>
-			<div class="tabs">
-				<div class="tab_title active" onclick={() => switchTab(0)}>
-					Discussions
-				</div>
-				{role_related_tab_title()}
-			</div>
+			{tab_selector()}
 		</header>
 
 		{user_management()}
