@@ -103,15 +103,15 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const role_related_tab_title = () => {
-		if(user_role == Role.User) {
+		if (user_role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				My posts
 			</div>
-		} else if(user_role == Role.Mod) {
+		} else if (user_role == Role.Mod) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				Reported posts
 			</div>
-		} else if(user_role == Role.Admin) {
+		} else if (user_role == Role.Admin) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				User management
 			</div>
@@ -119,7 +119,7 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const role_related_tab = () => {
-		if(user_role == Role.User) {
+		if (user_role == Role.User) {
 			return <div id="role_related_tab" class="tab">
 				These are my posts (Placeholder):
 				<ul>
@@ -130,7 +130,7 @@ import { allowNone } from "uix/app/args.ts";
 					<li>Post 5</li>
 				</ul>
 			</div>
-		} else if(user_role == Role.Mod) {
+		} else if (user_role == Role.Mod) {
 			return <div id="role_related_tab" class="tab">
 				These are all reported posts(Placeholder):
 				<ul>
@@ -141,7 +141,7 @@ import { allowNone } from "uix/app/args.ts";
 					<li>Post 5</li>
 				</ul>
 			</div>
-		} else if(user_role == Role.Admin) {
+		} else if (user_role == Role.Admin) {
 			return <div id="role_related_tab" class="tab">
 				{user_management()}
 			</div>
@@ -152,8 +152,8 @@ import { allowNone } from "uix/app/args.ts";
 		const tab_title = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
 		const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
 		tab_title.forEach(tab_title => tab_title.classList.toggle("active"));
-		if(tabs.length == 2) {
-			if(index == 0) {
+		if (tabs.length == 2) {
+			if (index == 0) {
 				tabs[0].style.display = "block";
 				tabs[1].style.display = "none";
 			} else {
@@ -171,7 +171,9 @@ import { allowNone } from "uix/app/args.ts";
 				</div>
 				{role_related_tab_title()}
 			</div>
-		}	
+		}
+
+	}
 	const ub_toggle = () => {
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
