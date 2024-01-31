@@ -100,16 +100,26 @@ import { AuthIcon } from "auth";
 		return all_members.map(user => <UserManagementComponent user={user} />)
 	}
 
+	const ub_toggle = () => {
+		return <div class="checkbox-container">
+			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
+			<label for="ub-toggle"></label>
+			<div class="active-circle"></div>
+		</div>
+	}
+
 	return <div>
 		<header id="headerelem">
 			<div id="logo">
 				<AuthIcon style="float: right;" />
 				<b style="float: right;" >{user_name}</b>
 				{header()}
+				{ub_toggle()}
 				{user_registration()}
 				<hr></hr>
-
 			</div>
+
+
 		</header>
 
 		{user_management()}
@@ -117,9 +127,6 @@ import { AuthIcon } from "auth";
 		<div id="actions">
 			{user_interaction()}
 			<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
-
-			<input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
-			<label for="showUB">Hide UB</label>
 		</div>
 
 		<div class="discussions">

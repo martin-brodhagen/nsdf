@@ -1,8 +1,10 @@
 #discussion-container {
-	background-color: #eee;
-	border-radius: 1em;
-	padding: 1em;
-	margin: 1em;
+	background-color: #2D3748;
+	border-radius: 0.25rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	color: #E2E8F0;
+	width: 100%;
 	cursor: pointer;
 
 	.new-thread-container,
@@ -19,6 +21,29 @@
 		}
 	}
 
+}
+
+.thread-title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+	color: #E2E8F0;
+}
+
+.thread-info {
+	font-size: 0.875rem;
+	color: #A0AEC0;
+	margin-bottom: 1rem;
+}
+
+.thread-info span {
+	margin-right: 0.75rem;
+}
+
+.intro-argument {
+	font-size: 0.875rem;
+	color: #E2E8F0;
+	margin-bottom: 1rem;
 }
 
 .isUB {

@@ -1,5 +1,4 @@
 import { Component } from "uix/components/Component.ts";
-import { set_user_role } from "backend/data.ts";
 import { User } from "common/classes.ts";
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 
 	return <fieldset>
 		<legend>{user.datex_alias}</legend>
-		{user._id}: {user.name} - <select name="roles" id="role-selector" value={user.$.role}>
+		{user._id}: {user.name} - <select name="roles" id="role-selector" value={user.$.role} onchange={() => { console.log("trigger update") }}>
 			<option value="0">None</option>
 			<option value="1">User</option>
 			<option value="2">Admin</option>

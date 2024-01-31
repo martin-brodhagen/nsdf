@@ -1,13 +1,11 @@
 import { Discussion, User, Thread, Post, Role, PostStatus, } from "common/classes.ts";
-import { PostComponent } from "common/PostComponent.tsx";
 
 
 const discussion_id = await lazyEternalVar("discussion_id") ?? $$(0)
 const thread_id = await lazyEternalVar("thread_id") ?? $$(0)
 const post_id = await lazyEternalVar("post_id") ?? $$(0)
-const member_id = await lazyEternalVar("member_id") ?? $$(0)
+const member_id = await lazyEternalVar("member_id") ?? $$(1)
 
-export const all_topics: string[] = ["Letzte Generation", "Platzdeckchen-Häkel-Club"]
 export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Set<Discussion>)
 export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<User>)
 

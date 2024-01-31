@@ -1,11 +1,15 @@
 .thread-container {
-	background-color: #ddd;
-	border-radius: 1em;
-	padding: 1em;
-	margin: 1em;
+	background-color: #2D3748;
+	border-radius: 0.25rem;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	color: #E2E8F0;
+	width: 100%;
 	list-style: none;
+
 	#showThreadBtn {
 		display: none;
+
 		&.visible {
 			display: block;
 		}

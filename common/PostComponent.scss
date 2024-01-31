@@ -1,41 +1,43 @@
 .post {
 
-	background-color: #fff;
-	color: black;
+	background-color: #404b5e;
+	color: #E2E8F0;
 	border-radius: .5rem;
 	margin: 1rem 0rem;
 	list-style: none;
 
-	&:hover .postHead .reportBtn {
-		visibility: visible;
+	.postBody {
+		padding: 0.5rem;
 	}
 
 	.postHead {
-		position: relative;
 		top: 0;
 		left: 0;
 		width: 100%;
-		padding: 1rem;
-
-		.reportBtn {
-			position: absolute;
-			top: 0;
-			right: 0;
-			margin: .5rem;
-			visibility: hidden;
-
-		}
+		padding: 0.3rem;
+		padding-right: 0.5rem;
+		font-size: 0.8rem;
+		text-align: left;
+		color: cadetblue;
 	}
 
-	.postBody {
-		padding: 1rem;
+	.interaction-buttons {
+		float: right;
+		display: flex;
 	}
+
 }
 
-#edit-button, 
+.reportBtn {
+	background-color: #2a3342;
+	color: gray;
+}
+
+#edit-button,
 #edit-modal {
 	display: none;
-	&.visible{
+
+	&.visible {
 		display: block;
 	}
 }
