@@ -100,6 +100,56 @@ import { AuthIcon } from "auth";
 		return all_members.map(user => <UserManagementComponent user={user} />)
 	}
 
+	const role_related_tab_title = () => {
+		if(user_role == Role.User) {
+			return <div>
+				My posts
+			</div>
+		} else if(user_role == Role.Mod) {
+			return <div>
+				Reported posts
+			</div>
+		} else if(user_role == Role.Admin) {
+			return <div>
+				User management
+			</div>
+		}
+	}
+
+	const role_related_tab = () => {
+		if(user_role == Role.User) {
+			return <div id="role_related_tab">
+				These are my posts (Placeholder):
+				<ul>
+					<li>Post 1</li>
+					<li>Post 2</li>
+					<li>Post 3</li>
+					<li>Post 4</li>
+					<li>Post 5</li>
+				</ul>
+			</div>
+		} else if(user_role == Role.Mod) {
+			return <div id="role_related_tab">
+				These are all reported posts(Placeholder):
+				<ul>
+					<li>Post 1</li>
+					<li>Post 2</li>
+					<li>Post 3</li>
+					<li>Post 4</li>
+					<li>Post 5</li>
+				</ul>
+			</div>
+		} else if(user_role == Role.Admin) {
+			return <div id="role_related_tab">
+				{user_management()}
+			</div>
+		}
+	}
+
+	function switchTab(index: number) {
+		//if()
+	}
+
 	return <div>
 		<header id="headerelem">
 			<div id="logo">
@@ -110,21 +160,31 @@ import { AuthIcon } from "auth";
 				<hr></hr>
 
 			</div>
+			<div class="tabs">
+				<div class="active">
+					Discussions
+				</div>
+				{role_related_tab_title()}
+			</div>
 		</header>
 
 		{user_management()}
 
-		<div id="actions">
-			{user_interaction()}
-			<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+		<div class="discussions_tab">
+			<div id="actions">
+				{user_interaction()}
+				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
 
-			<input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
-			<label for="showUB">Hide UB</label>
+				<input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
+				<label for="showUB">Hide UB</label>
+			</div>
+
+			<div class="discussions">
+				{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
+			</div>
 		</div>
 
-		<div class="discussions">
-			{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
-		</div>
+		{role_related_tab()}
 
 		<footer id="footer">
 			<a href="">Impressum</a>
