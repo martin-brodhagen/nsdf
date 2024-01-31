@@ -39,37 +39,6 @@
     pointer-events: initial;
 }
 
-#headerelem {
-    .tabs {
-        margin: 0 auto;
-        width: 25%;
-        display: flex;
-        border: .1em solid #fff;
-        border-radius: .5em;
-        overflow: hidden;
-        
-        > div {
-            flex: 1;
-            padding: .5em 1em;
-            cursor: pointer;
-            text-align: center;
-            color: #fff;
-
-            &.active {
-                background-color: orange;
-            }
-
-            &:hover {
-                background-color: orange;
-            }
-
-            #role_related_tab {
-                display: none;
-            }
-        }
-    }
-}
-
 .start-page {
 
     a:link,

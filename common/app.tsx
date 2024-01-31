@@ -6,6 +6,8 @@ import { Discussion, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
+import { querySelectorAll } from "uix/uix-dom/dom/shadow_dom_selector.ts";
+import { allowNone } from "uix/app/args.ts";
 
 
 @template(async () => {
@@ -102,15 +104,15 @@ import { AuthIcon } from "auth";
 
 	const role_related_tab_title = () => {
 		if(user_role == Role.User) {
-			return <div>
+			return <div class="tab_title">
 				My posts
 			</div>
 		} else if(user_role == Role.Mod) {
-			return <div>
+			return <div class="tab_title">
 				Reported posts
 			</div>
 		} else if(user_role == Role.Admin) {
-			return <div>
+			return <div class="tab_title">
 				User management
 			</div>
 		}
@@ -118,7 +120,7 @@ import { AuthIcon } from "auth";
 
 	const role_related_tab = () => {
 		if(user_role == Role.User) {
-			return <div id="role_related_tab">
+			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
 				These are my posts (Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -129,7 +131,7 @@ import { AuthIcon } from "auth";
 				</ul>
 			</div>
 		} else if(user_role == Role.Mod) {
-			return <div id="role_related_tab">
+			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
 				These are all reported posts(Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -140,15 +142,27 @@ import { AuthIcon } from "auth";
 				</ul>
 			</div>
 		} else if(user_role == Role.Admin) {
-			return <div id="role_related_tab">
+			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
 				{user_management()}
 			</div>
 		}
 	}
 
 	function switchTab(index: number) {
-		//if()
-	}
+		console.log(index);
+		const tab_titles = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
+		const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
+		tab_titles.forEach(tab_title => tab_title.classList.toggle("active"));
+		if(tabs.length == 2) {
+			if(index == 0) {
+				tabs[0].style.display = "block";
+				tabs[1].style.display = "none";
+			} else {
+				tabs[1].style.display = "block";
+				tabs[0].style.display = "none";
+			}
+		}
+	}	
 
 	return <div>
 		<header id="headerelem">
@@ -161,7 +175,7 @@ import { AuthIcon } from "auth";
 
 			</div>
 			<div class="tabs">
-				<div class="active">
+				<div class="active" onclick={switchTab(0)}>
 					Discussions
 				</div>
 				{role_related_tab_title()}
@@ -170,7 +184,7 @@ import { AuthIcon } from "auth";
 
 		{user_management()}
 
-		<div class="discussions_tab">
+		<div id="discussions_tab" class="tab">
 			<div id="actions">
 				{user_interaction()}
 				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
