@@ -201,9 +201,6 @@ import { allowNone } from "uix/app/args.ts";
 			<div id="actions">
 				{user_interaction()}
 				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
-
-				<input type="checkbox" id="showUB" onclick={() => { avoid_UB.val = !avoid_UB.val, console.log(avoid_UB.val) }} />
-				<label for="showUB">Hide UB</label>
 			</div>
 
 			<div class="discussions">
