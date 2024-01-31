@@ -120,7 +120,7 @@ import { allowNone } from "uix/app/args.ts";
 
 	const role_related_tab = () => {
 		if(user_role == Role.User) {
-			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
+			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
 				These are my posts (Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -131,7 +131,7 @@ import { allowNone } from "uix/app/args.ts";
 				</ul>
 			</div>
 		} else if(user_role == Role.Mod) {
-			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
+			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
 				These are all reported posts(Placeholder):
 				<ul>
 					<li>Post 1</li>
@@ -142,7 +142,7 @@ import { allowNone } from "uix/app/args.ts";
 				</ul>
 			</div>
 		} else if(user_role == Role.Admin) {
-			return <div id="role_related_tab" class="tab" onclick={switchTab(1)}>
+			return <div id="role_related_tab" class="tab" onclick={() => switchTab(1)}>
 				{user_management()}
 			</div>
 		}
@@ -175,7 +175,7 @@ import { allowNone } from "uix/app/args.ts";
 
 			</div>
 			<div class="tabs">
-				<div class="active" onclick={switchTab(0)}>
+				<div class="active" onclick={() => switchTab(0)}>
 					Discussions
 				</div>
 				{role_related_tab_title()}
