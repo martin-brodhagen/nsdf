@@ -91,11 +91,24 @@ export function edit_reply(post: Post, new_text: string) {
 // ------------------- ub -------------------
 
 export function add_to_possible_ub(post: Post) {
-    if(post.status == PostStatus.NotSet) {
+    if (all_posts[post._id].status == PostStatus.NotSet) {
         possible_ub_posts.add(post)
         console.log("added to possible ub list" + post._id)
+    } else {
+        console.log("post " + post._id + " had already been reported and processed.")
     }
 }
+
+export function set_post_ub(post: Post) {
+    all_posts[post._id].status = PostStatus.UB
+    console.log("Post " + post._id + " now ub")
+}
+
+export function verify(post: Post) {
+    all_posts[post._id].status = PostStatus.Verified
+    console.log("Post " + post._id + " now verified")
+}
+
 
 // ------------------- users -------------------
 

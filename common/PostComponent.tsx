@@ -1,5 +1,5 @@
 import { Component } from "uix/components/Component.ts";
-import { delete_reply, edit_reply, get_username, add_to_possible_ub, get_user, possible_ub_posts } from "backend/data.ts";
+import { delete_reply, edit_reply, set_post_ub, add_to_possible_ub, get_user, verify } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 import { PostStatus, Role } from "common/classes.ts";
 
@@ -65,11 +65,11 @@ interface Props {
         }
     }
 
+    // Role Specific interaction
     const user_interaction = () => {
-        if (user.role == Role.User || user.role == Role.Admin) {
+        if (user.role == Role.User) {
             return <div class="interaction-buttons">
                 {edit_button()}
-                {delete_button()}
                 {report_button()}
             </div>
         } else {
@@ -77,14 +77,34 @@ interface Props {
         }
     }
 
-    const report_button = () => {
-        if (user.role == Role.User) {
-            return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
-                Report as UB
-            </button>
+    const mod_interaction = () => {
+        if (user.role == Role.Mod) {
+            return <div class="interaction-buttons">
+                {verify_button()}
+                {set_ub_button()}
+            </div>
         } else {
             return <div></div>
         }
+    }
+
+    const admin_interaction = () => {
+        if (user.role == Role.Admin) {
+            return <div class="interaction-buttons">
+                {delete_button()}
+                {verify_button()}
+                {set_ub_button()}
+            </div>
+        } else {
+            return <div></div>
+        }
+    }
+
+    // Buttons
+    const report_button = () => {
+        return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
+            melden
+        </button>
     }
 
     const edit_button = () => {
@@ -106,12 +126,16 @@ interface Props {
         }
     }
 
+    const verify_button = () => {
+        return <button onclick={() => verify(props)}>verify</button>
+    }
+
+    const set_ub_button = () => {
+        return <button onclick={() => set_post_ub(props)}>set ub</button>
+    }
+
     const delete_button = () => {
-        if (user.role == Role.Mod || user.role == Role.Admin) {
-            return <button onclick={() => delete_reply(props)}>delete</button>
-        } else {
-            return <div></div>
-        }
+        return <button onclick={() => delete_reply(props)}>delete</button>
     }
 
     if (props.status == PostStatus.Deleted) {
@@ -125,6 +149,9 @@ interface Props {
             <div class="postBody">
                 {props.$.content}
                 {always(user_interaction)}
+                {always(mod_interaction)}
+                {always(admin_interaction)}
+
             </div>
             <div class="postHead">
                 <b>{post_author.name} - </b>
