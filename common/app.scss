@@ -1,6 +1,4 @@
-* {
-	box-sizing: border-box;
-}
+
 
 .checkbox-container {
 	display: inline-block;
@@ -55,8 +53,8 @@
 	left: 50%;
 	transform: translate(calc(-50% - 10px), calc(-50% - 2px)) scale(0);
 	transition: transform 1.4s ease-out;
-	width: 300px;
-	height: 300px;
+	width: 80px;
+	height: 80px;
 	z-index: -1;
 }
 
@@ -69,7 +67,17 @@
 }
 
 #headerelem {
+	position: sticky;
+    background-color: #1E293B;
+	text-align: center;
+	padding-bottom: 1rem;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10;
+
 	.tabs {
+		background-color: #1E293B;
 		margin: 0 auto;
 		width: 35%;
 		display: flex;

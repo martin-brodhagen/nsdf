@@ -7,9 +7,10 @@ interface Props {
 
 @template<Props>((_, { user }) => {
 
+
 	return <fieldset>
 		<legend>{user.datex_alias}</legend>
-		{user._id}: {user.name} - <select name="roles" id="role-selector" value={user.$.role} onchange={() => { console.log("trigger update") }}>
+		{user._id}: {user.name} - <select value={user.$.role} >
 			<option value="0">None</option>
 			<option value="1">User</option>
 			<option value="2">Admin</option>

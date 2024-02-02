@@ -19,11 +19,6 @@ h6 {
     color: white
 }
 
-header {
-    padding: 1em;
-    background-color: #111827;
-}
-
 .search-bar input {
     border: none;
     padding: 0.5em;
@@ -177,20 +172,11 @@ section.newest-posts {
         text-decoration: none;
     }
 
-    #logo {
-        text-align: center;
-    }
-
     #footer {
         a:link {
 
             padding-right: 10px;
         }
-    }
-
-    button,
-    input {
-        margin-right: 5px;
     }
 
 

@@ -1,5 +1,5 @@
 import { Component } from "uix/components/Component.ts";
-import { delete_reply, edit_reply, get_username, get_user_role, add_to_possible_ub } from "backend/data.ts";
+import { delete_reply, edit_reply, get_username, add_to_possible_ub, get_user, possible_ub_posts } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 import { PostStatus, Role } from "common/classes.ts";
 
@@ -40,11 +40,13 @@ interface Props {
 
 @template<Props>(async (props) => {
 
-    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-    const user_role = await get_user_role(author.val)
+    const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+    const user = await get_user(alias.val)
+
+    const post_author = await get_user(props.author)
 
     const toggle_edit = always(() => {
-        return editable(props.time as Date, props.$.author, author)
+        return editable(props.time as Date, props.$.author, alias)
     })
     const prop_time = always(() => {
         return props.$.edited.val ? display_date(props.time as Date) + " (edited)" : display_date(props.time as Date)
@@ -52,36 +54,41 @@ interface Props {
     const edit_modal_visible = $$(false)
     const edit = $$(props.$.content)
 
-    function user_interaction() {
-        if (user_role == Role.User || user_role == Role.Admin) {
-            return <div class="interaction-buttons">
-                {edit_button()}
-                {delete_button()}
-                {report_button()}
-            </div>
-        }
-    }
-
     function do_edit() {
         edit_reply(props, edit.val)
         edit_modal_visible.val = !edit_modal_visible.val
     }
+
     function handleKeyPress(event) {
         if (event.key === 'Enter') {
             do_edit();
         }
     }
 
+    const user_interaction = () => {
+        if (user.role == Role.User || user.role == Role.Admin) {
+            return <div class="interaction-buttons">
+                {edit_button()}
+                {delete_button()}
+                {report_button()}
+            </div>
+        } else {
+            return <div></div>
+        }
+    }
+
     const report_button = () => {
-        if (user_role == Role.User) {
+        if (user.role == Role.User) {
             return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
                 Report as UB
             </button>
+        } else {
+            return <div></div>
         }
     }
 
     const edit_button = () => {
-        if (props.author == author.val) {
+        if (props.author == user.datex_alias) {
             return <div>
                 <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => { edit_modal_visible.val = !edit_modal_visible.val }}>edit</button>
 
@@ -94,38 +101,37 @@ interface Props {
                     <button onclick={do_edit}>send edit</button>
                 </div>
             </div>
+        } else {
+            return <div></div>
         }
     }
 
     const delete_button = () => {
-        if (user_role == Role.Mod || user_role == Role.Admin) {
+        if (user.role == Role.Mod || user.role == Role.Admin) {
             return <button onclick={() => delete_reply(props)}>delete</button>
+        } else {
+            return <div></div>
         }
     }
 
     if (props.status == PostStatus.Deleted) {
-        if (user_role == Role.Mod || user_role == Role.Admin) {
+        if (user.role == Role.Mod || user.role == Role.Admin) {
             return <li class="post">
                 <i>Post deleted...</i>
             </li>
         }
     } else {
         return <li class="post" >
-
             <div class="postBody">
                 {props.$.content}
-                {user_interaction()}
+                {always(user_interaction)}
             </div>
             <div class="postHead">
-                <b>{get_username(props.author)} - </b>
+                <b>{post_author.name} - </b>
                 <i class="date">{prop_time}</i>
             </div>
-
-
         </li >
     }
-
-}
-)
+})
 
 export class PostComponent extends Component<Props> { }

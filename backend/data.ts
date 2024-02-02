@@ -100,7 +100,7 @@ export function add_to_possible_ub(post: Post) {
 // ------------------- users -------------------
 
 const gast = $$(new User()) 
-gast._id = -1
+gast._id = 0
 gast.datex_alias = "Gast"
 gast.name = "Gast"
 gast.role = Role.Guest
@@ -144,14 +144,6 @@ export function assign_display_name(member_id: number, discussion_id: number) {
     all_members[member_id].displayed_names[discussion_id] = name    
 }
 
-export function get_username(alias: string) {
-    return all_members.find((member: User) => member.datex_alias == alias)?.name ?? "Neuer User"
-}
-
-export function get_user_role(alias: string) {
-    return all_members.find((member: User) => member.datex_alias == alias)?.role ?? Role.Guest   
-}
-
-export function set_user_role(alias: string, role: Role) {
-    all_members.find((member: User) => member.datex_alias == alias)!.role = role
+export function get_user(alias: string) {
+    return all_members.find((member: User) => member.datex_alias == alias) ?? gast
 }
