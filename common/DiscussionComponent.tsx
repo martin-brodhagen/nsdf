@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { Role, Discussion } from "common/classes.ts";
 import { ThreadComponent } from "common/ThreadComponent.tsx";
-import { start_new_thread, delete_discussion, get_username, get_user_role } from "backend/data.ts";
+import { start_new_thread, delete_discussion, get_user } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 
@@ -14,13 +14,15 @@ interface Props {
 @template<Props>(async (props, { discussion }) => {
 
     const thread_starter_text = $$("")
-    const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-    const user_role = await get_user_role(author.val)
+    const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+    const user = await get_user(alias.val)
+
+    const discussion_author = await get_user(discussion.author)
 
     const thread_modal_visible = $$(false)
 
     function start_thread() {
-        start_new_thread(discussion, author.val, thread_starter_text.val)
+        start_new_thread(discussion, user.datex_alias, thread_starter_text.val)
         thread_modal_visible.val = !thread_modal_visible.val
         thread_starter_text.val = ""
     }
@@ -31,7 +33,7 @@ interface Props {
     }
 
     const user_interaction = () => {
-        if (user_role == Role.Admin || user_role == Role.User) {
+        if (user.role == Role.Admin || user.role == Role.User) {
             return <div>
 
                 <div class="new-thread-container">
@@ -46,12 +48,16 @@ interface Props {
                     <button onclick={start_thread}>Start this Thread</button>
                 </div>
             </div>
+        } else {
+            return <div></div>
         }
     }
 
     const mod_buttons = () => {
-        if (user_role == Role.Mod || user_role == Role.Admin) {
+        if (user.role == Role.Mod || user.role == Role.Admin) {
             return <button onclick={() => delete_discussion(discussion)}>delete Discussion {discussion._id}</button>
+        } else {
+            return <div></div>
         }
     }
 
@@ -60,11 +66,11 @@ interface Props {
     }
 
     return <div id="discussion-container" class={{ visible: props.opened }}>
-        {mod_buttons()}
+        {always(mod_buttons)}
 
-        <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {get_username(discussion.author)}</h5>
+        <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {discussion_author.name}</h5>
 
-        {user_interaction()}
+        {always(user_interaction)}
 
         <div class="intro-argument">
             <p>{discussion.intro_argument}</p>

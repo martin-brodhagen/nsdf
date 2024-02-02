@@ -1,20 +1,19 @@
 import { Component } from "uix/components/Component.ts";
-import { add_new_discussion, all_discussions, get_username, get_user_role, add_new_user, all_members } from "backend/data.ts";
+import { add_new_discussion, all_discussions, add_new_user, all_members, get_user } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
 import { UserManagementComponent } from "common/UserManagementComponent.tsx"
 import { Discussion, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
-import { querySelectorAll } from "uix/uix-dom/dom/shadow_dom_selector.ts";
-import { allowNone } from "uix/app/args.ts";
 
 
 @template(async () => {
+
+	const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
+	const user = await get_user(alias.val)
+
 	const title = $$("")
-	const author = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-	const user_role = await get_user_role(author.val)
-	const user_name = await get_username(author.val)
 	const intro_arg = $$("")
 
 	const new_user_name = $$("")
@@ -41,7 +40,7 @@ import { allowNone } from "uix/app/args.ts";
 	})
 
 	function add_discussion() {
-		add_new_discussion(title.val, author.val, intro_arg.val, makeUB.val)
+		add_new_discussion(title.val, user.datex_alias, intro_arg.val, makeUB.val)
 		modal_visible.val = !modal_visible.val
 		title.val = ""
 		intro_arg.val = ""
@@ -54,7 +53,7 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const user_interaction = () => {
-		if (user_role == Role.Admin || user_role == Role.User) {
+		if (user.role == Role.Admin || user.role == Role.User) {
 			return <div>
 				<button onclick={() => {
 					modal_visible.val = !modal_visible.val
@@ -71,11 +70,13 @@ import { allowNone } from "uix/app/args.ts";
 					<button onclick={add_discussion}> Make Discussion Public</button>
 				</div>
 			</div>
+		} else {
+			return <div></div>
 		}
 	}
 
 	const header = () => {
-		switch (user_role) {
+		switch (user.role) {
 			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
 			case Role.User: return <h1>NSDF - Viel Spaß hier!</h1>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
@@ -85,8 +86,7 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const user_registration = () => {
-		if (user_name == "Neuer User") {
-
+		if (user.name == "Gast" && alias != "Gast") {
 			return <fieldset>
 				<legend>User Registration</legend>
 				<p>Welcome to our Forum! Your are now logged in via Unyt Auth. Enter your Name to participate.</p>
@@ -95,6 +95,8 @@ import { allowNone } from "uix/app/args.ts";
 					add_new_user(new_user_name.val)
 				}}>Register</button>
 			</fieldset>
+		} else {
+			return <div></div>
 		}
 	}
 
@@ -103,15 +105,15 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const role_related_tab_title = () => {
-		if (user_role == Role.User) {
+		if (user.role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				My posts
 			</div>
-		} else if (user_role == Role.Mod) {
+		} else if (user.role == Role.Mod) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				Reported posts
 			</div>
-		} else if (user_role == Role.Admin) {
+		} else if (user.role == Role.Admin) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				User management
 			</div>
@@ -119,7 +121,7 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const role_related_tab = () => {
-		if (user_role == Role.User) {
+		if (user.role == Role.User) {
 			return <div id="role_related_tab" class="tab">
 				These are my posts (Placeholder):
 				<ul>
@@ -130,7 +132,7 @@ import { allowNone } from "uix/app/args.ts";
 					<li>Post 5</li>
 				</ul>
 			</div>
-		} else if (user_role == Role.Mod) {
+		} else if (user.role == Role.Mod) {
 			return <div id="role_related_tab" class="tab">
 				These are all reported posts(Placeholder):
 				<ul>
@@ -141,10 +143,12 @@ import { allowNone } from "uix/app/args.ts";
 					<li>Post 5</li>
 				</ul>
 			</div>
-		} else if (user_role == Role.Admin) {
+		} else if (user.role == Role.Admin) {
 			return <div id="role_related_tab" class="tab">
-				{user_management()}
+				{always(user_management)}
 			</div>
+		} else {
+			return <div></div>
 		}
 	}
 
@@ -164,16 +168,19 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	const tab_selector = () => {
-		if (user_role === Role.User || user_role === Role.Mod || user_role === Role.Admin) {
+		if (user.role === Role.User || user.role === Role.Mod || user.role === Role.Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
 					Discussions
 				</div>
 				{role_related_tab_title()}
 			</div>
+		} else {
+			return <div></div>
 		}
 
 	}
+
 	const ub_toggle = () => {
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
@@ -183,23 +190,22 @@ import { allowNone } from "uix/app/args.ts";
 	}
 
 	return <div>
-		<header id="headerelem">
-			<div id="logo">
-				<AuthIcon style="float: right;" />
-				<b style="float: right;" >{user_name}</b>
-				{header()}
-				{ub_toggle()}
-				{user_registration()}
-				<hr></hr>
-			</div>
-			{tab_selector()}
-		</header>
+		<nav id="headerelem">
+			<AuthIcon style="float: right;" />
+			<b style="float: right;" >{user.name}</b>
+			{always(header)}
+			{ub_toggle()}
+			{always(user_registration)}
+			<hr></hr>
 
-		{user_management()}
+			{always(tab_selector)}
+		</nav>
+
+		{always(user_management)}
 
 		<div id="discussions_tab" class="tab">
 			<div id="actions">
-				{user_interaction()}
+				{always(user_interaction)}
 				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
 			</div>
 
@@ -208,7 +214,7 @@ import { allowNone } from "uix/app/args.ts";
 			</div>
 		</div>
 
-		{role_related_tab()}
+		{always(role_related_tab)}
 
 		<footer id="footer">
 			<a href="">Impressum</a>
