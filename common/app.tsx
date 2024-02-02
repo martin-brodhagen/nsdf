@@ -35,8 +35,7 @@ import { AuthIcon } from "auth";
 	}
 
 	const filtered_discussions: Discussion[] = always(() => {
-		const discussions_array = Array.from(all_discussions)
-		return avoid_UB.val ? (discussions_array.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : discussions_array.filter(filterfunc)
+		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 	})
 
 	function add_discussion() {
@@ -200,7 +199,7 @@ import { AuthIcon } from "auth";
 
 			{always(tab_selector)}
 		</nav>
-
+		Array
 		{always(user_management)}
 
 		<div id="discussions_tab" class="tab">

@@ -6,7 +6,7 @@ const thread_id = await lazyEternalVar("thread_id") ?? $$(0)
 const post_id = await lazyEternalVar("post_id") ?? $$(0)
 const member_id = await lazyEternalVar("member_id") ?? $$(1)
 
-export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Set<Discussion>)
+export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
 export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<User>)
 
 const all_threads = await lazyEternalVar("all_threads") ?? $$(new Array<Thread>)
@@ -22,7 +22,7 @@ export function add_new_discussion(title: string, author: string, intro_arg: str
     discussion.title = title
     discussion.intro_argument = intro_arg
     discussion.isUB = makeUB
-    all_discussions.add(discussion)
+    all_discussions.push(discussion)
     console.log("discussion added... by " + discussion.author)
 }
 
@@ -149,9 +149,7 @@ export async function add_new_user(username: string) {
 export function assign_display_name(member_id: number, discussion_id: number) {
     let name = random_name()
 
-    const discussions_array = Array.from(all_discussions)
-
-    while (name in discussions_array[discussion_id].pseudonyms) {
+    while (name in all_discussions[discussion_id].pseudonyms) {
         name = random_name()
     }
     all_members[member_id].displayed_names[discussion_id] = name    
