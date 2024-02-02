@@ -63,10 +63,8 @@ import { AuthIcon } from "auth";
 						<legend>New Discussion</legend>
 						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
 						<input type="text" placeholder={"Intro Argument"} id="intro-arg" onkeypress={handleKeyPress} value={intro_arg} />
-						<input type="checkbox" id="UBcheck" value={makeUB.val} />
-						<label for="UBcheck">Make UB (devtool)</label>
+						<button onclick={add_discussion}> Make Discussion Public</button>
 					</fieldset>
-					<button onclick={add_discussion}> Make Discussion Public</button>
 				</div>
 			</div>
 		} else {

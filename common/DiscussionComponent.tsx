@@ -44,8 +44,8 @@ interface Props {
                         <legend>New Thread</legend>
                         <p>{discussion.intro_argument}</p>
                         <input type="text" placeholder={"Thread Starter"} id="thread-starter" onkeypress={handleKeyPress} value={thread_starter_text} />
+                        <button onclick={start_thread}>Start this Thread</button>
                     </fieldset>
-                    <button onclick={start_thread}>Start this Thread</button>
                 </div>
             </div>
         } else {

@@ -117,8 +117,8 @@ interface Props {
                         <legend>edit mode</legend>
                         <input type="text" placeholder={"edit here"} id="edit-textbox"
                             onkeypress={handleKeyPress} value={edit} />
+                        <button onclick={do_edit}>send edit</button>
                     </fieldset>
-                    <button onclick={do_edit}>send edit</button>
                 </div>
             </div>
         } else {
