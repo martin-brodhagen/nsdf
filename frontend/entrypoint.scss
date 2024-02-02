@@ -16,7 +16,9 @@ h3,
 h4,
 h5,
 h6 {
-    color: white
+    color: white;
+    font-family: Verdana, sans-serif;
+    color: beige
 }
 
 .search-bar input {
@@ -26,11 +28,27 @@ h6 {
 }
 
 button {
-    background-color: #F59E0B;
+    background: linear-gradient(to top, #E48900, #F59E0B);
     border: none;
     padding: 0.5em 1em;
     border-radius: 0.25em;
     cursor: pointer;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    margin-right: 1em;
+}
+
+button:last-child {
+    margin-right: 0;
+}
+
+button:hover {
+    background: linear-gradient(to top, #D97706, #E48900);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
 }
 
 
@@ -52,6 +70,9 @@ section.newest-posts {
     padding: 1em;
 }
 
+.uix-user-management-component {
+    width: 53%;
+}
 
 #discussion-container {
     background-color: #2D3748;
@@ -131,16 +152,48 @@ section.newest-posts {
 #add-discussion-modal,
 #add-thread-modal,
 #edit-modal {
-    background-color: white;
+    background-color: #404b5e;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
     transform: translate(-50%, -50%);
-    transition: opacity .3s;
+    transition: opacity 0.3s, transform 0.3s ease-in-out;
     pointer-events: none;
     text-align: center;
     position: fixed;
     opacity: 0;
-    z-index: -1;
+    z-index: 10;
     left: 50%;
     top: 50%;
+    width: 30%;
+    max-width: 400px;
+}
+
+#edit-modal h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+#edit-modal p {
+    color: #555;
+}
+
+#edit-modal button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#edit-modal button:hover {
+    background-color: #45a049;
 }
 
 #add-discussion-modal.visible,
@@ -179,5 +232,22 @@ section.newest-posts {
         }
     }
 
+
+}
+
+fieldset {
+    width: 53%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#newdi {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#actions {
+    margin-left: auto;
+    margin-right: auto;
 
 }

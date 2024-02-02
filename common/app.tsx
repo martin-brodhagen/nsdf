@@ -54,7 +54,7 @@ import { AuthIcon } from "auth";
 	const user_interaction = () => {
 		if (user.role == Role.Admin || user.role == Role.User) {
 			return <div>
-				<button onclick={() => {
+				<button id="newdi" onclick={() => {
 					modal_visible.val = !modal_visible.val
 				}}>New Discussion</button>
 
