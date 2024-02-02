@@ -199,7 +199,6 @@ import { AuthIcon } from "auth";
 
 			{always(tab_selector)}
 		</nav>
-		Array
 		{always(user_management)}
 
 		<div id="discussions_tab" class="tab">
