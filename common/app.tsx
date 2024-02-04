@@ -2,7 +2,7 @@ import { Component } from "uix/components/Component.ts";
 import { add_new_discussion, all_discussions, add_new_user, all_members, get_user } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
 import { UserManagementComponent } from "common/UserManagementComponent.tsx"
-import { Discussion, Role, User } from "common/classes.ts";
+import { Discussion, Role } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
@@ -24,8 +24,6 @@ import { AuthIcon } from "auth";
 
 	const makeUB = $$(false)
 
-	const openedDiscussion = $$(-1)
-
 	function filterfunc(discussion: Discussion) {
 		const threads = discussion.threads
 
@@ -37,6 +35,8 @@ import { AuthIcon } from "auth";
 	const filtered_discussions: Discussion[] = always(() => {
 		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 	})
+
+
 
 	function add_discussion() {
 		add_new_discussion(title.val, user.datex_alias, intro_arg.val, makeUB.val)
@@ -186,6 +186,23 @@ import { AuthIcon } from "auth";
 		</div>
 	}
 
+	const discussions_tab = () => {
+		return <div id="discussions_tab" class="tab">
+			<div id="actions">
+				{always(user_interaction)}
+				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
+			</div>
+
+			<div class="discussions">
+				{all_discussions.$.map((discussion: Discussion) => (
+					<DiscussionComponent discussion={discussion} avoid_ub={avoid_UB} expanded_discussion={expandedDiscussion} onclick={() => expandedDiscussion.val = discussion._id} />
+				))}
+			</div>
+		</div>
+	}
+
+	const expandedDiscussion = $$(-1)
+
 	return <div>
 		<nav id="headerelem">
 			<AuthIcon style="float: right;" />
@@ -197,20 +214,14 @@ import { AuthIcon } from "auth";
 
 			{always(tab_selector)}
 		</nav>
-		{always(user_management)}
 
-		<div id="discussions_tab" class="tab">
-			<div id="actions">
-				{always(user_interaction)}
-				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
-			</div>
+		<main>
+			{always(user_management)}
 
-			<div class="discussions">
-				{always(() => filtered_discussions.map((discussion: Discussion, index: number) => <DiscussionComponent discussion={discussion} opened={index === openedDiscussion.val} onclick={() => openedDiscussion.val = index} />))}
-			</div>
-		</div>
+			{discussions_tab()}
 
-		{always(role_related_tab)}
+			{always(role_related_tab)}
+		</main>
 
 		<footer id="footer">
 			<a href="">Impressum</a>
