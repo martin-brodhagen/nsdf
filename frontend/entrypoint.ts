@@ -6,9 +6,7 @@ import { provideRedirect } from "uix/html/entrypoint-providers.tsx"
  */
 
 export default {
-	// show frontend-rendered page on /frontend
-	'/start': import("../common/index.tsx"),
-	'/admin': import("../common/admin.tsx"),
+	
+	'/': import("../common/index.tsx"),
 
-	'/': provideRedirect('/start')
 }
