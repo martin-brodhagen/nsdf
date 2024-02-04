@@ -1,7 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { delete_reply, edit_reply, set_post_ub, add_to_possible_ub, get_user, verify } from "backend/data.ts";
 import { Datex } from "unyt_core/datex.ts";
-import { PostStatus, Role } from "common/classes.ts";
+import { PostStatus, Role, Post } from "common/classes.ts";
 
 // formats date into string
 export function display_date(time: Date) {
@@ -24,38 +24,31 @@ export function display_date(time: Date) {
 export function editable(prop_time: Date, prop_author: string, username: string) {
     const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
     console.log(prop_author, username)
-    return (prop_time >= tenMinutesAgo) && (prop_author.val == username.val)
+    return (prop_time >= tenMinutesAgo) && (prop_author == username)
 }
 
 interface Props {
-    _id: number,
-    discussion_id: number,
-    thread_id: number,
-    author: string,
-    content: string,
-    time: Date,
-    edited: boolean,
-    status: PostStatus
+    post: Post
 }
 
-@template<Props>(async (props) => {
+@template<Props>(async (_, { post }) => {
 
     const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
     const user = await get_user(alias.val)
 
-    const post_author = await get_user(props.author)
+    const post_author = await get_user(post.author)
 
     const toggle_edit = always(() => {
-        return editable(props.time as Date, props.$.author, alias)
+        return editable(post.time as Date, post.author, alias)
     })
     const prop_time = always(() => {
-        return props.$.edited.val ? display_date(props.time as Date) + " (edited)" : display_date(props.time as Date)
+        return post.edited ? display_date(post.time as Date) + " (edited)" : display_date(post.time as Date)
     })
     const edit_modal_visible = $$(false)
-    const edit = $$(props.$.content)
+    const edit = $$(post.content)
 
     function do_edit() {
-        edit_reply(props, edit.val)
+        edit_reply(post, edit.val)
         edit_modal_visible.val = !edit_modal_visible.val
     }
 
@@ -102,13 +95,13 @@ interface Props {
 
     // Buttons
     const report_button = () => {
-        return <button class="reportBtn" onclick={() => add_to_possible_ub(props)}>
+        return <button class="reportBtn" onclick={() => add_to_possible_ub(post)}>
             melden
         </button>
     }
 
     const edit_button = () => {
-        if (props.author == user.datex_alias) {
+        if (post.author == user.datex_alias) {
             return <div>
                 <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => { edit_modal_visible.val = !edit_modal_visible.val }}>edit</button>
 
@@ -127,27 +120,29 @@ interface Props {
     }
 
     const verify_button = () => {
-        return <button onclick={() => verify(props)}>verify</button>
+        return <button onclick={() => verify(post)}>verify</button>
     }
 
     const set_ub_button = () => {
-        return <button onclick={() => set_post_ub(props)}>set ub</button>
+        return <button onclick={() => set_post_ub(post)}>set ub</button>
     }
 
     const delete_button = () => {
-        return <button onclick={() => delete_reply(props)}>delete</button>
+        return <button onclick={() => delete_reply(post)}>delete</button>
     }
 
-    if (props.status == PostStatus.Deleted) {
+    if (post.status == PostStatus.Deleted) {
         if (user.role == Role.Mod || user.role == Role.Admin) {
             return <li class="post">
                 <i>Post deleted...</i>
             </li>
+        } else {
+            return <div></div>
         }
     } else {
         return <li class="post" >
             <div class="postBody">
-                {props.$.content}
+                {always(() => post.content)}
                 {always(user_interaction)}
                 {always(mod_interaction)}
                 {always(admin_interaction)}
