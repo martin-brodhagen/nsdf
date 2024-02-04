@@ -66,10 +66,10 @@ interface Props {
 
     const post_container = () => {
         return <div class="post-container">
-            {always(() => <PostComponent {...thread.posts[0]} />)}
+            {always(() => <PostComponent post={thread.posts[0]} />)}
             <div id="post-wrapper" class={{ visible: showThread }}>
                 {thread.posts.$.map((post: Post, index: number) => (
-                    (index > 0) ? <PostComponent {...post} /> : null
+                    (index > 0) ? <PostComponent post={post} /> : null
                 ))}
             </div>
         </div>
