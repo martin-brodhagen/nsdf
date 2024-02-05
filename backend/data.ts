@@ -32,22 +32,29 @@ export function delete_discussion(discussion: Discussion) {
 }
 
 // ------------------- Threads -------------------
-export function start_new_thread(discussion: Discussion, author: string, text: string) {
+function create_post(author: string, text: string) {
+    const post = new Post()
+    post.author = author
+    post._id = post_id.val++
+    post.content = text
+    post.time = new Date()
+    return post
+}
+
+export function start_new_thread(discussion: Discussion, user: User, text: string) {
 
     const thread = new Thread()
     thread._id = thread_id.val++
     thread.discussion_id = discussion._id
 
-    const first = new Post()
-    first.author = author
-    first._id = post_id.val++
+    const first = create_post(user.datex_alias, text)
     first.discussion_id = thread.discussion_id
     first.thread_id = thread._id
-    first.content = text
-    first.time = new Date()
 
     thread.posts.push(first)
     all_posts.push(first)
+
+    user.posts.push(first)
 
     discussion.threads.push(thread)
     all_threads.push(thread)
@@ -61,17 +68,15 @@ export function delete_thread(thread: Thread) {
 }
 
 // ------------------- Replies -------------------
-export function add_new_reply(thread: Thread, text: string, author: string) {
-    const reply = new Post()
-    reply.author = author
-    reply._id = post_id.val++
+export function add_new_reply(thread: Thread, text: string, user: User) {
+    const reply = create_post(user.datex_alias, text)
     reply.discussion_id = thread.discussion_id
     reply.thread_id = thread._id
-    reply.content = text
-    reply.time = new Date()
 
     thread.posts.push(reply)
     all_posts.push(reply)
+
+    user.posts.push(reply)
 
     console.log(reply.author + " postet a new reply...")
 }
@@ -87,6 +92,7 @@ export function edit_reply(post: Post, new_text: string) {
     all_posts[post._id].edited = true
     console.log("edited post " + post._id)
 }
+
 
 // ------------------- ub -------------------
 

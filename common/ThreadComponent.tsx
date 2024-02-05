@@ -39,7 +39,7 @@ interface Props {
 
 
     function do_reply() {
-        add_new_reply(thread, reply_text.val, user.datex_alias)
+        add_new_reply(thread, reply_text.val, user)
         reply_text.val = ""
         showThread.val = true
         isMoreThanOne.val = true

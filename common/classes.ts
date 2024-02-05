@@ -60,6 +60,7 @@ export enum Role {
     @property datex_alias = ""
     @property name = ""
     @property role = Role.None
+    @property posts = new Array<Post>
 }
 
 export const User = datexClass(_User)
