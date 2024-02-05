@@ -1,12 +1,17 @@
 import { Component } from "uix/components/Component.ts";
-import { User } from "common/classes.ts";
+import { User, Post, PostStatus } from "common/classes.ts";
 
 interface Props {
 	user: User
 }
 
 @template<Props>((_, { user }) => {
-
+	const ub_rate = always(() => {
+		if(user.posts.length > 0) {
+			const count_ub_posts = user.posts.filter((post: Post) => post.status === PostStatus.UB).length
+			return "UB rate: " +  ((count_ub_posts / user.posts.length) * 100).toFixed(2) + "%"
+		} else return "Not posted yet"
+	})
 
 	return <fieldset>
 		<legend>{user.datex_alias}</legend>
@@ -17,6 +22,9 @@ interface Props {
 			<option value="3">Guest</option>
 			<option value="4">Mod</option>
 		</select>
+		<div class="statistics">
+			{ub_rate}
+		</div>
 	</fieldset>
 
 

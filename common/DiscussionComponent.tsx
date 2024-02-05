@@ -27,7 +27,7 @@ interface Props {
     })
 
     function start_thread() {
-        start_new_thread(discussion, user.datex_alias, thread_starter_text.val)
+        start_new_thread(discussion, user, thread_starter_text.val)
         thread_modal_visible.val = !thread_modal_visible.val
         thread_starter_text.val = ""
     }
