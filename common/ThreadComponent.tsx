@@ -66,10 +66,10 @@ interface Props {
 
     const post_container = () => {
         return <div class="post-container">
-            {always(() => <PostComponent post={thread.posts[0]} />)}
+            {always(() => <PostComponent post={thread.posts[0]} avoid_ub={props.avoid_ub} />)}
             <div id="post-wrapper" class={{ visible: showThread }}>
                 {thread.posts.$.map((post: Post, index: number) => (
-                    (index > 0) ? <PostComponent post={post} /> : null
+                    (index > 0) ? <PostComponent post={post} avoid_ub={props.avoid_ub} /> : null
                 ))}
             </div>
         </div>
@@ -82,7 +82,6 @@ interface Props {
     }
 
     return <li class="thread-container" >
-        <b>Avoid UB: {props.avoid_ub}</b><br />
         {always(delete_button)}
         {post_container()}
         {always(thread_action)}
