@@ -6,6 +6,11 @@
 	margin: 1rem 0rem;
 	list-style: none;
 
+	&.blur {
+		pointer-events: none;
+		filter: blur(.5rem);
+	}
+
 	.postBody {
 		padding: 0.5rem;
 	}

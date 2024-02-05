@@ -28,10 +28,11 @@ export function editable(prop_time: Date, prop_author: string, username: string)
 }
 
 interface Props {
-    post: Post
+    post: Post,
+    avoid_ub: boolean
 }
 
-@template<Props>(async (_, { post }) => {
+@template<Props>(async (props, { post }) => {
 
     const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
     const user = await get_user(alias.val)
@@ -57,6 +58,12 @@ interface Props {
             do_edit();
         }
     }
+
+    const blurActive = always(() => {
+        if(props.avoid_ub == true) {
+            return post.status === PostStatus.UB
+        } return false
+    })
 
     // Role Specific interaction
     const user_interaction = () => {
@@ -140,7 +147,7 @@ interface Props {
             return <div></div>
         }
     } else {
-        return <li class="post" >
+        return <li class={{ blur: blurActive, post: true }} >
             <div class="postBody">
                 {always(() => post.content)}
                 {always(user_interaction)}
