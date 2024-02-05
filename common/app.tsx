@@ -203,7 +203,7 @@ import { AuthIcon } from "auth";
 
 	const expandedDiscussion = $$(-1)
 
-	return <div>
+	return <html>
 		<nav id="headerelem">
 			<AuthIcon style="float: right;" />
 			<b style="float: right;" >{user.name}</b>
@@ -227,7 +227,7 @@ import { AuthIcon } from "auth";
 			<a href="">Impressum</a>
 			<a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung">DSGVO</a>
 		</footer>
-	</div>
+	</html>
 })
 
 
