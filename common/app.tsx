@@ -1,12 +1,12 @@
 import { Component } from "uix/components/Component.ts";
-import { add_new_discussion, all_discussions, add_new_user, all_members, get_user } from "backend/data.ts";
+import { add_new_discussion, all_discussions, possible_ub_posts, add_new_user, all_members, get_user } from "backend/data.ts";
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
+import { PostComponent } from "common/PostComponent.tsx";
 import { UserManagementComponent } from "common/UserManagementComponent.tsx"
-import { Discussion, Role } from "common/classes.ts";
+import { Discussion, Post, Role } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
-
 
 @template(async () => {
 
@@ -23,6 +23,12 @@ import { AuthIcon } from "auth";
 	const search_term = $$("")
 
 	const makeUB = $$(false)
+
+	const expandedDiscussion = $$(-1)
+
+	const all_reported_posts = always(() => {
+		return Array.from(possible_ub_posts)
+	})
 
 	function filterfunc(discussion: Discussion) {
 		const threads = discussion.threads
@@ -101,6 +107,14 @@ import { AuthIcon } from "auth";
 		return all_members.map(user => <UserManagementComponent user={user} />)
 	}
 
+	const own_posts = () => {
+		return user.posts.map((post: Post) => <PostComponent post={post} avoid_ub={avoid_UB} />)
+	}
+
+	const reported_posts = () => {
+		return all_reported_posts.map((post: Post) => <PostComponent post={post} avoid_ub={avoid_UB} />)
+	}
+
 	const role_related_tab_title = () => {
 		if (user.role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
@@ -114,31 +128,19 @@ import { AuthIcon } from "auth";
 			return <div class="tab_title" onclick={() => switchTab(1)}>
 				User management
 			</div>
+		} else {
+			return <div></div>
 		}
 	}
 
 	const role_related_tab = () => {
 		if (user.role == Role.User) {
 			return <div id="role_related_tab" class="tab">
-				These are my posts (Placeholder):
-				<ul>
-					<li>Post 1</li>
-					<li>Post 2</li>
-					<li>Post 3</li>
-					<li>Post 4</li>
-					<li>Post 5</li>
-				</ul>
+				{always(own_posts)}
 			</div>
 		} else if (user.role == Role.Mod) {
 			return <div id="role_related_tab" class="tab">
-				These are all reported posts(Placeholder):
-				<ul>
-					<li>Post 1</li>
-					<li>Post 2</li>
-					<li>Post 3</li>
-					<li>Post 4</li>
-					<li>Post 5</li>
-				</ul>
+				{always(reported_posts)}
 			</div>
 		} else if (user.role == Role.Admin) {
 			return <div id="role_related_tab" class="tab">
@@ -152,14 +154,18 @@ import { AuthIcon } from "auth";
 	function switchTab(index: number) {
 		const tab_title = document.querySelectorAll(".tab_title") as NodeListOf<HTMLDivElement>;
 		const tabs = document.querySelectorAll(".tab") as NodeListOf<HTMLDivElement>;
-		tab_title.forEach(tab_title => tab_title.classList.toggle("active"));
 		if (tabs.length == 2) {
 			if (index == 0) {
 				tabs[0].style.display = "block";
 				tabs[1].style.display = "none";
+				tab_title[0].classList.add("active")
+				tab_title[1].classList.remove("active")
+
 			} else {
 				tabs[1].style.display = "block";
 				tabs[0].style.display = "none";
+				tab_title[1].classList.add("active")
+				tab_title[0].classList.remove("active")
 			}
 		}
 	}
@@ -200,8 +206,6 @@ import { AuthIcon } from "auth";
 			</div>
 		</div>
 	}
-
-	const expandedDiscussion = $$(-1)
 
 	return <html>
 		<nav id="headerelem">

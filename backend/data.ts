@@ -63,7 +63,7 @@ export function start_new_thread(discussion: Discussion, user: User, text: strin
 }
 
 export function delete_thread(thread: Thread) {
-    all_threads[thread._id].deleted = true   
+    all_threads[thread._id].deleted = true
     console.log("deleted Thread " + thread._id)
 }
 
@@ -84,6 +84,7 @@ export function add_new_reply(thread: Thread, text: string, user: User) {
 export function delete_reply(post: Post) {    
     
     all_posts[post._id].status = PostStatus.Deleted
+    possible_ub_posts.delete(post)
     console.log("deleted Post " + post._id)
 }
 
@@ -107,11 +108,13 @@ export function add_to_possible_ub(post: Post) {
 
 export function set_post_ub(post: Post) {
     all_posts[post._id].status = PostStatus.UB
+    possible_ub_posts.delete(post)
     console.log("Post " + post._id + " now ub")
 }
 
 export function verify(post: Post) {
     all_posts[post._id].status = PostStatus.Verified
+    possible_ub_posts.delete(post)
     console.log("Post " + post._id + " now verified")
 }
 
