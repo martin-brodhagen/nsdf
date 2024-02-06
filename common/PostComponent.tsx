@@ -60,7 +60,7 @@ interface Props {
     }
 
     const blurActive = always(() => {
-        if(props.avoid_ub == true) {
+        if (props.avoid_ub == true) {
             return post.status === PostStatus.UB
         } return false
     })
@@ -138,6 +138,13 @@ interface Props {
         return <button onclick={() => delete_reply(post)}>delete</button>
     }
 
+    const signature = () => {
+        return <div class="postHead">
+            <b>{post_author.pseudonyms[post.discussion_id]} - </b>
+            <i class="date">{prop_time}</i>
+        </div>
+    }
+
     if (post.status == PostStatus.Deleted) {
         if (user.role == Role.Mod || user.role == Role.Admin) {
             return <li class="post">
@@ -155,10 +162,7 @@ interface Props {
                 {always(admin_interaction)}
 
             </div>
-            <div class="postHead">
-                <b>{post_author.name} - </b>
-                <i class="date">{prop_time}</i>
-            </div>
+            {signature()}
         </li >
     }
 })

@@ -24,6 +24,8 @@ export function add_new_discussion(title: string, author: string, intro_arg: str
     discussion.isUB = makeUB
     all_discussions.push(discussion)
     console.log("discussion added... by " + discussion.author)
+
+    all_members.forEach((user: User) => assign_pseudonym_for_discussion(user, discussion))
 }
 
 export function delete_discussion(discussion: Discussion) {
@@ -145,7 +147,7 @@ export async function add_new_user(username: string) {
     const datex_alias = await endpoint.getAlias()
     const member = new User()
     member._id = member_id.val++
-    member.displayed_names = new Array<string>
+    member.pseudonyms = new Array<string>
     member.endpoint = endpoint
     member.datex_alias = datex_alias!
     member.name = username
@@ -155,13 +157,14 @@ export async function add_new_user(username: string) {
     console.log("Endpoint: " + endpoint + " - alias: " + datex_alias + "  " + username + " registered")
 }
 
-export function assign_display_name(member_id: number, discussion_id: number) {
+export function assign_pseudonym_for_discussion(user: User, discussion: Discussion) {
     let name = random_name()
 
-    while (name in all_discussions[discussion_id].pseudonyms) {
+    while (discussion.pseudonyms.includes(name)) {
         name = random_name()
     }
-    all_members[member_id].displayed_names[discussion_id] = name    
+    discussion.pseudonyms.push(name)
+    user.pseudonyms[discussion._id] = name    
 }
 
 export function get_user(alias: string) {

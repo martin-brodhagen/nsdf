@@ -55,7 +55,7 @@ export enum Role {
 
 @sync class _User {
     @property _id = -1
-    @property displayed_names = new Array<string>
+    @property pseudonyms = new Array<string>
     @property endpoint = new Endpoint("", "")
     @property datex_alias = ""
     @property name = ""

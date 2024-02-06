@@ -66,8 +66,13 @@ interface Props {
         }
     }
 
+    const pseudonym = () => {
+        return <div class="user-pseudonym">{user.pseudonyms[discussion._id]}</div>
+
+    }
+
     const title = () => {
-        return <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {discussion_author.name}</h5>
+        return <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {discussion_author.pseudonyms[discussion._id]}</h5>
     }
 
     if (discussion.deleted) {
@@ -76,8 +81,10 @@ interface Props {
 
     return <div id="discussion-container">
         {always(mod_buttons)}
+        {pseudonym()}
 
         {title()}
+
 
         {always(user_interaction)}
 
