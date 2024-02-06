@@ -222,6 +222,15 @@ import { AuthIcon } from "auth";
 		<main>
 			{always(user_management)}
 
+			<aside class="suggested-discussions">
+				Diese Diskussionen könnten dir gefallen:
+				<ul>
+					<li>Beispiel Diskussion 1</li>
+					<li>Beispiel Diskussion 2</li>
+					<li>Beispiel Diskussion 3</li>
+				</ul>
+			</aside>
+
 			{discussions_tab()}
 
 			{always(role_related_tab)}
