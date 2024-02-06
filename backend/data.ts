@@ -153,8 +153,11 @@ export async function add_new_user(username: string) {
     member.name = username
     member.role = Role.User
     
+    all_discussions.forEach((discussion: Discussion) => assign_pseudonym_for_discussion(member, discussion))
+    
     all_members.push(member)
     console.log("Endpoint: " + endpoint + " - alias: " + datex_alias + "  " + username + " registered")
+
 }
 
 export function assign_pseudonym_for_discussion(user: User, discussion: Discussion) {
