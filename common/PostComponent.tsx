@@ -23,7 +23,6 @@ export function display_date(time: Date) {
 // checks if user can edit
 export function editable(prop_time: Date, prop_author: string, username: string) {
     const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
-    console.log(prop_author, username)
     return (prop_time >= tenMinutesAgo) && (prop_author == username)
 }
 
@@ -34,13 +33,14 @@ interface Props {
 
 @template<Props>(async (props, { post }) => {
 
+    const endpoint = $$(await Datex.Runtime.endpoint.main)
     const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-    const user = await get_user(alias.val)
+    const user = await get_user(endpoint.toString())
 
     const post_author = await get_user(post.author)
 
     const toggle_edit = always(() => {
-        return editable(post.time as Date, post.author, alias)
+        return editable(post.time as Date, post.author, endpoint.toString())
     })
     const prop_time = always(() => {
         return post.edited ? display_date(post.time as Date) + " (edited)" : display_date(post.time as Date)
@@ -108,7 +108,7 @@ interface Props {
     }
 
     const edit_button = () => {
-        if (post.author == user.datex_alias) {
+        if (post.author == user.endpoint) {
             return <div>
                 <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => { edit_modal_visible.val = !edit_modal_visible.val }}>edit</button>
 

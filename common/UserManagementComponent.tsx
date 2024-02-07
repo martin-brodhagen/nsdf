@@ -6,15 +6,22 @@ interface Props {
 }
 
 @template<Props>((_, { user }) => {
+
+	const legend_entry = $$("no endpoint")
+
+	if (user.endpoint != "") {
+		legend_entry.val = user.endpoint.toString()
+	}
+
 	const ub_rate = always(() => {
-		if(user.posts.length > 0) {
+		if (user.posts.length > 0) {
 			const count_ub_posts = user.posts.filter((post: Post) => post.status === PostStatus.UB).length
-			return "UB rate: " +  ((count_ub_posts / user.posts.length) * 100).toFixed(2) + "%"
+			return "UB rate: " + ((count_ub_posts / user.posts.length) * 100).toFixed(2) + "%"
 		} else return "Not posted yet"
 	})
 
 	return <fieldset>
-		<legend>{user.datex_alias}</legend>
+		<legend>{legend_entry.val}</legend>
 		{user._id}: {user.name} - <select value={user.$.role} >
 			<option value="0">None</option>
 			<option value="1">User</option>

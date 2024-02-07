@@ -56,8 +56,8 @@ export enum Role {
 @sync class _User {
     @property _id = -1
     @property pseudonyms = new Array<string>
-    @property endpoint = new Endpoint("", "")
-    @property datex_alias = ""
+    @property ub_for_discussion_index = new Array<boolean>
+    @property endpoint = ""
     @property name = ""
     @property role = Role.None
     @property posts = new Array<Post>

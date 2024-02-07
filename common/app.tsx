@@ -3,15 +3,16 @@ import { add_new_discussion, all_discussions, possible_ub_posts, add_new_user, a
 import { DiscussionComponent } from "common/DiscussionComponent.tsx";
 import { PostComponent } from "common/PostComponent.tsx";
 import { UserManagementComponent } from "common/UserManagementComponent.tsx"
-import { Discussion, Post, Role } from "common/classes.ts";
+import { Discussion, Post, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 import { AuthIcon } from "auth";
 
 @template(async () => {
 
-	const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-	const user = await get_user(alias.val)
+	const endpoint = $$(await Datex.Runtime.endpoint.main)
+	const alias = $$(await endpoint.val.getAlias() ?? "Gast")
+	const user = await get_user(endpoint.toString())
 
 	const title = $$("")
 	const intro_arg = $$("")
@@ -19,7 +20,7 @@ import { AuthIcon } from "auth";
 	const new_user_name = $$("")
 
 	const modal_visible = $$(false)
-	const avoid_UB = $$(false)
+	const avoid_UB = $$(true)
 	const search_term = $$("")
 
 	const makeUB = $$(false)
@@ -45,7 +46,9 @@ import { AuthIcon } from "auth";
 
 
 	function add_discussion() {
-		add_new_discussion(title.val, user.datex_alias, intro_arg.val, makeUB.val)
+		const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
+		intro_arg.val = textarea.value
+		add_new_discussion(title.val, user.endpoint, intro_arg.val, makeUB.val)
 		modal_visible.val = !modal_visible.val
 		title.val = ""
 		intro_arg.val = ""
@@ -68,7 +71,7 @@ import { AuthIcon } from "auth";
 					<fieldset>
 						<legend>New Discussion</legend>
 						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
-						<input type="text" placeholder={"Intro Argument"} id="intro-arg" onkeypress={handleKeyPress} value={intro_arg} />
+						<textarea placeholder={"Intro Argument"} id="intro-arg" onkeypress={handleKeyPress} />
 						<button onclick={add_discussion}> Make Discussion Public</button>
 					</fieldset>
 				</div>
@@ -88,15 +91,21 @@ import { AuthIcon } from "auth";
 		}
 	}
 
+	function handleuserregistration(event) {
+		if (event.key === "Enter") {
+			add_new_user(new_user_name.val)
+		}
+	}
+
 	const user_registration = () => {
-		if (user.name == "Gast" && alias != "Gast") {
+		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
 			return <fieldset>
-				<legend>User Registration</legend>
-				<p>Welcome to our Forum! Your are now logged in via Unyt Auth. Enter your Name to participate.</p>
-				<input type="text" placeholder="Your name" value={new_user_name} />
+				<legend>Neuer Nutzer</legend>
+				<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
+				<input type="text" placeholder="Dein Name" value={new_user_name} onkeypress={handleuserregistration} />
 				<button onclick={() => {
 					add_new_user(new_user_name.val)
-				}}>Register</button>
+				}}>Registrieren</button>
 			</fieldset>
 		} else {
 			return <div></div>
@@ -188,7 +197,7 @@ import { AuthIcon } from "auth";
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
 			<label for="ub-toggle"></label>
-			<div class="active-circle"></div>
+			<div class="inactive-circle"></div>
 		</div>
 	}
 
@@ -209,8 +218,7 @@ import { AuthIcon } from "auth";
 
 	return <html>
 		<nav id="headerelem">
-			<AuthIcon style="float: right;" />
-			<b style="float: right;" >{user.name}</b>
+			<b style="float: right;" >Hallo, {always(() => user.name)}</b>
 			{always(header)}
 			{ub_toggle()}
 			{always(user_registration)}
@@ -220,8 +228,8 @@ import { AuthIcon } from "auth";
 		</nav>
 
 		<main>
-			{always(user_management)}
 
+			{always(user_management)}
 			<aside class="suggested-discussions">
 				Diese Diskussionen könnten dir gefallen:
 				<ul>
@@ -242,7 +250,5 @@ import { AuthIcon } from "auth";
 		</footer>
 	</html>
 })
-
-
 
 export class App extends Component { }
