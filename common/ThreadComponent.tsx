@@ -11,10 +11,11 @@ interface Props {
 
 @template<Props>(async (props, { thread }) => {
 
-    const reply_text = $$("")
+    const endpoint = $$(await Datex.Runtime.endpoint.main)
     const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-    const user = await get_user(alias.val)
+    const user = await get_user(endpoint.toString())
 
+    const reply_text = $$("")
     const showThread = $$(false)
 
     const isMoreThanOne = always(() => {

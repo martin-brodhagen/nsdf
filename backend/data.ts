@@ -1,6 +1,5 @@
 import { Discussion, User, Thread, Post, Role, PostStatus, } from "common/classes.ts";
 
-
 const discussion_id = await lazyEternalVar("discussion_id") ?? $$(0)
 const thread_id = await lazyEternalVar("thread_id") ?? $$(0)
 const post_id = await lazyEternalVar("post_id") ?? $$(0)
@@ -43,15 +42,21 @@ function create_post(author: string, text: string) {
     return post
 }
 
+function isUserUbInDiscussion(user: User, discussion_id: number) {
+    return user.ub_for_discussion_index[discussion_id] === true
+}
+
 export function start_new_thread(discussion: Discussion, user: User, text: string) {
 
     const thread = new Thread()
     thread._id = thread_id.val++
     thread.discussion_id = discussion._id
 
-    const first = create_post(user.datex_alias, text)
+    const first = create_post(user.endpoint, text)
     first.discussion_id = thread.discussion_id
     first.thread_id = thread._id
+
+    if(isUserUbInDiscussion(user, discussion._id)) first.status = PostStatus.UB
 
     thread.posts.push(first)
     all_posts.push(first)
@@ -71,9 +76,11 @@ export function delete_thread(thread: Thread) {
 
 // ------------------- Replies -------------------
 export function add_new_reply(thread: Thread, text: string, user: User) {
-    const reply = create_post(user.datex_alias, text)
+    const reply = create_post(user.endpoint, text)
     reply.discussion_id = thread.discussion_id
     reply.thread_id = thread._id
+
+    if(isUserUbInDiscussion(user, reply.discussion_id)) reply.status = PostStatus.UB
 
     thread.posts.push(reply)
     all_posts.push(reply)
@@ -111,6 +118,7 @@ export function add_to_possible_ub(post: Post) {
 export function set_post_ub(post: Post) {
     all_posts[post._id].status = PostStatus.UB
     possible_ub_posts.delete(post)
+    get_user(post.author).ub_for_discussion_index[post.discussion_id] = true
     console.log("Post " + post._id + " now ub")
 }
 
@@ -125,7 +133,6 @@ export function verify(post: Post) {
 
 const gast = $$(new User()) 
 gast._id = 0
-gast.datex_alias = "Gast"
 gast.name = "Gast"
 gast.role = Role.Guest
 
@@ -146,21 +153,21 @@ export async function add_new_user(username: string) {
     const endpoint = datex.meta.sender.main;
     const datex_alias = await endpoint.getAlias()
     const member = new User()
+
     member._id = member_id.val++
     member.pseudonyms = new Array<string>
-    member.endpoint = endpoint
-    member.datex_alias = datex_alias!
+    member.endpoint = endpoint.toString()
     member.name = username
     member.role = Role.User
     
     all_discussions.forEach((discussion: Discussion) => assign_pseudonym_for_discussion(member, discussion))
-    
+
     all_members.push(member)
     console.log("Endpoint: " + endpoint + " - alias: " + datex_alias + "  " + username + " registered")
-
 }
 
 export function assign_pseudonym_for_discussion(user: User, discussion: Discussion) {
+
     let name = random_name()
 
     while (discussion.pseudonyms.includes(name)) {
@@ -170,6 +177,6 @@ export function assign_pseudonym_for_discussion(user: User, discussion: Discussi
     user.pseudonyms[discussion._id] = name    
 }
 
-export function get_user(alias: string) {
-    return all_members.find((member: User) => member.datex_alias == alias) ?? gast
+export function get_user(endpoint: string) {
+    return all_members.find((member: User) => member.endpoint == endpoint) ?? gast
 }

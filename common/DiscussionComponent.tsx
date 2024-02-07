@@ -14,12 +14,13 @@ interface Props {
 
 @template<Props>(async (props, { discussion }) => {
 
-    const thread_starter_text = $$("")
-    const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
-    const user = await get_user(alias.val)
+    const endpoint = $$(await Datex.Runtime.endpoint.main)
+    const alias = $$(await endpoint.val.getAlias() ?? "Gast")
+    const user = await get_user(endpoint.toString())
 
     const discussion_author = await get_user(discussion.author)
 
+    const thread_starter_text = $$("")
     const thread_modal_visible = $$(false)
 
     const isExpanded = always(() => {
@@ -67,7 +68,7 @@ interface Props {
     }
 
     const pseudonym = () => {
-        return <div class="user-pseudonym">{user.pseudonyms[discussion._id]}</div>
+        return <div class="user-pseudonym">In dieser Diskussion bist du: {user.pseudonyms[discussion._id]}</div>
 
     }
 
