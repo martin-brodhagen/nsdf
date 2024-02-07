@@ -3,29 +3,6 @@ import { delete_reply, edit_reply, set_post_ub, add_to_possible_ub, get_user, ve
 import { Datex } from "unyt_core/datex.ts";
 import { PostStatus, Role, Post } from "common/classes.ts";
 
-// formats date into string
-export function display_date(time: Date) {
-    const timeDifference = Date.now() - time.getTime();
-
-    if (timeDifference > 24 * 60 * 60 * 1000) {
-        return time.toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
-    } else if (timeDifference > 60 * 60 * 1000) {
-        const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-        return hours > 1 ? `${hours} hours ago` : '1 hour ago';
-    } else if (timeDifference > 60 * 1000) {
-        const minutes = Math.floor(timeDifference / (60 * 1000));
-        return minutes > 1 ? `${minutes} minutes ago` : '1 minute ago';
-    } else {
-        return 'just now';
-    }
-}
-
-// checks if user can edit
-export function editable(prop_time: Date, prop_author: string, username: string) {
-    const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
-    return (prop_time >= tenMinutesAgo) && (prop_author == username)
-}
-
 interface Props {
     post: Post,
     avoid_ub: boolean
@@ -34,10 +11,32 @@ interface Props {
 @template<Props>(async (props, { post }) => {
 
     const endpoint = $$(await Datex.Runtime.endpoint.main)
-    const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
     const user = await get_user(endpoint.toString())
 
     const post_author = await get_user(post.author)
+
+    // formats date into string
+    function display_date(time: Date) {
+        const timeDifference = Date.now() - time.getTime();
+
+        if (timeDifference > 24 * 60 * 60 * 1000) {
+            return time.toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' });
+        } else if (timeDifference > 60 * 60 * 1000) {
+            const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+            return hours > 1 ? `${hours} hours ago` : '1 hour ago';
+        } else if (timeDifference > 60 * 1000) {
+            const minutes = Math.floor(timeDifference / (60 * 1000));
+            return minutes > 1 ? `${minutes} minutes ago` : '1 minute ago';
+        } else {
+            return 'just now';
+        }
+    }
+
+    // checks if user can edit
+    function editable(prop_time: Date, prop_author: string, username: string) {
+        const tenMinutesAgo = new Date(new Date().getTime() - 10 * 60000)
+        return (prop_time >= tenMinutesAgo) && (prop_author == username)
+    }
 
     const toggle_edit = always(() => {
         return editable(post.time as Date, post.author, endpoint.toString())

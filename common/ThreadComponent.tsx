@@ -12,7 +12,6 @@ interface Props {
 @template<Props>(async (props, { thread }) => {
 
     const endpoint = $$(await Datex.Runtime.endpoint.main)
-    const alias = $$(await Datex.Runtime.endpoint.main.getAlias() ?? "Gast")
     const user = await get_user(endpoint.toString())
 
     const reply_text = $$("")

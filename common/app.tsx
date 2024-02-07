@@ -6,12 +6,9 @@ import { UserManagementComponent } from "common/UserManagementComponent.tsx"
 import { Discussion, Post, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
-import { AuthIcon } from "auth";
-
 @template(async () => {
 
 	const endpoint = $$(await Datex.Runtime.endpoint.main)
-	const alias = $$(await endpoint.val.getAlias() ?? "Gast")
 	const user = await get_user(endpoint.toString())
 
 	const title = $$("")
@@ -42,8 +39,6 @@ import { AuthIcon } from "auth";
 	const filtered_discussions: Discussion[] = always(() => {
 		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
 	})
-
-
 
 	function add_discussion() {
 		const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
@@ -205,7 +200,6 @@ import { AuthIcon } from "auth";
 		return <div id="discussions_tab" class="tab">
 			<div id="actions">
 				{always(user_interaction)}
-				<input type="text" id="suchfeld" placeholder="Suche" value={search_term} />
 			</div>
 
 			<div class="discussions">

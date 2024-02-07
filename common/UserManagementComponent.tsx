@@ -10,7 +10,7 @@ interface Props {
 	const legend_entry = $$("no endpoint")
 
 	if (user.endpoint != "") {
-		legend_entry.val = user.endpoint.toString()
+		legend_entry.val = user.endpoint
 	}
 
 	const ub_rate = always(() => {

@@ -2,7 +2,7 @@
  * Our very own data classes
  */
 
-import { Endpoint, datexClass, datexClassType } from "unyt_core/datex_all.ts";
+import { datexClass, datexClassType } from "unyt_core/datex_all.ts";
 
 @sync class _Discussion {
     @property _id = -1
