@@ -32,6 +32,11 @@ export function delete_discussion(discussion: Discussion) {
     console.log("deleted Discussion " + discussion._id)
 }
 
+export function edit_tldr(discussion: Discussion, text: string) {
+    discussion.tldr = text 
+    console.log("TLDR of discussion " + discussion._id + " edited. " + text)
+}
+
 // ------------------- Threads -------------------
 function create_post(author: string, text: string) {
     const post = new Post()

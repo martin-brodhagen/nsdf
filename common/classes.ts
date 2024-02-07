@@ -10,7 +10,7 @@ import { datexClass, datexClassType } from "unyt_core/datex_all.ts";
     @property author = ""
     @property title = ""
     @property intro_argument = ""
-    @property tldr = "This is not the TLDR you're looking for..."
+    @property tldr = ""
     @property pseudonyms = new Array<string>
     @property threads: Thread[] = []
     @property deleted = false

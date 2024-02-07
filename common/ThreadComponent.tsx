@@ -46,7 +46,7 @@ interface Props {
     }
 
     const delete_button = () => {
-        if (user.role == Role.Mod || user.role == Role.Admin) {
+        if (user.role == Role.Admin) {
             return <button onclick={() => delete_thread(thread)}>delete Thread {thread._id}</button>
         } else {
             return <div></div>

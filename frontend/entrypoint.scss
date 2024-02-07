@@ -149,6 +149,7 @@ section.newest-posts {
 
 // MODALS
 
+#tldr-edit-modal,
 #add-discussion-modal,
 #add-thread-modal,
 #edit-modal {
@@ -196,6 +197,7 @@ section.newest-posts {
     background-color: #45a049;
 }
 
+#tldr-edit-modal.visible,
 #add-discussion-modal.visible,
 #add-thread-modal.visible,
 #edit-modal.visible {
