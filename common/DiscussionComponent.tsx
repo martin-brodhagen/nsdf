@@ -166,6 +166,12 @@ interface Props {
         </div>
     }
 
+    const post_counter_display = always(() => {
+        return <div class="post-counter-display">
+            {discussion.num_posts + " Posts"}
+        </div>
+    })
+
     if (discussion.deleted) {
         return <div></div>
     }
@@ -173,11 +179,11 @@ interface Props {
     return <div id={"discussion_" + discussion._id} class="discussion-container">
         {always(delete_button)}
         {always(tldr_edit_button)}
+        {post_counter_display}
         {always(pseudonym)}
 
         {title()}
 
-        {always(new_thread_button)}
 
         {tldr()}
 
@@ -185,6 +191,8 @@ interface Props {
             <div class="intro-argument">
                 <p>{discussion.intro_argument}</p>
             </div>
+
+            {always(new_thread_button)}
 
             <div class="all-threads-container">
                 {discussion.threads.$.map((thread: Thread) => <ThreadComponent thread={thread} avoid_ub={props.avoid_ub} />)}

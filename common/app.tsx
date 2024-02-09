@@ -52,6 +52,7 @@ import { Datex } from "unyt_core/datex.ts";
 		title.val = ""
 		intro_arg.val = ""
 		textarea.value = ""
+		textarea.style.height = "38px"
 	}
 
 	function handleKeyPress(event) {
@@ -132,7 +133,7 @@ import { Datex } from "unyt_core/datex.ts";
 		switchTab(0)
 		expandedDiscussion.val = id
 		const discussionElement = document.getElementById("discussion_" + id)
-		if(discussionElement) {
+		if (discussionElement) {
 			discussionElement.scrollIntoView({ behavior: "smooth", block: "center" })
 		}
 	}
@@ -142,9 +143,9 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const participated_discussions = () => {
-		return all_participated_discussions.map((discussion: Discussion) => 
+		return all_participated_discussions.map((discussion: Discussion) =>
 			<div class="discussion-preview" onclick={() => scrollToDiscussion(discussion._id)}>
-				<p>{discussion.title}</p>
+				<p>{discussion.title} - {discussion.num_posts} Posts</p>
 			</div>
 		)
 	}
@@ -236,6 +237,8 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(user_interaction)}
 			</div>
 
+			{always(recommended_discussions)}
+
 			<div class="discussions">
 				{all_discussions.$.map((discussion: Discussion) => (
 					<DiscussionComponent discussion={discussion} avoid_ub={avoid_UB} expanded_discussion={expandedDiscussion} onclick={() => expandedDiscussion.val = discussion._id} />
@@ -245,20 +248,23 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const recommended_discussions = () => {
-		const recommended = all_discussions.map(x => x).sort((a,b) => b.num_posts - a.num_posts)
+		const recommended = all_discussions.map(x => x).sort((a, b) => b.num_posts - a.num_posts)
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
-		if (recommended.length > 0){
+		if (recommended.length > 0) {
 			return <aside class="suggested-discussions">
 				HOT DISCUSSIONS🔥:
 				<br />
 				<ul>
-					{recommended.slice(0,3).map(x => (
-						<li><b>{x.title}</b></li>
+					{recommended.slice(0, 3).map(discussion => (
+
+						<div class="discussion-preview" onclick={() => scrollToDiscussion(discussion._id)}>
+							<p>{discussion.title} - {discussion.num_posts} Posts</p>
+						</div>
 					))}
 				</ul>
 			</aside>
 		}
-		else{
+		else {
 			return <aside class="suggested-discussions">
 				HOT DISCUSSIONS🔥:
 				<br />
@@ -281,8 +287,6 @@ import { Datex } from "unyt_core/datex.ts";
 		<main>
 
 			{always(user_management)}
-			
-			{always(recommended_discussions)}
 
 			{discussions_tab()}
 
