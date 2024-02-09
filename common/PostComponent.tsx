@@ -44,12 +44,15 @@ interface Props {
     const prop_time = always(() => {
         return post.edited ? display_date(post.time as Date) + " (edited)" : display_date(post.time as Date)
     })
-    const edit_modal_visible = $$(false)
+
     const edit = $$(post.content)
 
     function do_edit() {
+        const textarea = document.getElementById(`edit-textbox-${post._id}`) as HTMLTextAreaElement
+        const modal = document.getElementById(`edit-modal-${post._id}`) as HTMLDialogElement
+        edit.val = textarea.value
         edit_reply(post, edit.val)
-        edit_modal_visible.val = !edit_modal_visible.val
+        modal.close()
     }
 
     function handleKeyPress(event) {
@@ -109,16 +112,33 @@ interface Props {
     const edit_button = () => {
         if (post.author == user.endpoint) {
             return <div>
-                <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => { edit_modal_visible.val = !edit_modal_visible.val }}>edit</button>
+                <button id="edit-button" class={{ visible: toggle_edit }} onclick={() => {
+                    const textarea = document.getElementById(`edit-textbox-${post._id}`) as HTMLTextAreaElement
+                    const modal = document.getElementById(`edit-modal-${post._id}`) as HTMLDialogElement
+                    textarea.value = post.content
+                    modal.showModal()
+                }}>edit</button>
 
-                <div id="edit-modal" class={{ visible: edit_modal_visible }}>
+                <dialog id={`edit-modal-${post._id}`} class="modal">
                     <fieldset>
                         <legend>edit mode</legend>
-                        <input type="text" placeholder={"edit here"} id="edit-textbox"
-                            onkeypress={handleKeyPress} value={edit} />
+                        <textarea
+                            id={`edit-textbox-${post._id}`}
+                            placeholder={"edit here"}
+                            onkeypress={handleKeyPress}
+                            onkeydown={() => {
+                                const self = document.getElementById(`edit-textbox-${post._id}`) as HTMLTextAreaElement
+                                const scroll_height = self.scrollHeight
+                                self.style.height = `${scroll_height.toString()}px`
+                            }}
+                        />
                         <button onclick={do_edit}>send edit</button>
+                        <button onclick={() => {
+                            const modal = document.getElementById(`edit-modal-${post._id}`) as HTMLDialogElement
+                            modal.close()
+                        }}>Abbrechen</button>
                     </fieldset>
-                </div>
+                </dialog>
             </div>
         } else {
             return <div></div>

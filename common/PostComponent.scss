@@ -1,5 +1,4 @@
 .post {
-
 	background-color: #404b5e;
 	color: #E2E8F0;
 	border-radius: .5rem;
@@ -38,8 +37,7 @@
 	color: gray;
 }
 
-#edit-button,
-#edit-modal {
+#edit-button {
 	display: none;
 
 	&.visible {
