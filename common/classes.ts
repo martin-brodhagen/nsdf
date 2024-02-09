@@ -14,6 +14,7 @@ import { datexClass, datexClassType } from "unyt_core/datex_all.ts";
     @property pseudonyms = new Array<string>
     @property threads: Thread[] = []
     @property deleted = false
+    @property num_posts = 0
 }
 
 export const Discussion = datexClass(_Discussion)
@@ -61,6 +62,7 @@ export enum Role {
     @property name = ""
     @property role = Role.None
     @property posts = new Array<Post>
+    @property participated_discussions = new Set<Discussion>
 }
 
 export const User = datexClass(_User)

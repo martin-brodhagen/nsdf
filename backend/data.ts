@@ -14,14 +14,15 @@ export const possible_ub_posts = await lazyEternalVar("possible_ub_posts") ?? $$
 
 
 // ------------------- Discussions -------------------
-export function add_new_discussion(title: string, author: string, intro_arg: string, makeUB: boolean) {
+export function add_new_discussion(title: string, user: User, intro_arg: string, makeUB: boolean) {
     const discussion = new Discussion()
-    discussion.author = author
+    discussion.author = user.endpoint
     discussion._id = discussion_id.val++
     discussion.title = title
     discussion.intro_argument = intro_arg
     discussion.isUB = makeUB
     all_discussions.push(discussion)
+    user.participated_discussions.add(discussion)
     console.log("discussion added... by " + discussion.author)
 
     all_members.forEach((user: User) => assign_pseudonym_for_discussion(user, discussion))
@@ -35,6 +36,10 @@ export function delete_discussion(discussion: Discussion) {
 export function edit_tldr(discussion: Discussion, text: string) {
     discussion.tldr = text 
     console.log("TLDR of discussion " + discussion._id + " edited. " + text)
+}
+
+function get_discussion(id: number) {
+    return all_discussions.find((discussion: Discussion) => discussion._id === id) 
 }
 
 // ------------------- Threads -------------------
@@ -57,11 +62,15 @@ export function start_new_thread(discussion: Discussion, user: User, text: strin
     thread._id = thread_id.val++
     thread.discussion_id = discussion._id
 
+    discussion.num_posts += 1
+
     const first = create_post(user.endpoint, text)
     first.discussion_id = thread.discussion_id
     first.thread_id = thread._id
 
     if(isUserUbInDiscussion(user, discussion._id)) first.status = PostStatus.UB
+
+    user.participated_discussions.add(discussion)
 
     thread.posts.push(first)
     all_posts.push(first)
@@ -76,29 +85,37 @@ export function start_new_thread(discussion: Discussion, user: User, text: strin
 
 export function delete_thread(thread: Thread) {
     all_threads[thread._id].deleted = true
+
+    all_discussions[thread.discussion_id].num_posts -= thread.posts.length
     console.log("deleted Thread " + thread._id)
 }
 
 // ------------------- Replies -------------------
 export function add_new_reply(thread: Thread, text: string, user: User) {
     const reply = create_post(user.endpoint, text)
-    reply.discussion_id = thread.discussion_id
     reply.thread_id = thread._id
+    reply.discussion_id = thread.discussion_id
+    
+    all_discussions[thread.discussion_id].num_posts += 1
+    
+    const discussion = get_discussion(reply.discussion_id)    
+    if(discussion) user.participated_discussions.add(discussion)
 
     if(isUserUbInDiscussion(user, reply.discussion_id)) reply.status = PostStatus.UB
-
+    
     thread.posts.push(reply)
     all_posts.push(reply)
-
+    
     user.posts.push(reply)
-
+    
     console.log(reply.author + " postet a new reply...")
 }
 
 export function delete_reply(post: Post) {    
-    
     all_posts[post._id].status = PostStatus.Deleted
     possible_ub_posts.delete(post)
+
+    all_discussions[post.discussion_id].num_posts -= 1
     console.log("deleted Post " + post._id)
 }
 

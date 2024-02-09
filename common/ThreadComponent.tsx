@@ -16,6 +16,7 @@ interface Props {
 
     const reply_text = $$("")
     const showThread = $$(false)
+    const empty = $$(false)
 
     const isMoreThanOne = always(() => {
         if (user.role == Role.Mod || user.role == Role.Admin) {
@@ -39,8 +40,11 @@ interface Props {
 
 
     function do_reply() {
+        const textarea = document.getElementById(`new-reply-${thread._id}`) as HTMLTextAreaElement
+        reply_text.val = textarea.value
         add_new_reply(thread, reply_text.val, user)
-        reply_text.val = ""
+        textarea.value = ""
+        textarea.style.height = "38px"
         showThread.val = true
         isMoreThanOne.val = true
     }
@@ -56,7 +60,16 @@ interface Props {
     const thread_action = () => {
         if (user.role == Role.User || user.role == Role.Admin) {
             return <div id="thread-action" class={{ visible: showThreadAction }}>
-                <input type="text" id="new-reply" placeholder="reply" onkeypress={handleKeyPress} value={reply_text} />
+                <textarea
+                    id={`new-reply-${thread._id}`}
+                    class="new-reply"
+                    placeholder="reply"
+                    onkeypress={handleKeyPress}
+                    onkeydown={() => {
+                        const self = document.getElementById(`new-reply-${thread._id}`) as HTMLTextAreaElement
+                        const scroll_height = self.scrollHeight
+                        self.style.height = `${scroll_height.toString()}px`
+                    }} />
                 <button onclick={do_reply}>reply</button>
             </div>
         } else {

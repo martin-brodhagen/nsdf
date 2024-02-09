@@ -115,6 +115,9 @@
  }
 
  textarea {
- 	width: 50px;
- 	height: auto;
+ 	resize: none;
+ 	width: 400px;
+ 	height: 38px;
+ 	overflow: hidden;
+ 	box-sizing: border-box;
  }

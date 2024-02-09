@@ -16,7 +16,6 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const new_user_name = $$("")
 
-	const modal_visible = $$(false)
 	const avoid_UB = $$(true)
 	const search_term = $$("")
 
@@ -26,6 +25,10 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const all_reported_posts = always(() => {
 		return Array.from(possible_ub_posts)
+	})
+
+	const all_participated_discussions = always(() => {
+		return Array.from(user.participated_discussions)
 	})
 
 	function filterfunc(discussion: Discussion) {
@@ -42,11 +45,13 @@ import { Datex } from "unyt_core/datex.ts";
 
 	function add_discussion() {
 		const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
+		const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 		intro_arg.val = textarea.value
-		add_new_discussion(title.val, user.endpoint, intro_arg.val, makeUB.val)
-		modal_visible.val = !modal_visible.val
+		add_new_discussion(title.val, user, intro_arg.val, makeUB.val)
+		modal.close()
 		title.val = ""
 		intro_arg.val = ""
+		textarea.value = ""
 	}
 
 	function handleKeyPress(event) {
@@ -59,17 +64,33 @@ import { Datex } from "unyt_core/datex.ts";
 		if (user.role == Role.Admin || user.role == Role.User) {
 			return <div>
 				<button id="newdi" onclick={() => {
-					modal_visible.val = !modal_visible.val
+					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
+					modal.showModal()
 				}}>New Discussion</button>
 
-				<div id="add-discussion-modal" class={{ visible: modal_visible }}>
+				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
 						<legend>New Discussion</legend>
 						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
-						<textarea placeholder={"Intro Argument"} id="intro-arg" onkeypress={handleKeyPress} />
+						<textarea
+							placeholder={"Intro Argument"}
+							id="intro-arg"
+							onkeypress={handleKeyPress}
+							onkeydown={() => {
+								const self = document.getElementById("intro-arg") as HTMLTextAreaElement
+								const scroll_height = self.scrollHeight
+								self.style.height = `${scroll_height.toString()}px`
+							}}
+						/>
 						<button onclick={add_discussion}> Make Discussion Public</button>
+						<button onclick={() => {
+							const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
+							const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
+							modal.close()
+							textarea.value = ""
+						}}>Abbrechen</button>
 					</fieldset>
-				</div>
+				</dialog>
 			</div>
 		} else {
 			return <div></div>
@@ -107,12 +128,25 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
+	function scrollToDiscussion(id: number) {
+		switchTab(0)
+		expandedDiscussion.val = id
+		const discussionElement = document.getElementById("discussion_" + id)
+		if(discussionElement) {
+			discussionElement.scrollIntoView({ behavior: "smooth", block: "center" })
+		}
+	}
+
 	const user_management = () => {
 		return all_members.map(user => <UserManagementComponent user={user} />)
 	}
 
-	const own_posts = () => {
-		return user.posts.map((post: Post) => <PostComponent post={post} avoid_ub={avoid_UB} />)
+	const participated_discussions = () => {
+		return all_participated_discussions.map((discussion: Discussion) => 
+			<div class="discussion-preview" onclick={() => scrollToDiscussion(discussion._id)}>
+				<p>{discussion.title}</p>
+			</div>
+		)
 	}
 
 	const reported_posts = () => {
@@ -122,7 +156,7 @@ import { Datex } from "unyt_core/datex.ts";
 	const role_related_tab_title = () => {
 		if (user.role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				My posts
+				My discussions
 			</div>
 		} else if (user.role == Role.Mod) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
@@ -140,7 +174,7 @@ import { Datex } from "unyt_core/datex.ts";
 	const role_related_tab = () => {
 		if (user.role == Role.User) {
 			return <div id="role_related_tab" class="tab">
-				{always(own_posts)}
+				{always(participated_discussions)}
 			</div>
 		} else if (user.role == Role.Mod) {
 			return <div id="role_related_tab" class="tab">
@@ -210,6 +244,29 @@ import { Datex } from "unyt_core/datex.ts";
 		</div>
 	}
 
+	const recommended_discussions = () => {
+		const recommended = all_discussions.map(x => x).sort((a,b) => b.num_posts - a.num_posts)
+		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
+		if (recommended.length > 0){
+			return <aside class="suggested-discussions">
+				HOT DISCUSSIONS🔥:
+				<br />
+				<ul>
+					{recommended.slice(0,3).map(x => (
+						<li><b>{x.title}</b></li>
+					))}
+				</ul>
+			</aside>
+		}
+		else{
+			return <aside class="suggested-discussions">
+				HOT DISCUSSIONS🔥:
+				<br />
+				<h3>There are no discussions, yet...</h3>
+			</aside>
+		}
+	}
+
 	return <html>
 		<nav id="headerelem">
 			<b style="float: right;" >Hallo, {always(() => user.name)}</b>
@@ -224,14 +281,8 @@ import { Datex } from "unyt_core/datex.ts";
 		<main>
 
 			{always(user_management)}
-			<aside class="suggested-discussions">
-				Diese Diskussionen könnten dir gefallen:
-				<ul>
-					<li>Beispiel Diskussion 1</li>
-					<li>Beispiel Diskussion 2</li>
-					<li>Beispiel Diskussion 3</li>
-				</ul>
-			</aside>
+			
+			{always(recommended_discussions)}
 
 			{discussions_tab()}
 

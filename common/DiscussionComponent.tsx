@@ -21,8 +21,6 @@ interface Props {
 
     const thread_starter_text = $$("")
     const tldr_edit_text = $$("")
-    const thread_modal_visible = $$(false)
-    const tldr_edit_modal_visible = $$(false)
 
     const isExpanded = always(() => {
         return props.expanded_discussion == discussion._id
@@ -33,30 +31,52 @@ interface Props {
     })
 
     function start_thread() {
+        const textarea = document.getElementById(`thread-starter-${discussion._id}`) as HTMLTextAreaElement
+        const modal = document.getElementById(`add-thread-modal-${discussion._id}`) as HTMLDialogElement
+        thread_starter_text.val = textarea.value
+        textarea.value = ""
         start_new_thread(discussion, user, thread_starter_text.val)
-        thread_modal_visible.val = !thread_modal_visible.val
-        thread_starter_text.val = ""
+        modal.close()
     }
+
     function handleKeyPressForNewThread(event) {
         if (event.key === 'Enter') {
             start_thread();
         }
     }
 
-    const user_interaction = () => {
+    const new_thread_button = () => {
         if (user.role == Role.Admin || user.role == Role.User) {
             return <div style={{ display: isExpanded.val }}>
                 <div class="new-thread-container">
-                    <button onclick={() => thread_modal_visible.val = !thread_modal_visible.val}>+ Thread</button>
+                    <button onclick={() => {
+                        const modal = document.getElementById(`add-thread-modal-${discussion._id}`) as HTMLDialogElement
+                        modal.showModal()
+                    }}>+ Thread</button>
                 </div>
-                <div id="add-thread-modal" class={{ visible: thread_modal_visible }}>
+                <dialog id={`add-thread-modal-${discussion._id}`} class="modal">
                     <fieldset>
                         <legend>New Thread</legend>
                         <p>{discussion.intro_argument}</p>
-                        <input type="text" placeholder={"Thread Starter"} id="thread-starter" onkeypress={handleKeyPressForNewThread} value={thread_starter_text} />
+                        <textarea
+                            id={`thread-starter-${discussion._id}`}
+                            placeholder={"Thread Starter"}
+                            onkeypress={handleKeyPressForNewThread}
+                            onkeydown={() => {
+                                const self = document.getElementById(`thread-starter-${discussion._id}`) as HTMLTextAreaElement
+                                const scroll_height = self.scrollHeight
+                                self.style.height = `${scroll_height.toString()}px`
+                            }}
+                        />
                         <button onclick={start_thread}>Start this Thread</button>
+                        <button onclick={() => {
+                            const textarea = document.getElementById(`thread-starter-${discussion._id}`) as HTMLTextAreaElement
+                            const modal = document.getElementById(`add-thread-modal-${discussion._id}`) as HTMLDialogElement
+                            modal.close()
+                            textarea.value = ""
+                        }}>Abbrechen</button>
                     </fieldset>
-                </div>
+                </dialog>
             </div>
         } else {
             return <div></div>
@@ -72,10 +92,12 @@ interface Props {
     }
 
     function do_tldr_edit() {
-        const textarea = document.getElementsByClassName("tldr-edit-textbox")[discussion._id] as HTMLTextAreaElement
+        const textarea = document.getElementById(`tldr-edit-textbox-${discussion._id}`) as HTMLTextAreaElement
+        const modal = document.getElementById(`tldr-edit-modal-${discussion._id}`) as HTMLDialogElement
         tldr_edit_text.val = textarea.value
+        textarea.value = ""
         edit_tldr(discussion, tldr_edit_text.val)
-        tldr_edit_modal_visible.val = !tldr_edit_modal_visible
+        modal.close()
     }
 
     function handle_keypress_for_tldr(event) {
@@ -89,19 +111,35 @@ interface Props {
             return <div style={{ display: isExpanded.val }}>
                 <div class="tlrd-edit-button">
                     <button onclick={() => {
-                        const textarea = document.getElementsByClassName("tldr-edit-textbox")[discussion._id] as HTMLTextAreaElement
+                        const textarea = document.getElementById(`tldr-edit-textbox-${discussion._id}`) as HTMLTextAreaElement
+                        const modal = document.getElementById(`tldr-edit-modal-${discussion._id}`) as HTMLDialogElement
                         textarea.value = discussion.tldr
-                        tldr_edit_modal_visible.val = !tldr_edit_modal_visible.val
+                        modal.showModal()
                     }}>edit TLDR</button>
                 </div>
-                <div id="tldr-edit-modal" class={{ visible: tldr_edit_modal_visible }}>
+                <dialog id={`tldr-edit-modal-${discussion._id}`} class="modal">
                     <fieldset>
                         <legend>tldr</legend>
                         <p>{discussion.intro_argument}</p>
-                        <textarea placeholder={"TLDR goes here"} class="tldr-edit-textbox" onkeypress={handle_keypress_for_tldr} />
+                        <textarea
+                            id={`tldr-edit-textbox-${discussion._id}`}
+                            placeholder={"TLDR goes here"}
+                            onkeypress={handle_keypress_for_tldr}
+                            onkeydown={() => {
+                                const self = document.getElementById(`tldr-edit-textbox-${discussion._id}`) as HTMLTextAreaElement
+                                const scroll_height = self.scrollHeight
+                                self.style.height = `${scroll_height.toString()}px`
+                            }}
+                        />
                         <button onclick={do_tldr_edit}>edit</button>
+                        <button onclick={() => {
+                            const textarea = document.getElementById(`tldr-edit-textbox-${discussion._id}`) as HTMLTextAreaElement
+                            const modal = document.getElementById(`tldr-edit-modal-${discussion._id}`) as HTMLDialogElement
+                            modal.close()
+                            textarea.value = ""
+                        }}>Abbrechen</button>
                     </fieldset>
-                </div>
+                </dialog>
             </div>
         } else {
             return <div></div>
@@ -132,14 +170,14 @@ interface Props {
         return <div></div>
     }
 
-    return <div id="discussion-container">
+    return <div id={"discussion_" + discussion._id} class="discussion-container">
         {always(delete_button)}
         {always(tldr_edit_button)}
         {always(pseudonym)}
 
         {title()}
 
-        {always(user_interaction)}
+        {always(new_thread_button)}
 
         {tldr()}
 
