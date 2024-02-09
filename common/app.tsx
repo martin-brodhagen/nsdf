@@ -134,7 +134,7 @@ import { Datex } from "unyt_core/datex.ts";
 		expandedDiscussion.val = id
 		const discussionElement = document.getElementById("discussion_" + id)
 		if (discussionElement) {
-			discussionElement.scrollIntoView({ behavior: "smooth", block: "center" })
+			discussionElement.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" })
 		}
 	}
 

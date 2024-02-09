@@ -125,3 +125,9 @@
  .discussion-preview {
  	background-color: #141b25;
  }
+
+
+ // fixes the scrollToDiscussion function
+ * {
+ 	scroll-margin-top: 200px;
+ }
