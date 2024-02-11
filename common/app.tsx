@@ -72,7 +72,7 @@ import { Datex } from "unyt_core/datex.ts";
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
 						<legend>New Discussion</legend>
-						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
+						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={3} maxlength={20} value={title} />
 						<textarea
 							placeholder={"Intro Argument"}
 							id="intro-arg"
@@ -119,7 +119,7 @@ import { Datex } from "unyt_core/datex.ts";
 			return <fieldset>
 				<legend>Neuer Nutzer</legend>
 				<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
-				<input type="text" placeholder="Dein Name" value={new_user_name} onkeypress={handleuserregistration} />
+				<input type="text" placeholder="Dein Name" maxlength={10} value={new_user_name} onkeypress={handleuserregistration} />
 				<button onclick={() => {
 					add_new_user(new_user_name.val)
 				}}>Registrieren</button>
@@ -213,14 +213,13 @@ import { Datex } from "unyt_core/datex.ts";
 		if (user.role === Role.User || user.role === Role.Mod || user.role === Role. Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
-					Alle
+					alle
 				</div>
 				{role_related_tab_title()}
 			</div>
 		} else {
 			return <div></div>
 		}
-
 	}
 
 	const ub_toggle = () => {
