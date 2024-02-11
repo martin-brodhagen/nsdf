@@ -8,7 +8,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 @template(async () => {
 
-	const endpoint = await Datex.Runtime.endpoint.main
+	const endpoint = await $$(Datex.Runtime.endpoint.main)
 	const user = await get_user(endpoint.toString())
 
 	const title = $$("")
@@ -55,7 +55,7 @@ import { Datex } from "unyt_core/datex.ts";
 				<div class="new-discussion-clicker" onclick={() => {
 					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 					modal.showModal()
-				}}>New Discussion</div>
+				}}> <p>+ Diskussion</p> </div>
 
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
@@ -250,7 +250,7 @@ import { Datex } from "unyt_core/datex.ts";
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
 			return <div class="suggested-discussions">
-				HOT DISCUSSIONS🔥:
+				Heiß diskutiert🔥:
 				<br />
 				<ul>
 					{recommended.slice(0, 3).map(discussion => (
@@ -273,9 +273,9 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const account_item = () => {
 		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
-			return <div>{user_registration_button()}</div>
+			return <div class="account-item">{user_registration_button()}</div>
 		} else {
-			return <b style="float: right;" >Hallo, {user.name}</b>
+			return <b class="account-item">@{user.name}</b>
 		}
 	}
 
@@ -285,7 +285,7 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(header)}
 				{always(tab_selector)}
 				{ub_toggle()}
-				<a href="about-us">Über uns</a>
+				<a class="about-us" href="about-us">Über uns</a>
 
 				{always(account_item)}
 			</div>

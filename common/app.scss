@@ -1,6 +1,6 @@
  // toggle
  .checkbox-container {
- 	display: inline-block;
+ 	align-self: center;
  	position: relative;
  }
 
@@ -44,11 +44,6 @@
  	background-color: grey;
  }
 
- #actions {
- 	display: flex;
- 	justify-content: center;
- }
-
  .headerelem {
  	display: grid;
  	position: sticky;
@@ -59,34 +54,37 @@
  	text-align: center;
  	z-index: 10;
  	grid-area: header;
+ }
 
- 	.tabs {
- 		background-color: #1E293B;
- 		margin: 0 auto;
- 		width: 150px;
- 		height: fit-content;
- 		display: flex;
- 		border: .1em solid #fff;
- 		border-radius: .5em;
- 		overflow: hidden;
+ .tabs {
+ 	background-color: #1E293B;
+ 	align-self: center;
+ 	margin: 0 auto;
+ 	width: 150px;
+ 	height: fit-content;
+ 	display: flex;
+ 	border: .1em solid #fff;
+ 	border-radius: .5em;
+ 	overflow: hidden;
+ }
 
- 		>div {
- 			flex: 1;
- 			padding: .5em 1em;
- 			cursor: pointer;
- 			text-align: center;
- 			color: #fff;
+ .tab_title {
+ 	flex: 1;
+ 	padding: .5em 1em;
+ 	cursor: pointer;
+ 	text-align: center;
+ 	color: #fff;
 
- 			&.active {
- 				background-color: orange;
- 			}
+ 	&.active {
+ 		background-color: orange;
+ 	}
 
- 			&:hover {
- 				background-color: orange;
- 			}
- 		}
+ 	&:hover {
+ 		background-color: orange;
  	}
  }
+
+
 
  .content {
  	grid-area: content;
@@ -98,8 +96,9 @@
  }
 
  .suggested-discussions {
- 	background-color: #1E293B;
  	grid-area: sugg;
+ 	background-color: #1E293B;
+ 	position: sticky;
  }
 
  textarea {
@@ -122,14 +121,8 @@
 
  #actions {
  	width: 100%;
- 	height: 150px;
- }
-
- .new-discussion-clicker {
- 	width: 100%;
- 	height: 100%;
- 	border: dotted orange 3px;
- 	border-radius: 1em;
+ 	height: 75px;
+ 	margin-bottom: 10px;
  }
 
  #user-interaction {
@@ -137,15 +130,57 @@
  	height: 100%;
  }
 
- @media (max-width: 800px) {
+ .new-discussion-clicker {
+ 	width: 100%;
+ 	height: 100%;
+ 	border: dotted orange 2px;
+ 	border-radius: 0.25rem;
+ 	color: orange;
+ 	text-align: center;
+ 	text-justify: auto;
+ 	cursor: pointer;
+
+ 	&:hover {
+ 		background-color: #2D3748;
+ 		cursor: pointer;
+ 	}
+ }
+
+ .about-us,
+ .account-item {
+ 	align-self: center;
+ }
+
+ @media only screen and (max-width: 800px) {
+
+ 	.headerelem {
+ 		grid-template-columns: 2fr 3fr 1fr 1fr 2fr;
+ 	}
 
  	h1 {
- 		font-size: 15px;
+ 		font-size: 18px;
+ 	}
+
+ 	.content {
+ 		display: block;
+ 	}
+
+ 	.tab_title {
+ 		font-size: 10px;
  	}
 
  	.tabs {
- 		font-size: smaller;
- 		width: 50px;
+ 		width: 80%;
+ 	}
+
+ 	.suggested-discussions {
+ 		display: block;
+ 		overflow-y: scroll;
+ 	}
+
+ 	.account-item,
+ 	.about-us {
+ 		font-size: 10px;
  	}
 
  }

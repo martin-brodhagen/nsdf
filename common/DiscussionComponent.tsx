@@ -14,7 +14,7 @@ interface Props {
 
 @template<Props>(async (props, { discussion }) => {
 
-    const endpoint = $$(await Datex.Runtime.endpoint.main)
+    const endpoint = await $$(Datex.Runtime.endpoint.main)
     const user = await get_user(endpoint.toString())
 
     const discussion_author = await get_user(discussion.author)
