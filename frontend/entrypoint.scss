@@ -11,6 +11,12 @@ body {
     display: grid;
     grid-template-columns: 25% 50% 25%;
     grid-template-rows: 10% 40% 40% 10%;
+    grid-template-areas:
+        "header header header"
+        "sugg content ."
+        ". content ."
+        ". content .";
+
     justify-items: center;
     height: 100vh;
     width: 100%;
@@ -90,6 +96,14 @@ button:hover {
     .grid-container {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 100%;
+        grid-template-rows: 10% 35% 55%;
+        grid-template-areas:
+            "header"
+            "sugg"
+            "content";
     }
+}
+
+* {
+    scroll-margin-top: 200px;
 }

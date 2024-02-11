@@ -31,18 +31,6 @@ import { Datex } from "unyt_core/datex.ts";
 		return Array.from(user.participated_discussions)
 	})
 
-	function filterfunc(discussion: Discussion) {
-		const threads = discussion.threads
-
-		return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase())
-			|| discussion.intro_argument.toLowerCase().includes(search_term.val.toLowerCase())
-			|| threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
-	}
-
-	const filtered_discussions: Discussion[] = always(() => {
-		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
-	})
-
 	function add_discussion() {
 		const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
 		const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
@@ -83,7 +71,10 @@ import { Datex } from "unyt_core/datex.ts";
 								self.style.height = `${scroll_height.toString()}px`
 							}}
 						/>
-						<button onclick={add_discussion}> Make Discussion Public</button>
+						<button onclick={() => {
+							add_discussion()
+							scrollToDiscussion(all_discussions.length - 1)
+							}}> Make Discussion Public</button>
 						<button onclick={() => {
 							const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 							const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
