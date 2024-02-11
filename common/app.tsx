@@ -8,7 +8,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 @template(async () => {
 
-	const endpoint = $$(await Datex.Runtime.endpoint.main)
+	const endpoint = await Datex.Runtime.endpoint.main
 	const user = await get_user(endpoint.toString())
 
 	const title = $$("")
@@ -64,7 +64,7 @@ import { Datex } from "unyt_core/datex.ts";
 	const user_interaction = () => {
 		if (user.role == Role.Admin || user.role == Role.User) {
 			return <div>
-				<button onclick={() => {
+				<button class="new-discussion-button" onclick={() => {
 					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 					modal.showModal()
 				}}>New Discussion</button>
@@ -114,19 +114,29 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
-	const user_registration = () => {
-		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
-			return <fieldset>
+	const user_registration_button = () => {		
+			return <div>
+				<button onclick={() => {
+					const modal = document.querySelector("#user-registration") as HTMLDialogElement
+					modal.showModal()
+				}}>Registrieren</button>
+
+				<dialog id="user-registration" class="modal">
+
+				<fieldset>
 				<legend>Neuer Nutzer</legend>
 				<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
 				<input type="text" placeholder="Dein Name" maxlength={10} value={new_user_name} onkeypress={handleuserregistration} />
 				<button onclick={() => {
 					add_new_user(new_user_name.val)
+					const modal = document.getElementById("user-registration") as HTMLDialogElement
+					modal.close()
 				}}>Registrieren</button>
 			</fieldset>
-		} else {
-			return <div></div>
-		}
+				</dialog>
+			</div>
+			
+		
 	}
 
 	function scrollToDiscussion(id: number) {
@@ -270,17 +280,25 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
+	const account_item = () => {
+		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
+			return <div>{user_registration_button()}</div>
+		} else {
+			return <b style="float: right;" >Hallo, {user.name}</b>
+		}
+	}
+
 	return <body>
 		<div class="grid-container">
 			<div class="headerelem">
-				{always(tab_selector)}
 				{always(header)}
+				{always(tab_selector)}
 				{ub_toggle()}
 				<a href="about-us">Über uns</a>
 
-				<b style="float: right;" >Hallo, {always(() => user.name)}</b>
+				{always(account_item)}
 			</div>
-				{always(user_registration)}
+			
 
 			<div class="content">
 				{discussions_tab()}
