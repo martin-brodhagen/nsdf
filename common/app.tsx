@@ -101,9 +101,9 @@ import { Datex } from "unyt_core/datex.ts";
 	const header = () => {
 		switch (user.role) {
 			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
-			case Role.User: return <h1>NSDF - Viel Spaß hier!</h1>
+			case Role.User: return <h1><span class={{glow: avoid_UB.val, n: !avoid_UB.val}}>N</span><span class="glow">SDF</span></h1>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
-			case Role.Guest: return <h1>NSDF - Gast Modus - nur lesen möglich</h1>
+			case Role.Guest: return <h1><span class={{glow: avoid_UB.val, n: !avoid_UB.val}}>N</span><span class="glow">SDF</span></h1>
 			case Role.Mod: return <h1>NSDF - Mod Modus</h1>
 		}
 	}
@@ -157,15 +157,15 @@ import { Datex } from "unyt_core/datex.ts";
 	const role_related_tab_title = () => {
 		if (user.role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				My discussions
+				meine
 			</div>
 		} else if (user.role == Role.Mod) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				Reported posts
+				reported
 			</div>
 		} else if (user.role == Role.Admin) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				User management
+				users
 			</div>
 		} else {
 			return <div></div>
@@ -213,7 +213,7 @@ import { Datex } from "unyt_core/datex.ts";
 		if (user.role === Role.User || user.role === Role.Mod || user.role === Role. Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
-					Discussions
+					Alle
 				</div>
 				{role_related_tab_title()}
 			</div>
@@ -236,7 +236,6 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(user_interaction)}
 			</div>
 
-			{always(recommended_discussions)}
 
 			<div class="discussions">
 				{all_discussions.$.map((discussion: Discussion) => (
@@ -250,7 +249,7 @@ import { Datex } from "unyt_core/datex.ts";
 		const recommended = all_discussions.map(x => x).sort((a, b) => b.num_posts - a.num_posts)
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
-			return <aside class="suggested-discussions">
+			return <div class="suggested-discussions">
 				HOT DISCUSSIONS🔥:
 				<br />
 				<ul>
@@ -261,38 +260,36 @@ import { Datex } from "unyt_core/datex.ts";
 						</div>
 					))}
 				</ul>
-			</aside>
+			</div>
 		}
 		else {
-			return <aside class="suggested-discussions">
+			return <div class="suggested-discussions">
 				HOT DISCUSSIONS🔥:
 				<br />
 				<h3>There are no discussions, yet...</h3>
-			</aside>
+			</div>
 		}
 	}
 
 	return <body>
 		<div class="grid-container">
-			<nav class="headerelem">
-				<b style="float: right;" >Hallo, {always(() => user.name)}</b>
+			<div class="headerelem">
+				{always(tab_selector)}
 				{always(header)}
 				{ub_toggle()}
-				{always(user_registration)}
 				<a href="about-us">Über uns</a>
 
-				{always(tab_selector)}
-			</nav>
+				<b style="float: right;" >Hallo, {always(() => user.name)}</b>
+			</div>
+				{always(user_registration)}
 
-			<main class="content">
+			<div class="content">
 				{discussions_tab()}
 
 				{always(role_related_tab)}
-			</main>
+			</div>
 
-			<footer>
-				<p style="background-color: green;">hier ist der footer</p>
-			</footer>
+			{always(recommended_discussions)}
 		</div>
 	</body>
 })

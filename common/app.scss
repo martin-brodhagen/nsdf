@@ -50,6 +50,8 @@
  }
 
  .headerelem {
+ 	display: grid;
+ 	grid-template-columns: 3fr 4fr 1fr 1fr 1fr;
  	background-color: #1E293B;
  	text-align: center;
  	z-index: 10;
@@ -90,7 +92,6 @@
  	grid-column-end: 3;
  	grid-row-start: 2;
  	grid-row-end: 5;
- 	overflow-y: scroll;
  }
 
  #role_related_tab {
@@ -99,6 +100,10 @@
 
  .suggested-discussions {
  	background-color: #1E293B;
+ 	grid-column-start: 1;
+ 	grid-column-end: 2;
+ 	grid-row-start: 2;
+ 	grid-row-end: 3;
  }
 
  textarea {
@@ -113,4 +118,8 @@
  	background-color: #141b25;
  	border: solid 1px;
  	border-color: white;
+ }
+
+ .n {
+ 	color: #444;
  }

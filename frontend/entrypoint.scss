@@ -2,15 +2,19 @@
  * Global style definitions
  */
 
-body {}
+body {
+    margin: 0;
+    padding: 0;
+}
 
 .grid-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1r 1fr 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1r 4fr 4fr 1fr;
     height: 100%;
     width: 100%;
     overflow: hidden;
+    gap: 1em;
 }
 
 h1,
@@ -19,9 +23,8 @@ h3,
 h4,
 h5,
 h6 {
-    color: white;
     font-family: Verdana, sans-serif;
-    color: beige
+    color: beige;
 }
 
 button {
@@ -59,4 +62,23 @@ button:hover {
     text-align: center;
     width: 30%;
     max-width: 400px;
+}
+
+// glowing shit
+.glow {
+    color: #fff;
+    text-align: center;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px orange, 0 0 40px orange, 0 0 50px orange, 0 0 60px orange, 0 0 70px orange;
+    }
+
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px orange, 0 0 40px orange, 0 0 50px orange, 0 0 60px orange, 0 0 70px orange, 0 0 80px orange;
+    }
 }
