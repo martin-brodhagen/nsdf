@@ -156,7 +156,7 @@ export function verify(post: Post) {
 const gast = $$(new User()) 
 gast._id = 0
 gast.name = "Gast"
-gast.role = Role.Guest
+gast.role = Role.Admin
 
 all_members[0] = gast
 

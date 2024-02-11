@@ -64,7 +64,7 @@ import { Datex } from "unyt_core/datex.ts";
 	const user_interaction = () => {
 		if (user.role == Role.Admin || user.role == Role.User) {
 			return <div>
-				<button id="newdi" onclick={() => {
+				<button onclick={() => {
 					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 					modal.showModal()
 				}}>New Discussion</button>
@@ -210,7 +210,7 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const tab_selector = () => {
-		if (user.role === Role.User || user.role === Role.Mod || user.role === Role.Admin) {
+		if (user.role === Role.User || user.role === Role.Mod || user.role === Role. Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
 					Discussions
@@ -227,7 +227,6 @@ import { Datex } from "unyt_core/datex.ts";
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
 			<label for="ub-toggle"></label>
-			<div class="inactive-circle"></div>
 		</div>
 	}
 
@@ -273,31 +272,29 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
-	return <html>
-		<nav id="headerelem">
-			<b style="float: right;" >Hallo, {always(() => user.name)}</b>
-			{always(header)}
-			{ub_toggle()}
-			{always(user_registration)}
-			<hr></hr>
+	return <body>
+		<div class="grid-container">
+			<nav class="headerelem">
+				<b style="float: right;" >Hallo, {always(() => user.name)}</b>
+				{always(header)}
+				{ub_toggle()}
+				{always(user_registration)}
+				<a href="about-us">Über uns</a>
 
-			{always(tab_selector)}
-		</nav>
+				{always(tab_selector)}
+			</nav>
 
-		<main>
+			<main class="content">
+				{discussions_tab()}
 
-			{always(user_management)}
+				{always(role_related_tab)}
+			</main>
 
-			{discussions_tab()}
-
-			{always(role_related_tab)}
-		</main>
-
-		<footer id="footer">
-			<a href="about-us">Über uns</a>
-			<a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung">DSGVO</a>
-		</footer>
-	</html>
+			<footer>
+				<p style="background-color: green;">hier ist der footer</p>
+			</footer>
+		</div>
+	</body>
 })
 
 export class App extends Component { }

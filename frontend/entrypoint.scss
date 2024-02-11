@@ -2,12 +2,15 @@
  * Global style definitions
  */
 
+body {}
 
-body,
-html {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #1E293B;
-    color: white;
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1r 1fr 1fr 1fr;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 
 h1,
@@ -45,34 +48,6 @@ button:hover {
     transform: translateY(-2px);
 }
 
-
-
-main {}
-
-aside {
-    width: 20%;
-    padding: 1em;
-}
-
-.user-management-component {
-    width: 53%;
-}
-
-.discussion-container {
-    background-color: #2D3748;
-    border-radius: 0.25rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    color: #E2E8F0;
-    width: 100%;
-}
-
-.discussion-preview {
-    padding: 1em;
-    cursor: pointer;
-    border: 1px solid white;
-}
-
 // MODALS
 
 .modal {
@@ -84,50 +59,4 @@ aside {
     text-align: center;
     width: 30%;
     max-width: 400px;
-}
-
-#post-wrapper,
-#thread-action {
-    display: none;
-    transition: opacity .3s;
-
-    pointer-events: none;
-}
-
-#post-wrapper.visible,
-#thread-action.visible {
-    display: block;
-    pointer-events: initial;
-}
-
-.start-page {
-
-    a:link,
-    a:visited {
-        text-decoration: none;
-    }
-
-    #footer {
-        a:link {
-
-            padding-right: 10px;
-        }
-    }
-}
-
-fieldset {
-    width: 53%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#newdi {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#actions {
-    margin-left: auto;
-    margin-right: auto;
-
 }

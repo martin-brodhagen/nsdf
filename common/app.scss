@@ -1,10 +1,11 @@
+ // toggle
  .checkbox-container {
  	display: inline-block;
  	position: relative;
  }
 
  .checkbox-container label {
- 	background-color: #aaa;
+ 	background-color: red;
  	border: 1px solid #fff;
  	border-radius: 20px;
  	display: inline-block;
@@ -35,46 +36,27 @@
  	z-index: 2;
  }
 
- .checkbox-container input:checked+label+.active-circle {
- 	transform: translate(-50%, -50%) scale(15);
- }
-
  .checkbox-container input:checked+label::after {
  	transform: translateX(calc(100% + 0.5px))
  }
 
- .active-circle {
- 	background-color: orange;
- 	border-radius: 50%;
- 	position: absolute;
- 	top: 50%;
- 	left: 50%;
- 	transform: translate(calc(-50% - 10px), calc(-50% - 2px)) scale(0);
- 	transition: transform 1.4s ease-out;
- 	width: 80px;
- 	height: 80px;
- 	z-index: -1;
- }
-
  .checkbox-container input:checked+label {
- 	background-color: orange;
+ 	background-color: green;
  }
 
  #actions {
  	display: flex;
  	justify-content: center;
-
  }
 
- #headerelem {
- 	position: sticky;
+ .headerelem {
  	background-color: #1E293B;
  	text-align: center;
- 	padding-bottom: 1rem;
- 	top: 0;
- 	left: 0;
- 	width: 100%;
  	z-index: 10;
+ 	grid-column-start: 1;
+ 	grid-column-end: 4;
+ 	grid-row-start: 1;
+ 	grid-row-end: 2;
 
  	.tabs {
  		background-color: #1E293B;
@@ -99,11 +81,16 @@
  			&:hover {
  				background-color: orange;
  			}
-
-
  		}
-
  	}
+ }
+
+ .content {
+ 	grid-column-start: 2;
+ 	grid-column-end: 3;
+ 	grid-row-start: 2;
+ 	grid-row-end: 5;
+ 	overflow-y: scroll;
  }
 
  #role_related_tab {
@@ -124,10 +111,6 @@
 
  .discussion-preview {
  	background-color: #141b25;
- }
-
-
- // fixes the scrollToDiscussion function
- * {
- 	scroll-margin-top: 200px;
+ 	border: solid 1px;
+ 	border-color: white;
  }
