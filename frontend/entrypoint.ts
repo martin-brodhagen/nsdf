@@ -1,3 +1,4 @@
+import { Entrypoint } from "uix/html/entrypoints.ts";
 import { provideRedirect } from "uix/html/entrypoint-providers.tsx"
 /**
  * Frontend entrypoint:
@@ -8,5 +9,6 @@ import { provideRedirect } from "uix/html/entrypoint-providers.tsx"
 export default {
 	
 	'/': import("../common/index.tsx"),
+	'/about-us': import("../common/about-us.tsx")
 
-}
+} satisfies Entrypoint

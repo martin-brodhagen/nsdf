@@ -294,7 +294,7 @@ import { Datex } from "unyt_core/datex.ts";
 		</main>
 
 		<footer id="footer">
-			<a href="">Impressum</a>
+			<a href="about-us">Über uns</a>
 			<a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung">DSGVO</a>
 		</footer>
 	</html>
