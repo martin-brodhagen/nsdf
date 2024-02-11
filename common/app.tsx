@@ -63,11 +63,11 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const user_interaction = () => {
 		if (user.role == Role.Admin || user.role == Role.User) {
-			return <div>
-				<button class="new-discussion-button" onclick={() => {
+			return <div id="user-interaction">
+				<div class="new-discussion-clicker" onclick={() => {
 					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 					modal.showModal()
-				}}>New Discussion</button>
+				}}>New Discussion</div>
 
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
@@ -299,6 +299,7 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(account_item)}
 			</div>
 			
+			{always(recommended_discussions)}
 
 			<div class="content">
 				{discussions_tab()}
@@ -306,7 +307,6 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(role_related_tab)}
 			</div>
 
-			{always(recommended_discussions)}
 		</div>
 	</body>
 })

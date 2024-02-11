@@ -20,6 +20,7 @@ body {
     justify-items: stretch;
 }
 
+
 h1,
 h2,
 h3,
@@ -82,5 +83,13 @@ button:hover {
 
     to {
         text-shadow: 0 0 20px #fff, 0 0 30px orange, 0 0 40px orange, 0 0 50px orange, 0 0 60px orange, 0 0 70px orange, 0 0 80px orange;
+    }
+}
+
+@media (max-width: 800px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 100%;
     }
 }
