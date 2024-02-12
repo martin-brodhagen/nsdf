@@ -240,7 +240,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 
 			<div class="discussions">
-				{all_discussions.$.map((discussion: Discussion) => (
+				{all_discussions.map((discussion: Discussion) => (
 					<DiscussionComponent discussion={discussion} avoid_ub={avoid_UB} expanded_discussion={expandedDiscussion} onclick={() => expandedDiscussion.val = discussion._id} />
 				))}
 			</div>
