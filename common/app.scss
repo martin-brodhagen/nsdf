@@ -44,12 +44,14 @@
  	background-color: grey;
  }
 
+ // --- toggle end
+
  .headerelem {
  	display: grid;
  	position: sticky;
  	top: 0;
  	align-self: start;
- 	grid-template-columns: 2fr 2fr 1fr 1fr 2fr;
+ 	grid-template-columns: 2fr 2fr 1fr 2fr;
  	background-color: #1E293B;
  	text-align: center;
  	z-index: 10;
@@ -146,6 +148,11 @@
  	}
  }
 
+ #new-user-button {
+ 	width: min-content;
+ 	height: fit-content;
+ }
+
  .about-us,
  .account-item {
  	align-self: center;
@@ -154,7 +161,7 @@
  @media only screen and (max-width: 800px) {
 
  	.headerelem {
- 		grid-template-columns: 2fr 3fr 1fr 1fr 2fr;
+ 		grid-template-columns: 2fr 3fr 1fr 2fr;
  	}
 
  	h1 {

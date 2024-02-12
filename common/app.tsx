@@ -74,7 +74,7 @@ import { Datex } from "unyt_core/datex.ts";
 						<button onclick={() => {
 							add_discussion()
 							scrollToDiscussion(all_discussions.length - 1)
-							}}> Make Discussion Public</button>
+						}}> Make Discussion Public</button>
 						<button onclick={() => {
 							const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 							const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
@@ -92,9 +92,9 @@ import { Datex } from "unyt_core/datex.ts";
 	const header = () => {
 		switch (user.role) {
 			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
-			case Role.User: return <h1><span class={{glow: avoid_UB.val, n: !avoid_UB.val}}>N</span><span class="glow">SDF</span></h1>
+			case Role.User: return <a href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
-			case Role.Guest: return <h1><span class={{glow: avoid_UB.val, n: !avoid_UB.val}}>N</span><span class="glow">SDF</span></h1>
+			case Role.Guest: return <a href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Mod: return <h1>NSDF - Mod Modus</h1>
 		}
 	}
@@ -105,29 +105,29 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
-	const user_registration_button = () => {		
-			return <div>
-				<button onclick={() => {
-					const modal = document.querySelector("#user-registration") as HTMLDialogElement
-					modal.showModal()
-				}}>Registrieren</button>
+	const user_registration_button = () => {
+		return <div>
+			<button id="new-user-button" onclick={() => {
+				const modal = document.querySelector("#user-registration") as HTMLDialogElement
+				modal.showModal()
+			}}>Neuer User</button>
 
-				<dialog id="user-registration" class="modal">
+			<dialog id="user-registration" class="modal">
 
 				<fieldset>
-				<legend>Neuer Nutzer</legend>
-				<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
-				<input type="text" placeholder="Dein Name" maxlength={10} value={new_user_name} onkeypress={handleuserregistration} />
-				<button onclick={() => {
-					add_new_user(new_user_name.val)
-					const modal = document.getElementById("user-registration") as HTMLDialogElement
-					modal.close()
-				}}>Registrieren</button>
-			</fieldset>
-				</dialog>
-			</div>
-			
-		
+					<legend>Neuer Nutzer</legend>
+					<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
+					<input type="text" placeholder="Dein Name" maxlength={10} value={new_user_name} onkeypress={handleuserregistration} />
+					<button onclick={() => {
+						add_new_user(new_user_name.val)
+						const modal = document.getElementById("user-registration") as HTMLDialogElement
+						modal.close()
+					}}>Registrieren</button>
+				</fieldset>
+			</dialog>
+		</div>
+
+
 	}
 
 	function scrollToDiscussion(id: number) {
@@ -211,7 +211,7 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const tab_selector = () => {
-		if (user.role === Role.User || user.role === Role.Mod || user.role === Role. Admin) {
+		if (user.role === Role.User || user.role === Role.Mod || user.role === Role.Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
 					alle
@@ -285,11 +285,10 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(header)}
 				{always(tab_selector)}
 				{ub_toggle()}
-				<a class="about-us" href="about-us">Über uns</a>
 
 				{always(account_item)}
 			</div>
-			
+
 			{always(recommended_discussions)}
 
 			<div class="content">
