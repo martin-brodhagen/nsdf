@@ -1,10 +1,11 @@
+ // toggle
  .checkbox-container {
- 	display: inline-block;
+ 	align-self: center;
  	position: relative;
  }
 
  .checkbox-container label {
- 	background-color: #aaa;
+ 	background-color: grey;
  	border: 1px solid #fff;
  	border-radius: 20px;
  	display: inline-block;
@@ -35,75 +36,67 @@
  	z-index: 2;
  }
 
- .checkbox-container input:checked+label+.active-circle {
- 	transform: translate(-50%, -50%) scale(15);
- }
-
  .checkbox-container input:checked+label::after {
  	transform: translateX(calc(100% + 0.5px))
  }
 
- .active-circle {
- 	background-color: orange;
- 	border-radius: 50%;
- 	position: absolute;
- 	top: 50%;
- 	left: 50%;
- 	transform: translate(calc(-50% - 10px), calc(-50% - 2px)) scale(0);
- 	transition: transform 1.4s ease-out;
- 	width: 80px;
- 	height: 80px;
- 	z-index: -1;
- }
-
  .checkbox-container input:checked+label {
- 	background-color: orange;
+ 	background-color: grey;
  }
 
- #actions {
- 	display: flex;
- 	justify-content: center;
+ // --- toggle end
 
- }
-
- #headerelem {
+ .headerelem {
+ 	display: grid;
  	position: sticky;
+ 	top: 0;
+ 	align-self: start;
+ 	grid-template-columns: 2fr 2fr 1fr 2fr;
  	background-color: #1E293B;
  	text-align: center;
- 	padding-bottom: 1rem;
- 	top: 0;
- 	left: 0;
- 	width: 100%;
  	z-index: 10;
+ 	grid-area: header;
+ }
 
- 	.tabs {
- 		background-color: #1E293B;
- 		margin: 0 auto;
- 		width: 35%;
- 		display: flex;
- 		border: .1em solid #fff;
- 		border-radius: .5em;
- 		overflow: hidden;
+ .tabs {
+ 	background-color: #1E293B;
+ 	align-self: center;
+ 	margin: 0 auto;
+ 	width: 150px;
+ 	height: fit-content;
+ 	display: flex;
+ 	border: .1em solid #fff;
+ 	border-radius: .5em;
+ 	overflow: hidden;
+ }
 
- 		>div {
- 			flex: 1;
- 			padding: .5em 1em;
- 			cursor: pointer;
- 			text-align: center;
- 			color: #fff;
+ .gast-modus {
+ 	font-weight: bold;
+ 	font-size: x-large;
+ 	align-self: center;
+ }
 
- 			&.active {
- 				background-color: orange;
- 			}
+ .tab_title {
+ 	flex: 1;
+ 	padding: .5em 1em;
+ 	cursor: pointer;
+ 	text-align: center;
+ 	color: #fff;
 
- 			&:hover {
- 				background-color: orange;
- 			}
-
-
- 		}
-
+ 	&.active {
+ 		background-color: orange;
  	}
+
+ 	&:hover {
+ 		background-color: orange;
+ 	}
+ }
+
+
+
+ .content {
+ 	grid-area: content;
+ 	overflow-y: scroll;
  }
 
  #role_related_tab {
@@ -111,7 +104,9 @@
  }
 
  .suggested-discussions {
+ 	grid-area: sugg;
  	background-color: #1E293B;
+ 	position: sticky;
  }
 
  textarea {
@@ -124,10 +119,89 @@
 
  .discussion-preview {
  	background-color: #141b25;
+ 	border: solid 1px;
+ 	border-color: white;
  }
 
+ .n {
+ 	color: #444;
+ }
 
- // fixes the scrollToDiscussion function
- * {
- 	scroll-margin-top: 200px;
+ #actions {
+ 	width: 100%;
+ 	height: 75px;
+ 	margin-bottom: 10px;
+ }
+
+ #user-interaction {
+ 	width: 100%;
+ 	height: 100%;
+ }
+
+ .new-discussion-clicker {
+ 	width: 100%;
+ 	height: 100%;
+ 	border: dotted orange 2px;
+ 	border-radius: 0.25rem;
+ 	color: orange;
+ 	text-align: center;
+ 	text-justify: auto;
+ 	cursor: pointer;
+
+ 	&:hover {
+ 		background-color: #2D3748;
+ 		cursor: pointer;
+ 	}
+ }
+
+ #new-user-button {
+ 	width: min-content;
+ 	height: fit-content;
+ }
+
+ .about-us,
+ .account-item {
+ 	align-self: center;
+ }
+
+ .about-us {
+ 	text-decoration: none;
+ }
+
+ @media only screen and (max-width: 800px) {
+
+ 	.headerelem {
+ 		grid-template-columns: 2fr 3fr 1fr 2fr;
+ 	}
+
+ 	h1 {
+ 		font-size: 18px;
+ 	}
+
+ 	.content {
+ 		display: block;
+ 	}
+
+ 	.tab_title {
+ 		font-size: 10px;
+ 	}
+
+ 	.tabs {
+ 		width: 80%;
+ 	}
+
+ 	.suggested-discussions {
+ 		display: block;
+ 		overflow-y: scroll;
+ 	}
+
+ 	.account-item,
+ 	.about-us {
+ 		font-size: 10px;
+ 	}
+
+ 	.gast-modus {
+ 		font-size: medium;
+ 	}
+
  }

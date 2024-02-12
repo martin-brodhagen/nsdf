@@ -8,7 +8,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 @template(async () => {
 
-	const endpoint = $$(await Datex.Runtime.endpoint.main)
+	const endpoint = await $$(Datex.Runtime.endpoint.main)
 	const user = await get_user(endpoint.toString())
 
 	const title = $$("")
@@ -31,18 +31,6 @@ import { Datex } from "unyt_core/datex.ts";
 		return Array.from(user.participated_discussions)
 	})
 
-	function filterfunc(discussion: Discussion) {
-		const threads = discussion.threads
-
-		return (discussion.title.toLowerCase().includes(search_term.val.toLowerCase())
-			|| discussion.intro_argument.toLowerCase().includes(search_term.val.toLowerCase())
-			|| threads.some((thread) => thread.posts.some((post) => post.content.toLowerCase().includes(search_term.val.toLowerCase()))))
-	}
-
-	const filtered_discussions: Discussion[] = always(() => {
-		return avoid_UB.val ? (all_discussions.filter(filterfunc)).filter((discussion: Discussion) => discussion.isUB == false) : all_discussions.filter(filterfunc)
-	})
-
 	function add_discussion() {
 		const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
 		const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
@@ -63,16 +51,16 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const user_interaction = () => {
 		if (user.role == Role.Admin || user.role == Role.User) {
-			return <div>
-				<button id="newdi" onclick={() => {
+			return <div id="user-interaction">
+				<div class="new-discussion-clicker" onclick={() => {
 					const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 					modal.showModal()
-				}}>New Discussion</button>
+				}}> <p>+ Diskussion</p> </div>
 
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
 						<legend>New Discussion</legend>
-						<input type="text" placeholder={"Discussion Title"} id="discussion-title" value={title} />
+						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={3} maxlength={20} value={title} />
 						<textarea
 							placeholder={"Intro Argument"}
 							id="intro-arg"
@@ -83,7 +71,10 @@ import { Datex } from "unyt_core/datex.ts";
 								self.style.height = `${scroll_height.toString()}px`
 							}}
 						/>
-						<button onclick={add_discussion}> Make Discussion Public</button>
+						<button onclick={() => {
+							add_discussion()
+							scrollToDiscussion(all_discussions.length - 1)
+						}}> Make Discussion Public</button>
 						<button onclick={() => {
 							const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 							const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
@@ -101,9 +92,9 @@ import { Datex } from "unyt_core/datex.ts";
 	const header = () => {
 		switch (user.role) {
 			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
-			case Role.User: return <h1>NSDF - Viel Spaß hier!</h1>
+			case Role.User: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
-			case Role.Guest: return <h1>NSDF - Gast Modus - nur lesen möglich</h1>
+			case Role.Guest: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Mod: return <h1>NSDF - Mod Modus</h1>
 		}
 	}
@@ -114,19 +105,29 @@ import { Datex } from "unyt_core/datex.ts";
 		}
 	}
 
-	const user_registration = () => {
-		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
-			return <fieldset>
-				<legend>Neuer Nutzer</legend>
-				<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
-				<input type="text" placeholder="Dein Name" value={new_user_name} onkeypress={handleuserregistration} />
-				<button onclick={() => {
-					add_new_user(new_user_name.val)
-				}}>Registrieren</button>
-			</fieldset>
-		} else {
-			return <div></div>
-		}
+	const user_registration_button = () => {
+		return <div>
+			<button id="new-user-button" onclick={() => {
+				const modal = document.querySelector("#user-registration") as HTMLDialogElement
+				modal.showModal()
+			}}>Neuer User</button>
+
+			<dialog id="user-registration" class="modal">
+
+				<fieldset>
+					<legend>Neuer Nutzer</legend>
+					<p>Willkommen im NSDF. Gib deinen Namen ein, um deinen Endpoint bei uns zu registrieren. Dann kannst du loslegen und an den Diskussionen teilnehmen.</p>
+					<input type="text" placeholder="Dein Name" maxlength={10} value={new_user_name} onkeypress={handleuserregistration} />
+					<button onclick={() => {
+						add_new_user(new_user_name.val)
+						const modal = document.getElementById("user-registration") as HTMLDialogElement
+						modal.close()
+					}}>Registrieren</button>
+				</fieldset>
+			</dialog>
+		</div>
+
+
 	}
 
 	function scrollToDiscussion(id: number) {
@@ -157,15 +158,15 @@ import { Datex } from "unyt_core/datex.ts";
 	const role_related_tab_title = () => {
 		if (user.role == Role.User) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				My discussions
+				meine
 			</div>
 		} else if (user.role == Role.Mod) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				Reported posts
+				reported
 			</div>
 		} else if (user.role == Role.Admin) {
 			return <div class="tab_title" onclick={() => switchTab(1)}>
-				User management
+				users
 			</div>
 		} else {
 			return <div></div>
@@ -213,21 +214,21 @@ import { Datex } from "unyt_core/datex.ts";
 		if (user.role === Role.User || user.role === Role.Mod || user.role === Role.Admin) {
 			return <div class="tabs">
 				<div class="tab_title active" onclick={() => switchTab(0)}>
-					Discussions
+					alle
 				</div>
 				{role_related_tab_title()}
 			</div>
+		} else if (user.role == Role.Guest) {
+			return <div class="gast-modus">Gast Modus</div>
 		} else {
 			return <div></div>
 		}
-
 	}
 
 	const ub_toggle = () => {
 		return <div class="checkbox-container">
 			<input type="checkbox" id="ub-toggle" onclick={() => { avoid_UB.val = !avoid_UB.val }} />
 			<label for="ub-toggle"></label>
-			<div class="inactive-circle"></div>
 		</div>
 	}
 
@@ -237,7 +238,6 @@ import { Datex } from "unyt_core/datex.ts";
 				{always(user_interaction)}
 			</div>
 
-			{always(recommended_discussions)}
 
 			<div class="discussions">
 				{all_discussions.$.map((discussion: Discussion) => (
@@ -251,8 +251,8 @@ import { Datex } from "unyt_core/datex.ts";
 		const recommended = all_discussions.map(x => x).sort((a, b) => b.num_posts - a.num_posts)
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
-			return <aside class="suggested-discussions">
-				HOT DISCUSSIONS🔥:
+			return <div class="suggested-discussions">
+				Heiß diskutiert🔥:
 				<br />
 				<ul>
 					{recommended.slice(0, 3).map(discussion => (
@@ -262,42 +262,45 @@ import { Datex } from "unyt_core/datex.ts";
 						</div>
 					))}
 				</ul>
-			</aside>
+			</div>
 		}
 		else {
-			return <aside class="suggested-discussions">
+			return <div class="suggested-discussions">
 				HOT DISCUSSIONS🔥:
 				<br />
 				<h3>There are no discussions, yet...</h3>
-			</aside>
+			</div>
 		}
 	}
 
-	return <html>
-		<nav id="headerelem">
-			<b style="float: right;" >Hallo, {always(() => user.name)}</b>
-			{always(header)}
-			{ub_toggle()}
-			{always(user_registration)}
-			<hr></hr>
+	const account_item = () => {
+		if (!all_members.map((user: User) => user.endpoint).includes(endpoint.toString())) {
+			return <div class="account-item">{user_registration_button()}</div>
+		} else {
+			return <b class="account-item">@{user.name}</b>
+		}
+	}
 
-			{always(tab_selector)}
-		</nav>
+	return <body>
+		<div class="grid-container">
+			<div class="headerelem">
+				{always(header)}
+				{always(tab_selector)}
+				{ub_toggle()}
 
-		<main>
+				{always(account_item)}
+			</div>
 
-			{always(user_management)}
+			{always(recommended_discussions)}
 
-			{discussions_tab()}
+			<div class="content">
+				{discussions_tab()}
 
-			{always(role_related_tab)}
-		</main>
+				{always(role_related_tab)}
+			</div>
 
-		<footer id="footer">
-			<a href="about-us">Über uns</a>
-			<a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung">DSGVO</a>
-		</footer>
-	</html>
+		</div>
+	</body>
 })
 
 export class App extends Component { }

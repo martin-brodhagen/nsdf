@@ -2,9 +2,7 @@
  * Our very own data classes
  */
 
-import { datexClass, datexClassType } from "unyt_core/datex_all.ts";
-
-@sync class _Discussion {
+export @sync class Discussion {
     @property _id = -1
     @property isUB = false
     @property author = ""
@@ -17,8 +15,6 @@ import { datexClass, datexClassType } from "unyt_core/datex_all.ts";
     @property num_posts = 0
 }
 
-export const Discussion = datexClass(_Discussion)
-export type Discussion = datexClassType<typeof _Discussion>
 
 export @sync class Thread {
     @property _id = -1
@@ -54,7 +50,7 @@ export enum Role {
     Mod
 }
 
-@sync class _User {
+export @sync class User {
     @property _id = -1
     @property pseudonyms = new Array<string>
     @property ub_for_discussion_index = new Array<boolean>
@@ -64,6 +60,3 @@ export enum Role {
     @property posts = new Array<Post>
     @property participated_discussions = new Set<Discussion>
 }
-
-export const User = datexClass(_User)
-export type User = datexClassType<typeof _User>

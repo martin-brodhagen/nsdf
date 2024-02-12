@@ -15,3 +15,17 @@
 		}
 	}
 }
+
+#post-wrapper,
+#thread-action {
+	display: none;
+	transition: opacity .3s;
+
+	pointer-events: none;
+}
+
+#post-wrapper.visible,
+#thread-action.visible {
+	display: block;
+	pointer-events: initial;
+}

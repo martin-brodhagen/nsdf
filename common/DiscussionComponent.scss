@@ -4,28 +4,28 @@
 	padding: 1rem;
 	margin-bottom: 1rem;
 	color: #E2E8F0;
-	width: 53%;
 	cursor: pointer;
-	margin-left: auto;
-	/* Centering */
-	margin-right: auto;
-	/* Centering */
+
+	&:hover {
+		background-color: #354155;
+	}
 
 }
 
 .intro-argument {
 	font-size: 0.875rem;
-	color: #E2E8F0;
+	color: beige;
 	margin-bottom: 1rem;
 }
 
-.isUB {
-	color: red;
-}
-
 .user-pseudonym {
-	background-color: aquamarine;
-	color: #2D3748;
+	background-color: rgb(158, 158, 158);
+	color: #ddd8d8;
 	float: right;
 	padding: 2px;
+}
+
+.discussion-tldr {
+	border: solid 1px;
+	border-color: white;
 }
