@@ -240,7 +240,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 
 			<div class="discussions">
-				{all_discussions.map((discussion: Discussion) => (
+				{all_discussions.$.map((discussion: Discussion) => (
 					<DiscussionComponent discussion={discussion} avoid_ub={avoid_UB} expanded_discussion={expandedDiscussion} onclick={() => expandedDiscussion.val = discussion._id} />
 				))}
 			</div>
@@ -248,10 +248,11 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const recommended_discussions = () => {
-		const recommended = new Array<Discussion>
+		const recommended = all_discussions.map((x) => x).sort((a, b) => b.num_posts - a.num_posts)
+		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
 			return <div class="suggested-discussions">
-				Heiße Vorschläge🔥:
+				Heiß diskutiert🔥:
 				<br />
 				<ul>
 					{recommended.slice(0, 3).map(discussion => (
