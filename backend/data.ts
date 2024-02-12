@@ -153,13 +153,15 @@ export function verify(post: Post) {
 
 // ------------------- users -------------------
 
-const gast = $$(new User()) 
-gast._id = 0
-gast.name = "Gast"
-gast.role = Role.Admin
 
-all_members[0] = gast
+if (all_members.length == 0) {
+    const gast = $$(new User()) 
+    gast._id = 0
+    gast.name = "Gast"
+    gast.role = Role.Admin
 
+    all_members[0] = gast
+}
 const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange"]
 const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab"]
 
