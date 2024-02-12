@@ -70,6 +70,12 @@
  	overflow: hidden;
  }
 
+ .gast-modus {
+ 	font-weight: bold;
+ 	font-size: x-large;
+ 	align-self: center;
+ }
+
  .tab_title {
  	flex: 1;
  	padding: .5em 1em;
@@ -158,6 +164,10 @@
  	align-self: center;
  }
 
+ .about-us {
+ 	list-style: none;
+ }
+
  @media only screen and (max-width: 800px) {
 
  	.headerelem {
@@ -188,6 +198,10 @@
  	.account-item,
  	.about-us {
  		font-size: 10px;
+ 	}
+
+ 	.gast-modus {
+ 		font-size: medium;
  	}
 
  }

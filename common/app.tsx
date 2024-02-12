@@ -92,9 +92,9 @@ import { Datex } from "unyt_core/datex.ts";
 	const header = () => {
 		switch (user.role) {
 			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
-			case Role.User: return <a href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
+			case Role.User: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
-			case Role.Guest: return <a href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
+			case Role.Guest: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Mod: return <h1>NSDF - Mod Modus</h1>
 		}
 	}
@@ -218,6 +218,8 @@ import { Datex } from "unyt_core/datex.ts";
 				</div>
 				{role_related_tab_title()}
 			</div>
+		} else if (user.role == Role.Guest) {
+			return <div class="gast-modus">Gast Modus</div>
 		} else {
 			return <div></div>
 		}
