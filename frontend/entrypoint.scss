@@ -53,7 +53,6 @@ button {
     cursor: pointer;
     color: white;
     font-weight: bold;
-    text-transform: uppercase;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease;
     margin-right: 1em;
@@ -72,6 +71,7 @@ button:hover {
 // MODALS
 
 .modal {
+    margin: auto auto;
     background-color: #404b5e;
     color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -108,6 +108,10 @@ button:hover {
         grid-template-areas:
             "header"
             "content";
+    }
+
+    .modal {
+        font-size: 15px;
     }
 }
 

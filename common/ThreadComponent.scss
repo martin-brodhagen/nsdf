@@ -2,7 +2,6 @@
 	background-color: #2D3748;
 	border-radius: 0.25rem;
 	padding: 1rem;
-	margin-bottom: 1rem;
 	color: #E2E8F0;
 	width: 100%;
 	list-style: none;
@@ -28,4 +27,10 @@
 #thread-action.visible {
 	display: block;
 	pointer-events: initial;
+}
+
+@media only screen and (max-width: 800px) {
+	.thread-container {
+		padding: 0.3rem;
+	}
 }

@@ -1,14 +1,12 @@
  // toggle
  .checkbox-container {
  	align-self: center;
- 	position: relative;
  }
 
  .checkbox-container label {
  	background-color: grey;
  	border: 1px solid #fff;
  	border-radius: 20px;
- 	display: inline-block;
  	position: relative;
  	transition: all 0.1s ease-out;
  	width: 45px;
@@ -92,8 +90,6 @@
  	}
  }
 
-
-
  .content {
  	grid-area: content;
  	overflow-y: scroll;
@@ -171,7 +167,12 @@
  @media only screen and (max-width: 800px) {
 
  	.headerelem {
- 		grid-template-columns: 2fr 3fr 1fr 2fr;
+ 		grid-template-columns: 2fr 4fr 2fr 3fr;
+ 	}
+
+
+ 	.checkbox-container {
+ 		margin-top: auto;
  	}
 
  	h1 {

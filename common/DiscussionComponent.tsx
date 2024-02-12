@@ -152,7 +152,7 @@ interface Props {
         } else if (user.role == Role.None) {
             return <div class="user-pseudonym">keine Rolle, keine Rechte</div>
         } else {
-            return <div class="user-pseudonym">In dieser Diskussion bist du: {user.pseudonyms[discussion._id]}</div>
+            return <div class="user-pseudonym">Hier bist du: {user.pseudonyms[discussion._id]}</div>
         }
     }
 

@@ -9,7 +9,6 @@
 	&:hover {
 		background-color: #354155;
 	}
-
 }
 
 .intro-argument {
@@ -19,13 +18,25 @@
 }
 
 .user-pseudonym {
-	background-color: rgb(158, 158, 158);
+	background-color: #354155;
+	border-radius: 1rem;
 	color: #ddd8d8;
 	float: right;
-	padding: 2px;
+	padding: 4px 6px 1px 6px;
 }
 
 .discussion-tldr {
 	border: solid 1px;
 	border-color: white;
+	padding: 1em;
+}
+
+.new-thread-container {
+	margin-right: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+	.discussion-container {
+		padding: 0.3rem;
+	}
 }
