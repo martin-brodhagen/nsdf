@@ -28,7 +28,7 @@ export default
       			<div class="container">
         			<h2>Gabriel Schmidt</h2>
         			<p class="title">Programmierer</p>
-        			<p>early development, prototype styling implementation</p>
+        			<p>early development, prototype styling implementation, last-minute polish</p>
       			</div>
     		</div>
   		</div>
