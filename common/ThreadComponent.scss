@@ -23,7 +23,11 @@
 	pointer-events: none;
 }
 
-#post-wrapper.visible,
+#post-wrapper.visible {
+	display: block;
+	pointer-events: initial;
+}
+
 #thread-action.visible {
 	display: flex;
 	pointer-events: initial;
