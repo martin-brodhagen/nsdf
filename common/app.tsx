@@ -60,7 +60,7 @@ import { Datex } from "unyt_core/datex.ts";
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
 						<legend>New Discussion</legend>
-						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={3} maxlength={20} value={title} />
+						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={10} value={title} />
 						<textarea
 							placeholder={"Intro Argument"}
 							id="intro-arg"
@@ -248,12 +248,8 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const recommended_discussions = () => {
-<<<<<<< HEAD
 		const recommended = all_discussions.map((x) => x).sort((a, b) => b.num_posts - a.num_posts)
-=======
-		const recommended = all_discussions.$.map((x) => x).val
-		recommended.sort((a, b) => b.num_posts - a.num_posts)
->>>>>>> be84398 (.map auf (intermediate value) hoffentlich gefixed?)
+
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
 			return <div class="suggested-discussions">
