@@ -8,8 +8,6 @@ const member_id = await lazyEternalVar("member_id") ?? $$(1)
 export const all_discussions = await lazyEternalVar("all_discussions") ?? $$(new Array<Discussion>)
 export const all_members = await lazyEternalVar("all_members") ?? $$(new Array<User>)
 
-const all_threads = await lazyEternalVar("all_threads") ?? $$(new Array<Thread>)
-const all_posts = await lazyEternalVar("all_posts") ?? $$(new Array<Post>)
 export const possible_ub_posts = await lazyEternalVar("possible_ub_posts") ?? $$(new Set<Post>)
 
 
@@ -73,18 +71,16 @@ export function start_new_thread(discussion: Discussion, user: User, text: strin
     user.participated_discussions.add(discussion)
 
     thread.posts.push(first)
-    all_posts.push(first)
 
     user.posts.push(first)
 
     discussion.threads.push(thread)
-    all_threads.push(thread)
 
     console.log("new thread created...")
 }
 
 export function delete_thread(thread: Thread) {
-    all_threads[thread._id].deleted = true
+    thread.deleted = true
 
     all_discussions[thread.discussion_id].num_posts -= thread.posts.length
     console.log("deleted Thread " + thread._id)
@@ -96,7 +92,7 @@ export function add_new_reply(thread: Thread, text: string, user: User) {
     reply.thread_id = thread._id
     reply.discussion_id = thread.discussion_id
     
-    all_discussions[thread.discussion_id].num_posts += 1
+    all_discussions[reply.discussion_id].num_posts += 1
     
     const discussion = get_discussion(reply.discussion_id)    
     if(discussion) user.participated_discussions.add(discussion)
@@ -104,7 +100,6 @@ export function add_new_reply(thread: Thread, text: string, user: User) {
     if(isUserUbInDiscussion(user, reply.discussion_id)) reply.status = PostStatus.UB
     
     thread.posts.push(reply)
-    all_posts.push(reply)
     
     user.posts.push(reply)
     
@@ -112,7 +107,7 @@ export function add_new_reply(thread: Thread, text: string, user: User) {
 }
 
 export function delete_reply(post: Post) {    
-    all_posts[post._id].status = PostStatus.Deleted
+    post.status = PostStatus.Deleted
     possible_ub_posts.delete(post)
 
     all_discussions[post.discussion_id].num_posts -= 1
@@ -120,8 +115,8 @@ export function delete_reply(post: Post) {
 }
 
 export function edit_reply(post: Post, new_text: string) {
-    all_posts[post._id].content = new_text
-    all_posts[post._id].edited = true
+    post.content = new_text
+    post.edited = true
     console.log("edited post " + post._id)
 }
 
@@ -129,7 +124,7 @@ export function edit_reply(post: Post, new_text: string) {
 // ------------------- ub -------------------
 
 export function add_to_possible_ub(post: Post) {
-    if (all_posts[post._id].status == PostStatus.NotSet) {
+    if (post.status == PostStatus.NotSet) {
         possible_ub_posts.add(post)
         console.log("added to possible ub list" + post._id)
     } else {
@@ -138,14 +133,14 @@ export function add_to_possible_ub(post: Post) {
 }
 
 export function set_post_ub(post: Post) {
-    all_posts[post._id].status = PostStatus.UB
+    post.status = PostStatus.UB
     possible_ub_posts.delete(post)
     get_user(post.author).ub_for_discussion_index[post.discussion_id] = true
     console.log("Post " + post._id + " now ub")
 }
 
 export function verify(post: Post) {
-    all_posts[post._id].status = PostStatus.Verified
+    post.status = PostStatus.Verified
     possible_ub_posts.delete(post)
     console.log("Post " + post._id + " now verified")
 }
@@ -157,14 +152,15 @@ export function verify(post: Post) {
 const gast = $$(new User()) 
 gast._id = 0
 gast.name = "Gast"
-gast.role = Role.Admin
+gast.role = Role.Guest
     
 if (all_members.length == 0) {
+    gast.role = Role.Admin
     all_members[0] = gast
 }
 
-const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange"]
-const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab"]
+const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange", "pink", "white", "black", "grey"]
+const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab", "lion", "giraffe", "hyena", "ant", "beetle", "spider", "mantis", "otter", "beaver", "seal", "whale", "bat", "platapus", "worm", "fly", "mosquito", "dragonfly", "frog", "tadpole", "toad", "horse", "donkey", "sheep", "cow", "goat"]
 
 function random_name() {
     const color = colors[Math.floor(Math.random() * colors.length)]
