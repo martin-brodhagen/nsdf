@@ -24,6 +24,7 @@ export default
 
 		<footer>
 			<a style="text-decoration: none" href="/">Home</a>
+			<button onclick="location.href='/aboutus" type="button">Gut gemacht!</button>
 		</footer>
 
 
