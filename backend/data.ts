@@ -152,14 +152,15 @@ export function verify(post: Post) {
 const gast = $$(new User()) 
 gast._id = 0
 gast.name = "Gast"
-gast.role = Role.Admin
+gast.role = Role.Guest
     
 if (all_members.length == 0) {
+    gast.role = Role.Admin
     all_members[0] = gast
 }
 
-const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange"]
-const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab"]
+const colors = ["red", "blue", "green", "yellow", "purple", "teal", "brown", "orange", "pink", "white", "black"]
+const animals = ["rhino", "elephant", "cat", "dog", "wolf", "tiger", "eagle", "hawk", "shark", "orca", "panda", "coyote", "snail", "crab", "lion", "giraffe", "hyena", "ant", "beetle", "spider", "mantis", "otter", "beaver", "seal", "whale", "bat", "platapus", "worm", "fly", "mosquito", "dragonfly", "frog", "tadpole", "toad", "horse", "donkey", "sheep", "cow", "goat"]
 
 function random_name() {
     const color = colors[Math.floor(Math.random() * colors.length)]
