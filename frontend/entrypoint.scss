@@ -119,3 +119,42 @@ button:hover {
 * {
     scroll-margin-top: 100px;
 }
+
+
+// About us
+
+.about-us {
+    box-sizing: border-box;
+    margin: 0;
+
+    p {
+
+        padding-bottom: 10px;
+    }
+
+    .title {
+        padding: 0px;
+        margin: 0px;
+    }
+}
+
+.column {
+    float: left;
+    width: 33.3%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+
+}
+
+.homebutton {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 8px;
+}
