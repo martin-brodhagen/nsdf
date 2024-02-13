@@ -2,3 +2,4 @@ deno.lock
 .datex-cache
 .vscode
 .devcontainer
+.dx
