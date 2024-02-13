@@ -56,7 +56,7 @@ interface Props {
                 </div>
                 <dialog id={`add-thread-modal-${discussion._id}`} class="modal">
                     <fieldset>
-                        <legend>New Thread</legend>
+                        <legend>Neuer Thread</legend>
                         <p>{discussion.intro_argument}</p>
                         <textarea
                             id={`thread-starter-${discussion._id}`}
@@ -68,13 +68,13 @@ interface Props {
                                 self.style.height = `${scroll_height.toString()}px`
                             }}
                         />
-                        <button onclick={start_thread}>Start this Thread</button>
+                        <button onclick={start_thread}>Thread anfangen</button>
                         <button onclick={() => {
                             const textarea = document.getElementById(`thread-starter-${discussion._id}`) as HTMLTextAreaElement
                             const modal = document.getElementById(`add-thread-modal-${discussion._id}`) as HTMLDialogElement
                             modal.close()
                             textarea.value = ""
-                        }}>Abbrechen</button>
+                        }}>abbrechen</button>
                     </fieldset>
                 </dialog>
             </div>
@@ -137,7 +137,7 @@ interface Props {
                             const modal = document.getElementById(`tldr-edit-modal-${discussion._id}`) as HTMLDialogElement
                             modal.close()
                             textarea.value = ""
-                        }}>Abbrechen</button>
+                        }}>abbrechen</button>
                     </fieldset>
                 </dialog>
             </div>
@@ -157,12 +157,13 @@ interface Props {
     }
 
     const title = () => {
-        return <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - by {discussion_author.pseudonyms[discussion._id]}</h5>
+        return <h5 class={{ isUB: discussion.$.isUB }}>{discussion.title} - {discussion_author.pseudonyms[discussion._id]}</h5>
     }
 
     const tldr = () => {
         return <fieldset class="discussion-tldr" style={{ display: tldr_visible }}>
-            <p>{always(() => discussion.tldr)}</p>
+            <legend>TLDR (von Mod erstellt)</legend>
+            {always(() => discussion.tldr)}
         </fieldset>
     }
 

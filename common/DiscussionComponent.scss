@@ -1,18 +1,18 @@
 .discussion-container {
 	background-color: #2D3748;
 	border-radius: 0.25rem;
+	border: solid 1px #2D3748;
 	padding: 1rem;
 	margin-bottom: 1rem;
 	color: #E2E8F0;
 	cursor: pointer;
 
 	&:hover {
-		background-color: #354155;
+		border: solid 1px orange;
 	}
 }
 
 .intro-argument {
-	font-size: 0.875rem;
 	color: beige;
 	margin-bottom: 1rem;
 }
@@ -27,8 +27,8 @@
 
 .discussion-tldr {
 	border: solid 1px;
-	border-color: white;
-	padding: 1em;
+	border-color: lightblue;
+	color: lightblue;
 }
 
 .new-thread-container {
