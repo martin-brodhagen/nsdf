@@ -92,7 +92,7 @@
 
  .content {
  	grid-area: content;
- 	overflow-y: scroll;
+ 	overflow: hidden;
  }
 
  #role_related_tab {

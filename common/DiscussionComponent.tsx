@@ -161,9 +161,9 @@ interface Props {
     }
 
     const tldr = () => {
-        return <div class="discussion-tldr" style={{ display: tldr_visible }}>
+        return <fieldset class="discussion-tldr" style={{ display: tldr_visible }}>
             <p>{always(() => discussion.tldr)}</p>
-        </div>
+        </fieldset>
     }
 
     const post_counter_display = always(() => {
