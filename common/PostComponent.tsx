@@ -121,7 +121,7 @@ interface Props {
 
                 <dialog id={`edit-modal-${post._id}`} class="modal">
                     <fieldset>
-                        <legend>edit mode</legend>
+                        <legend>editieren</legend>
                         <textarea
                             id={`edit-textbox-${post._id}`}
                             placeholder={"edit here"}
@@ -132,11 +132,11 @@ interface Props {
                                 self.style.height = `${scroll_height.toString()}px`
                             }}
                         />
-                        <button onclick={do_edit}>send edit</button>
+                        <button onclick={do_edit}>fertig</button>
                         <button onclick={() => {
                             const modal = document.getElementById(`edit-modal-${post._id}`) as HTMLDialogElement
                             modal.close()
-                        }}>Abbrechen</button>
+                        }}>abbrechen</button>
                     </fieldset>
                 </dialog>
             </div>

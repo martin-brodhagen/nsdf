@@ -29,7 +29,7 @@ interface Props {
     })
 
     const toggle_button_text = always(() => {
-        return showThread.val ? "Read less" : "Read more"
+        return showThread.val ? "weniger" : "mehr"
     })
 
     function handleKeyPress(event) {
@@ -70,7 +70,7 @@ interface Props {
                         const scroll_height = self.scrollHeight
                         self.style.height = `${scroll_height.toString()}px`
                     }} />
-                <button onclick={do_reply}>reply</button>
+                <button onclick={do_reply}>antworten</button>
             </div>
         } else {
             return <div></div>

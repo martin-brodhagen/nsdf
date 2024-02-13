@@ -59,8 +59,8 @@ import { Datex } from "unyt_core/datex.ts";
 
 				<dialog id="add-discussion-modal" class="modal">
 					<fieldset>
-						<legend>New Discussion</legend>
-						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={3} maxlength={20} value={title} />
+						<legend>Neue Discussion</legend>
+						<input type="text" placeholder={"Discussion Title"} id="discussion-title" minlength={10} value={title} />
 						<textarea
 							placeholder={"Intro Argument"}
 							id="intro-arg"
@@ -74,13 +74,13 @@ import { Datex } from "unyt_core/datex.ts";
 						<button onclick={() => {
 							add_discussion()
 							scrollToDiscussion(all_discussions.length - 1)
-						}}> Make Discussion Public</button>
+						}}>erstellen</button>
 						<button onclick={() => {
 							const modal = document.querySelector("#add-discussion-modal") as HTMLDialogElement
 							const textarea = document.getElementById("intro-arg")! as HTMLTextAreaElement
 							modal.close()
 							textarea.value = ""
-						}}>Abbrechen</button>
+						}}>abbrechen</button>
 					</fieldset>
 				</dialog>
 			</div>
@@ -91,7 +91,7 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const header = () => {
 		switch (user.role) {
-			case Role.None: return <h1>hallo Hacker, die Polizei ist schon auf dem Weg zu dir</h1>
+			case Role.None: return <h1>Hacker</h1>
 			case Role.User: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
 			case Role.Admin: return <h1>NSDF - Admin Modus</h1>
 			case Role.Guest: return <a class="about-us" href="about-us"><h1><span class={{ glow: avoid_UB.val, n: !avoid_UB.val }}>N</span><span class="glow">SDF</span></h1></a>
@@ -122,7 +122,7 @@ import { Datex } from "unyt_core/datex.ts";
 						add_new_user(new_user_name.val)
 						const modal = document.getElementById("user-registration") as HTMLDialogElement
 						modal.close()
-					}}>Registrieren</button>
+					}}>registrieren</button>
 				</fieldset>
 			</dialog>
 		</div>
@@ -249,11 +249,11 @@ import { Datex } from "unyt_core/datex.ts";
 
 	const recommended_discussions = () => {
 		const recommended = all_discussions.map((x) => x).sort((a, b) => b.num_posts - a.num_posts)
+
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
 			return <div class="suggested-discussions">
-				Heiß diskutiert🔥:
-				<br />
+				<div class="heiss">Heiß diskutiert🔥:</div>
 				<ul>
 					{recommended.slice(0, 3).map(discussion => (
 

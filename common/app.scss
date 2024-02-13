@@ -92,7 +92,7 @@
 
  .content {
  	grid-area: content;
- 	overflow-y: scroll;
+ 	overflow: hidden;
  }
 
  #role_related_tab {
@@ -100,9 +100,17 @@
  }
 
  .suggested-discussions {
+ 	display: block;
+ 	justify-content: center;
  	grid-area: sugg;
  	background-color: #1E293B;
- 	position: sticky;
+ 	text-align: center;
+ 	font-size: large;
+ }
+
+ .heiss {
+ 	margin-top: 1rem;
+ 	font-size: 25px;
  }
 
  textarea {
@@ -115,8 +123,18 @@
 
  .discussion-preview {
  	background-color: #141b25;
- 	border: solid 1px;
- 	border-color: white;
+ 	padding-left: 1em;
+ 	padding-right: 1em;
+ 	text-align: left;
+ 	border: solid 1px #3e4b63;
+ 	border-radius: 0.4rem;
+ 	margin: 1em;
+ 	align-self: center;
+
+ 	&:hover {
+ 		background-color: orange;
+ 		color: #141b25;
+ 	}
  }
 
  .n {
