@@ -248,7 +248,7 @@ import { Datex } from "unyt_core/datex.ts";
 	}
 
 	const recommended_discussions = () => {
-		const recommended = all_discussions.map(x => x).sort((a, b) => b.num_posts - a.num_posts)
+		const recommended = all_discussions.map((x) => x).sort((a, b) => b.num_posts - a.num_posts)
 		//for (var i = 0; i < recommended.length; i++) console.log(recommended[i])
 		if (recommended.length > 0) {
 			return <div class="suggested-discussions">
