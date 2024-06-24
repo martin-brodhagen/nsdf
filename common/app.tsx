@@ -7,7 +7,6 @@ import { Discussion, Post, Role, User } from "common/classes.ts";
 import { Datex } from "unyt_core/datex.ts";
 
 @template(async () => {
-
 	const endpoint = await $$(Datex.Runtime.endpoint.main)
 	const user = await get_user(endpoint.toString())
 
