@@ -1,3 +1,12 @@
+# Hello Traveller,
+
+This is an old project with a WIP fullstack framework called UIX (https://uix.unyt.org/). It was developed using its first version. Since then a lot of things changed with the framework and broke the project, which can no longer be executed. I might fix it later...
+
+---
+---
+---
+
+
 # UIX Base Project
 
 This repository provides a simple UIX setup, including backend, frontend and configuration files.
